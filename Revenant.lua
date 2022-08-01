@@ -1,6 +1,12 @@
 local library = {}
 
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+
+local Mouse = Player:GetMouse()
+
 local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
 local UserInputService = game:GetService("UserInputService")
 
 for _,v in pairs(game:GetService("CoreGui"):GetChildren()) do
@@ -586,6 +592,155 @@ for _,item in pairs(Info.List) do
 end
 
 return insidedropdown
+end
+
+function insidewindow:Slider(Info)
+Info.Text = Info.Text or "Slider"
+Info.Postfix = Info.Postfix or ""
+Info.Minimum = Info.Min or 1
+Info.Default = Info.Default or 5
+Info.Maximum = Info.Max or 100
+Info.Callback = Info.Callback or function() end
+    
+if Info.Minimum > Info.Maximum then
+local ValueBefore = Info.Minimum
+Info.Minimum, Info.Maximum = Info.Maximum, ValueBefore
+end
+
+Info.Default = math.clamp(Info.Default, Info.Minimum, Info.Maximum)
+local DefaultScale = (Info.Default - Info.Minimum) / (Info.Maximum - Info.Minimum)
+
+local insideslider = {}
+    
+local slider = Instance.new("Frame")
+slider.Name = "Slider"
+slider.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+slider.Size = UDim2.fromOffset(225, 38)
+slider.Parent = itemContainer
+
+local sliderUICorner = Instance.new("UICorner")
+sliderUICorner.Name = "SliderUICorner"
+sliderUICorner.CornerRadius = UDim.new(0, 4)
+sliderUICorner.Parent = slider
+
+local sliderFixLine = Instance.new("Frame")
+sliderFixLine.Name = "SliderFixLine"
+sliderFixLine.AnchorPoint = Vector2.new(0.5, 1)
+sliderFixLine.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+sliderFixLine.BorderSizePixel = 0
+sliderFixLine.Position = UDim2.fromScale(0.5, 0.0526)
+sliderFixLine.Size = UDim2.fromOffset(225, 4)
+sliderFixLine.Parent = slider
+
+local sliderText = Instance.new("TextLabel")
+sliderText.Name = "SliderText"
+sliderText.Font = Enum.Font.GothamBold
+sliderText.Text = Info.Text
+sliderText.TextColor3 = Color3.fromRGB(214, 214, 214)
+sliderText.TextSize = 13
+sliderText.TextXAlignment = Enum.TextXAlignment.Left
+sliderText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+sliderText.BackgroundTransparency = 1
+sliderText.Position = UDim2.fromScale(0.0489, 0)
+sliderText.Size = UDim2.fromOffset(214, 19)
+sliderText.Parent = slider
+
+local sliderFrames = Instance.new("Frame")
+sliderFrames.Name = "SliderFrames"
+sliderFrames.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+sliderFrames.BackgroundTransparency = 1
+sliderFrames.Position = UDim2.fromScale(0.0489, 0.5)
+sliderFrames.Size = UDim2.fromOffset(199, 10)
+sliderFrames.Parent = slider
+
+local outerSlider = Instance.new("Frame")
+outerSlider.Name = "OuterSlider"
+outerSlider.BackgroundColor3 = Color3.fromRGB(62, 62, 62)
+outerSlider.BorderSizePixel = 0
+outerSlider.Position = UDim2.fromScale(-0.001, 0.458)
+outerSlider.Size = UDim2.new(1, 0, 0, 4)
+outerSlider.Parent = sliderFrames
+
+local outerSliderUICorner = Instance.new("UICorner")
+outerSliderUICorner.Name = "OuterSliderUICorner"
+outerSliderUICorner.CornerRadius = UDim.new(0, 100)
+outerSliderUICorner.Parent = outerSlider
+
+local innerSlider = Instance.new("Frame")
+innerSlider.Name = "InnerSlider"
+innerSlider.BackgroundColor3 = Color3.fromRGB(56, 207, 154)
+innerSlider.BorderSizePixel = 0
+innerSlider.Position = UDim2.fromScale(-0.001, 0.458)
+innerSlider.Size = UDim2.fromOffset(Info.Default / Info.Maximum, 4)
+innerSlider.ZIndex = 2
+innerSlider.Parent = sliderFrames
+
+local outerSliderUICorner1 = Instance.new("UICorner")
+outerSliderUICorner1.Name = "OuterSliderUICorner"
+outerSliderUICorner1.CornerRadius = UDim.new(0, 100)
+outerSliderUICorner1.Parent = innerSlider
+
+local dragSlider = Instance.new("Frame")
+dragSlider.Name = "DragSlider"
+dragSlider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+dragSlider.Position = UDim2.fromScale(0, 0.1)
+dragSlider.Size = UDim2.fromOffset(9, 9)
+dragSlider.ZIndex = 3
+dragSlider.Parent = sliderFrames
+
+local dragSliderUICorner = Instance.new("UICorner")
+dragSliderUICorner.Name = "DragSliderUICorner"
+dragSliderUICorner.CornerRadius = UDim.new(0, 100)
+dragSliderUICorner.Parent = dragSlider
+
+local dragSliderButton = Instance.new("TextButton")
+dragSliderButton.Name = "DragSliderButton"
+dragSliderButton.Font = Enum.Font.SourceSans
+dragSliderButton.Text = ""
+dragSliderButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+dragSliderButton.TextSize = 14
+dragSliderButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+dragSliderButton.BackgroundTransparency = 1
+dragSliderButton.Size = UDim2.fromOffset(9, 9)
+dragSliderButton.Parent = dragSlider
+
+local sliderValueText = Instance.new("TextLabel")
+sliderValueText.Name = "SliderValueText"
+sliderValueText.Font = Enum.Font.GothamBold
+sliderValueText.Text = tostring(Info.Default)
+sliderValueText.TextColor3 = Color3.fromRGB(214, 214, 214)
+sliderValueText.TextSize = 13
+sliderValueText.TextXAlignment = Enum.TextXAlignment.Right
+sliderValueText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+sliderValueText.BackgroundTransparency = 1
+sliderValueText.Position = UDim2.fromScale(0.0489, 0)
+sliderValueText.Size = UDim2.fromOffset(198, 19)
+sliderValueText.Parent = slider
+
+local MinSize = 0
+local MaxSize = 1
+
+local SizeFromScale = (MinSize +  (MaxSize - MinSize)) * DefaultScale
+SizeFromScale = SizeFromScale - (SizeFromScale % 2)
+
+dragSliderButton.MouseButton1Down:Connect(function() -- Skidded from material ui hehe, sorry
+	local MouseMove, MouseKill
+	MouseMove = Mouse.Move:Connect(function()
+		local Px = GetXY(outerSliderFrame)
+		local SizeFromScale = (MinSize +  (MaxSize - MinSize)) * Px
+		local Value = math.floor(Info.Minimum + ((Info.Maximum - Info.Minimum) * Px))
+		SizeFromScale = SizeFromScale - (SizeFromScale % 2)
+		TweenService:Create(innerSlider, TweenInfo.new(0.15), {Size = UDim2.new(Px,0,0,4)}):Play()
+		sliderValueText.Text = tostring(Value)..Info.Prefix
+		pcall(Info.Callback, Value)
+	end)
+	MouseKill = UserInputService.InputEnded:Connect(function(UserInput)
+		if UserInput.UserInputType == Enum.UserInputType.MouseButton1 then
+			MouseMove:Disconnect()
+			MouseKill:Disconnect()
+		end
+	end)
+end)
 end
 
 local fixLine2 = Instance.new("Frame")
