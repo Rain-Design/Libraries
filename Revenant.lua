@@ -312,7 +312,7 @@ dropdownFixLine.Name = "DropdownFixLine"
 dropdownFixLine.AnchorPoint = Vector2.new(0.5, 1)
 dropdownFixLine.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
 dropdownFixLine.BorderSizePixel = 0
-dropdownFixLine.Position = UDim2.fromScale(0.5, 0.0526)
+dropdownFixLine.Position = UDim2.fromScale(0.5, 0.04)
 dropdownFixLine.Size = UDim2.fromOffset(225, 4)
 dropdownFixLine.Parent = dropdown
 
