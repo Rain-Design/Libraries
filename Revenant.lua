@@ -57,6 +57,7 @@ NotificationInfo.Color = NotificationInfo.Color or Color3.fromRGB(56, 207, 154)
 
 local notificationText = Instance.new("TextLabel")
 notificationText.Name = "NotificationText"
+notificationText.ClipsDescendants = false
 notificationText.Font = Enum.Font.GothamBold
 notificationText.Text = NotificationInfo.Text
 notificationText.TextColor3 = Color3.fromRGB(214, 214, 214)
