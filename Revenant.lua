@@ -34,8 +34,9 @@ notificationHolder.Parent = notificationLibrary
 
 local notificationUIListLayout = Instance.new("UIListLayout")
 notificationUIListLayout.Name = "NotificationUIListLayout"
-notificationUIListLayout.FillDirection = Enum.FillDirection.Horizontal
+notificationUIListLayout.FillDirection = Enum.FillDirection.Vertical
 notificationUIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+notificationUIListLayout.Padding = UDim.new(0, 4)
 notificationUIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
 notificationUIListLayout.Parent = notificationHolder
 
