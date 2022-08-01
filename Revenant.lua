@@ -103,7 +103,7 @@ local LineTween = TweenService:Create(outerFrame, TweenInfo.new(NotificationInfo
 LineTween:Play()
 LineTween.Completed:Wait()
 
-local OutTween = TweenService:Create(notificationFrame, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Size = UDim2.new(0, 0, 0, 38)})
+local OutTween = TweenService:Create(NotifText, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Size = UDim2.new(0, 0, 0, 38)})
 OutTween:Play()
 OutTween.Completed:Wait()
 notificationText:Destroy()
