@@ -105,7 +105,7 @@ fixLine.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
 fixLine.BorderSizePixel = 0
 fixLine.Position = UDim2.fromScale(0.5, 0)
 fixLine.Size = UDim2.fromOffset(225, 2)
-fixLine.ZIndex = -1
+fixLine.ZIndex = 5
 fixLine.Parent = backgroundFrame
 
 local itemContainer = Instance.new("Frame")
