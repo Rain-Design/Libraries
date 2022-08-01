@@ -105,8 +105,8 @@ fixLine.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
 fixLine.BorderSizePixel = 0
 fixLine.Position = UDim2.fromScale(0.5, 0)
 fixLine.Size = UDim2.fromOffset(225, 2)
-fixLine.ZIndex = 5
 fixLine.Parent = backgroundFrame
+fixLine.ZIndex = 2
 
 local itemContainer = Instance.new("Frame")
 itemContainer.Name = "ItemContainer"
@@ -314,7 +314,6 @@ dropdownFixLine.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
 dropdownFixLine.BorderSizePixel = 0
 dropdownFixLine.Position = UDim2.fromScale(0.5, 0.0526)
 dropdownFixLine.Size = UDim2.fromOffset(225, 4)
-dropdownFixLine.ZIndex = 2
 dropdownFixLine.Parent = dropdown
 
 local dropdownButton = Instance.new("TextButton")
@@ -370,7 +369,6 @@ dropdownFixLine1.BorderSizePixel = 0
 dropdownFixLine1.Position = UDim2.new(0.5, 0, 0, -2)
 dropdownFixLine1.Size = UDim2.fromOffset(225, 4)
 dropdownFixLine1.Visible = false
-dropdownFixLine1.ZIndex = -1
 dropdownFixLine1.Parent = dropdownContainerBackground
 
 local dropdownUICorner1 = Instance.new("UICorner")
@@ -501,6 +499,7 @@ fixLine2.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 fixLine2.BorderSizePixel = 0
 fixLine2.Position = UDim2.fromScale(0.5, 1)
 fixLine2.Size = UDim2.fromOffset(225, 2)
+fixLine2.ZIndex = 2
 fixLine2.Parent = topbar
 
 local windowText = Instance.new("TextLabel")
