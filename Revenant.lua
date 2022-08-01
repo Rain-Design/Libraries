@@ -9,121 +9,6 @@ for _,v in pairs(game:GetService("CoreGui"):GetChildren()) do
     end
 end
 
-if not game:GetService("CoreGui"):FindFirstChild("NotificationLib") then
-local notification = Instance.new("ScreenGui")
-notification.Name = "NotificationLib"
-notification.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-notification.Parent = game:GetService("CoreGui")
-
-local notificationHolder = Instance.new("Frame")
-notificationHolder.Name = "NotificationHolder"
-notificationHolder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-notificationHolder.BackgroundTransparency = 1
-notificationHolder.BorderSizePixel = 0
-notificationHolder.Position = UDim2.fromScale(0.652, 0)
-notificationHolder.Size = UDim2.fromScale(0.348, 1)
-notificationHolder.Parent = notification
-
-local uIListLayout = Instance.new("UIListLayout")
-uIListLayout.Name = "UIListLayout"
-uIListLayout.Padding = UDim.new(0, 5)
-uIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
-uIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-uIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
-uIListLayout.Parent = notificationHolder
-
-local uIPadding = Instance.new("UIPadding")
-uIPadding.Name = "UIPadding"
-uIPadding.PaddingBottom = UDim.new(0, 4)
-uIPadding.PaddingRight = UDim.new(0, 4)
-uIPadding.Parent = notificationHolder
-end
-
-local Library = game:GetService("CoreGui"):FindFirstChild("NotificationLib")
-local Holder = Library:FindFirstChild("NotificationHolder")
-
-function library:Notification(Text, Duration, Color)
-Text = Text or "Hello!!"
-Duration = Duration or 3
-Color = Color or Color3.fromRGB(7, 183, 168)
-
-local notificationFrame = Instance.new("Frame")
-notificationFrame.Name = "NotificationFrame"
-notificationFrame.AnchorPoint = Vector2.new(1, 1)
-notificationFrame.BackgroundColor3 = Color3.fromRGB(29, 29, 29)
-notificationFrame.BorderSizePixel = 0
-notificationFrame.ClipsDescendants = true
-notificationFrame.Position = UDim2.fromScale(1, 1)
-notificationFrame.Size = UDim2.fromOffset(0, 50)
-
-local uICorner = Instance.new("UICorner")
-uICorner.Name = "UICorner"
-uICorner.CornerRadius = UDim.new(0, 5)
-uICorner.Parent = notificationFrame
-
-local line = Instance.new("Frame")
-line.Name = "Line"
-line.AnchorPoint = Vector2.new(0, 1)
-line.BackgroundColor3 = Color
-line.BorderSizePixel = 0
-line.Position = UDim2.fromScale(0, 1)
-line.Size = UDim2.new(1, 0, 0, 4)
-line.ZIndex = 2
-line.Parent = notificationFrame
-
-local outerLine = Instance.new("Frame")
-outerLine.Name = "OuterLine"
-outerLine.AnchorPoint = Vector2.new(0.5, 1)
-outerLine.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
-outerLine.BorderSizePixel = 0
-outerLine.Position = UDim2.fromScale(0.5, 1)
-outerLine.Size = UDim2.fromOffset(329, 4)
-outerLine.Parent = notificationFrame
-
-local textLabel = Instance.new("TextLabel")
-textLabel.Name = "TextLabel"
-textLabel.Font = Enum.Font.GothamBold
-textLabel.Text = Text
-textLabel.TextColor3 = Color3.fromRGB(214, 214, 214)
-textLabel.TextSize = 14
-textLabel.TextXAlignment = Enum.TextXAlignment.Left
-textLabel.TextYAlignment = Enum.TextYAlignment.Top
-textLabel.AutomaticSize = Enum.AutomaticSize.X
-textLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-textLabel.BackgroundTransparency = 1
-textLabel.Position = UDim2.fromScale(0.15, 0.34)
-textLabel.Size = UDim2.fromOffset(0, 18)
-textLabel.Parent = notificationFrame
-
-local notificationIcon = Instance.new("ImageLabel")
-notificationIcon.Name = "NotificationIcon"
-notificationIcon.Image = "rbxassetid://7733964719"
-notificationIcon.AnchorPoint = Vector2.new(0.5, 0.5)
-notificationIcon.BackgroundColor3 = Color3.fromRGB(214, 214, 214)
-notificationIcon.BackgroundTransparency = 1
-notificationIcon.Position = UDim2.fromScale(0.08, 0.5)
-notificationIcon.Size = UDim2.fromOffset(30, 30)
-notificationIcon.Parent = notificationFrame
-
-notificationFrame.Parent = Holder
-
-coroutine.wrap(function()
-local InTween = TweenService:Create(notificationFrame, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Size = UDim2.new(0, 320, 0, 50)})
-InTween:Play()
-InTween.Completed:Wait()
-
-local LineTween = TweenService:Create(line, TweenInfo.new(Duration, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = UDim2.new(0, 0, 0, 4)})
-LineTween:Play()
-LineTween.Completed:Wait()
-
-local OutTween = TweenService:Create(notificationFrame, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Size = UDim2.new(0, 0, 0, 50)})
-OutTween:Play()
-OutTween.Completed:Wait()
-notificationFrame:Destroy()
-end)()
-
-end
-
 function library:Window(Info)
 Info.Text = Info.Text or "Revenant"
 
@@ -357,7 +242,7 @@ outerFrame.Name = "OuterFrame"
 outerFrame.BackgroundColor3 = Color3.fromRGB(62, 62, 62)
 outerFrame.BorderSizePixel = 0
 outerFrame.Position = UDim2.fromScale(0.782, 0.263)
-outerFrame.Size = UDim2.fromOffset(38, 19)
+outerFrame.Size = UDim2.fromOffset(38, 17)
 outerFrame.Parent = toggle
 
 local uICorner1 = Instance.new("UICorner")
@@ -369,7 +254,7 @@ local innerFrame = Instance.new("Frame")
 innerFrame.Name = "InnerFrame"
 innerFrame.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
 innerFrame.Position = UDim2.fromOffset(2, 2)
-innerFrame.Size = UDim2.fromOffset(15, 15)
+innerFrame.Size = UDim2.fromOffset(15, 13)
 innerFrame.Parent = outerFrame
 
 local uICorner2 = Instance.new("UICorner")
