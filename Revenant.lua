@@ -80,9 +80,9 @@ local backgroundFrame = Instance.new("Frame")
 backgroundFrame.Name = "BackgroundFrame"
 backgroundFrame.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
 backgroundFrame.BorderSizePixel = 0
-backgroundFrame.ClipsDescendants = true
+backgroundFrame.ClipsDescendants = false
 backgroundFrame.Position = UDim2.fromScale(0, 1)
-backgroundFrame.Size = UDim2.fromOffset(225, 0) -- 38
+backgroundFrame.Size = UDim2.fromOffset(225, 0)
 backgroundFrame.Parent = topbar
 
 local uICorner1 = Instance.new("UICorner")
@@ -281,6 +281,209 @@ toggleTextButton.MouseButton1Click:Connect(function()
 end)
 end
 
+function insidewindow:Dropdown(Info)
+Info.Text = Info.Text or "Dropdown"
+Info.List = Info.List or {}
+Info.Callback = Info.Callback or function() end
+
+local insidedropdown = {}
+    
+local dropdown = Instance.new("Frame")
+dropdown.Name = "Dropdown"
+dropdown.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+dropdown.Size = UDim2.fromOffset(225, 38)
+dropdown.Parent = itemContainer
+
+local dropdownUICorner = Instance.new("UICorner")
+dropdownUICorner.Name = "DropdownUICorner"
+dropdownUICorner.CornerRadius = UDim.new(0, 4)
+dropdownUICorner.Parent = dropdown
+
+local dropdownFixLine = Instance.new("Frame")
+dropdownFixLine.Name = "DropdownFixLine"
+dropdownFixLine.AnchorPoint = Vector2.new(0.5, 1)
+dropdownFixLine.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+dropdownFixLine.BorderSizePixel = 0
+dropdownFixLine.Position = UDim2.fromScale(0.5, 0.0526)
+dropdownFixLine.Size = UDim2.fromOffset(225, 4)
+dropdownFixLine.Parent = dropdown
+
+local dropdownButton = Instance.new("TextButton")
+dropdownButton.Name = "DropdownButton"
+dropdownButton.Font = Enum.Font.GothamBold
+dropdownButton.Text = ""
+dropdownButton.TextColor3 = Color3.fromRGB(214, 214, 214)
+dropdownButton.TextSize = 13
+dropdownButton.AutoButtonColor = false
+dropdownButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+dropdownButton.BackgroundTransparency = 1
+dropdownButton.Size = UDim2.fromOffset(225, 38)
+dropdownButton.Parent = dropdown
+
+local dropdownText = Instance.new("TextLabel")
+dropdownText.Name = "DropdownText"
+dropdownText.Font = Enum.Font.GothamBold
+dropdownText.Text = Info.Text
+dropdownText.TextColor3 = Color3.fromRGB(214, 214, 214)
+dropdownText.TextSize = 13
+dropdownText.TextXAlignment = Enum.TextXAlignment.Left
+dropdownText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+dropdownText.BackgroundTransparency = 1
+dropdownText.Position = UDim2.fromScale(0.0489, 0)
+dropdownText.Size = UDim2.fromOffset(214, 38)
+dropdownText.Parent = dropdown
+
+local dropdownContainerButton = Instance.new("ImageLabel")
+dropdownContainerButton.Name = "DropdownContainerButton"
+dropdownContainerButton.Image = "rbxassetid://7733717447"
+dropdownContainerButton.ImageColor3 = Color3.fromRGB(129, 129, 129)
+dropdownContainerButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+dropdownContainerButton.BackgroundTransparency = 1
+dropdownContainerButton.Position = UDim2.fromScale(0.867, 0.263)
+dropdownContainerButton.Size = UDim2.fromOffset(17, 17)
+dropdownContainerButton.Parent = dropdown
+
+local dropdownContainerBackground = Instance.new("Frame")
+dropdownContainerBackground.Visible = false
+dropdownContainerBackground.Name = "DropdownContainerBackground"
+dropdownContainerBackground.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+dropdownContainerBackground.BorderSizePixel = 0
+dropdownContainerBackground.Position = UDim2.fromScale(0, 1)
+dropdownContainerBackground.Size = UDim2.fromOffset(225, 0) -- 27 addition
+dropdownContainerBackground.ZIndex = 2
+dropdownContainerBackground.Parent = dropdown
+
+local dropdownFixLine1 = Instance.new("Frame")
+dropdownFixLine1.Name = "DropdownFixLine"
+dropdownFixLine1.AnchorPoint = Vector2.new(0.5, 0)
+dropdownFixLine1.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+dropdownFixLine1.BorderSizePixel = 0
+dropdownFixLine1.Position = UDim2.new(0.5, 0, 0, -2)
+dropdownFixLine1.Size = UDim2.fromOffset(225, 4)
+dropdownFixLine1.Visible = false
+dropdownFixLine1.Parent = dropdownContainerBackground
+
+local dropdownUICorner1 = Instance.new("UICorner")
+dropdownUICorner1.Name = "DropdownUICorner"
+dropdownUICorner1.CornerRadius = UDim.new(0, 4)
+dropdownUICorner1.Parent = dropdownContainerBackground
+
+local dropdownContainer = Instance.new("Frame")
+dropdownContainer.Visible = false
+dropdownContainer.Name = "DropdownContainer"
+dropdownContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+dropdownContainer.BackgroundTransparency = 1
+dropdownContainer.ClipsDescendants = true
+dropdownContainer.Position = UDim2.fromScale(0, 0)
+dropdownContainer.Size = UDim2.fromOffset(225, 0)
+dropdownContainer.ZIndex = 2
+dropdownContainer.Parent = dropdownContainerBackground
+
+local dropdownUIListLayout = Instance.new("UIListLayout")
+dropdownUIListLayout.Name = "DropdownUIListLayout"
+dropdownUIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+dropdownUIListLayout.Parent = dropdownContainer
+
+dropdown.MouseEnter:Connect(function()
+    dropdownFixLine.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+    dropdown.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+end)
+
+dropdown.MouseLeave:Connect(function()
+    dropdownFixLine.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+    dropdown.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+end)
+
+local Opened = false
+dropdownButton.MouseButton1Click:Connect(function()
+    Opened = not Opened
+    
+    dropdownContainerButton.Rotation = Opened and 180 or 0
+    
+    dropdownContainerBackground.Visible = Opened
+    dropdownFixLine1.Visible = Opened
+    dropdownContainer.Visible = Opened
+end)
+
+function insidedropdown:Button(Info2)
+Info2.Text = Info2.Text or "Option"
+
+local buttonDropdown = Instance.new("Frame")
+buttonDropdown.Name = "ButtonDropdown"
+buttonDropdown.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+buttonDropdown.Size = UDim2.fromOffset(225, 27)
+buttonDropdown.ZIndex = 2
+buttonDropdown.Parent = dropdownContainer
+
+local dropdownButtonTextButton = Instance.new("TextButton")
+dropdownButtonTextButton.Name = "DropdownButtonTextButton"
+dropdownButtonTextButton.Font = Enum.Font.SourceSans
+dropdownButtonTextButton.Text = ""
+dropdownButtonTextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+dropdownButtonTextButton.TextSize = 14
+dropdownButtonTextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+dropdownButtonTextButton.BackgroundTransparency = 1
+dropdownButtonTextButton.Size = UDim2.fromOffset(225, 27)
+dropdownButtonTextButton.ZIndex = 2
+dropdownButtonTextButton.Parent = buttonDropdown
+
+local dropdownText = Instance.new("TextLabel")
+dropdownText.Name = "DropdownText"
+dropdownText.Font = Enum.Font.GothamBold
+dropdownText.Text = Info2.Text
+dropdownText.TextColor3 = Color3.fromRGB(214, 214, 214)
+dropdownText.TextSize = 12
+dropdownText.TextXAlignment = Enum.TextXAlignment.Left
+dropdownText.Active = true
+dropdownText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+dropdownText.BackgroundTransparency = 1
+dropdownText.Position = UDim2.fromScale(0.0489, 0)
+dropdownText.Size = UDim2.fromOffset(214, 27)
+dropdownText.ZIndex = 3
+dropdownText.Parent = buttonDropdown
+
+local dropdownButtonUICorner = Instance.new("UICorner")
+dropdownButtonUICorner.Name = "DropdownButtonUICorner"
+dropdownButtonUICorner.CornerRadius = UDim.new(0, 4)
+dropdownButtonUICorner.Parent = buttonDropdown
+
+buttonDropdown.MouseEnter:Connect(function()
+    buttonDropdown.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+end)
+
+buttonDropdown.MouseLeave:Connect(function()
+    buttonDropdown.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+end)
+
+dropdownButtonTextButton.MouseButton1Click:Connect(function()
+    pcall(Info.Callback, Info2.Text)
+    
+    Opened = false
+    
+    dropdownContainerButton.Rotation = 0
+    
+    dropdownContainerBackground.Visible = false
+    dropdownFixLine1.Visible = false
+    dropdownContainer.Visible = false
+end)
+end
+
+dropdownContainer.ChildAdded:Connect(function(v)
+    if v.ClassName ~= "UIListLayout" then
+        dropdownContainerBackground.Size = UDim2.new(0,225,0,dropdownContainerBackground.Size.Y.Offset + 27)
+        dropdownContainer.Size = UDim2.new(0,225,0,dropdownContainer.Size.Y.Offset + 27)
+    end
+end)
+
+for _,item in pairs(Info.List) do
+    insidedropdown:Button({
+        Text = item
+    })
+end
+
+return insidedropdown
+end
+
 local fixLine2 = Instance.new("Frame")
 fixLine2.Name = "FixLine"
 fixLine2.AnchorPoint = Vector2.new(0.5, 1)
@@ -312,12 +515,12 @@ close.Selectable = false
 close.Size = UDim2.fromOffset(17, 17)
 close.Parent = topbar
 
-local Opened = true
+local WindowOpened = true
 close.MouseButton1Click:Connect(function()
-    Opened = not Opened
+    WindowOpened = not WindowOpened
     
-    TweenService:Create(backgroundFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{Size = not Opened and UDim2.new(0,225,0,0) or UDim2.new(0,225,0,frameSize)}):Play()
-    TweenService:Create(close, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{Rotation = not Opened and 180 or 0}):Play()
+    backgroundFrame.Visible = WindowOpened
+    close.Rotation = not WindowOpened and 180 or 0
 end)
 
 return insidewindow
