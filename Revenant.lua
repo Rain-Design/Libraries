@@ -359,7 +359,7 @@ dropdownContainerBackground.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
 dropdownContainerBackground.BorderSizePixel = 0
 dropdownContainerBackground.Position = UDim2.fromScale(0, 1)
 dropdownContainerBackground.Size = UDim2.fromOffset(225, 0) -- 27 addition
-dropdownContainerBackground.ZIndex = 2
+dropdownContainerBackground.ZIndex = -1
 dropdownContainerBackground.Parent = dropdown
 
 local dropdownFixLine1 = Instance.new("Frame")
@@ -370,7 +370,7 @@ dropdownFixLine1.BorderSizePixel = 0
 dropdownFixLine1.Position = UDim2.new(0.5, 0, 0, -2)
 dropdownFixLine1.Size = UDim2.fromOffset(225, 4)
 dropdownFixLine1.Visible = false
-dropdownFixLine1.ZIndex = 2
+dropdownFixLine1.ZIndex = -1
 dropdownFixLine1.Parent = dropdownContainerBackground
 
 local dropdownUICorner1 = Instance.new("UICorner")
