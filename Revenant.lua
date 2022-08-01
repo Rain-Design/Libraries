@@ -277,7 +277,8 @@ toggleTextButton.MouseButton1Click:Connect(function()
     Toggled = not Toggled
     pcall(Info.Callback, Toggled)
     TweenService:Create(innerFrame, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In),{Position = Toggled and UDim2.new(0, 22,0, 2) or UDim2.new(0, 3,0, 2)}):Play()
-    TweenService:Create(outerFrame, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In),{BackgroundColor3 = Toggled and Color3.fromRGB(199, 48, 85) or Color3.fromRGB(62, 62, 62)}):Play()
+    TweenService:Create(outerFrame, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In),{BackgroundColor3 = Toggled and Color3.fromRGB(56, 207, 154) or Color3.fromRGB(62, 62, 62)}):Play()
+    TweenService:Create(innerFrame, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In),{BackgroundColor3 = Toggled and Color3.fromRGB(214, 214, 214) or Color3.fromRGB(13, 13, 13)}):Play()
 end)
 end
 
