@@ -17,7 +17,7 @@ function library:Toggle()
     end
 end
 
-if not game:GetService("CoreGui"):FindFirstChild("NotificationLirary") then
+if not game:GetService("CoreGui"):FindFirstChild("NotificationLibrary") then
 local notificationLibrary = Instance.new("ScreenGui")
 notificationLibrary.Name = "NotificationLibrary"
 notificationLibrary.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
