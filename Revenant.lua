@@ -9,6 +9,14 @@ for _,v in pairs(game:GetService("CoreGui"):GetChildren()) do
     end
 end
 
+function library:Toggle()
+    for _,v in pairs(game:GetService("CoreGui"):GetChildren()) do
+        if v.Name == "Revenant" then
+            v.Enabled = not v.Enabled
+        end
+    end
+end
+
 function library:Window(Info)
 Info.Text = Info.Text or "Revenant"
 
