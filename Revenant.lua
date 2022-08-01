@@ -69,7 +69,7 @@ notificationText.Parent = Holder
 local outerFrame = Instance.new("Frame")
 outerFrame.Name = "OuterFrame"
 outerFrame.AnchorPoint = Vector2.new(0, 1)
-outerFrame.BackgroundColor3 = Color3.fromRGB(NotificationInfo.Color)
+outerFrame.BackgroundColor3 = NotificationInfo.Color
 outerFrame.BorderSizePixel = 0
 outerFrame.Position = UDim2.fromScale(0, 1)
 outerFrame.Size = UDim2.new(1, 0, 0, 3)
@@ -84,7 +84,7 @@ notificationUICorner.Parent = notificationText
 local innerFrame = Instance.new("Frame")
 innerFrame.Name = "InnerFrame"
 innerFrame.AnchorPoint = Vector2.new(0, 1)
-innerFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+innerFrame.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
 innerFrame.BorderSizePixel = 0
 innerFrame.Position = UDim2.fromScale(0, 1)
 innerFrame.Size = UDim2.new(1, 0, 0, 3)
@@ -105,7 +105,7 @@ LineTween.Completed:Wait()
 local OutTween = TweenService:Create(notificationFrame, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Size = UDim2.new(0, 0, 0, 38)})
 OutTween:Play()
 OutTween.Completed:Wait()
-notificationFrame:Destroy()
+notificationText:Destroy()
 end)()
 end
 
