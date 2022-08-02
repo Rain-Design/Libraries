@@ -366,7 +366,7 @@ uICorner1.Parent = outerFrame
 
 local innerFrame = Instance.new("Frame")
 innerFrame.Name = "InnerFrame"
-innerFrame.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+innerFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 innerFrame.Position = UDim2.fromOffset(3, 2)
 innerFrame.Size = UDim2.fromOffset(13, 13)
 innerFrame.Parent = outerFrame
