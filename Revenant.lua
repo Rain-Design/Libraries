@@ -877,7 +877,7 @@ end)
     
 UserInputService.InputBegan:Connect(function(Key, gameProcessed)
     if Key.KeyCode == PressKey and not gameProcessed then
-        pcall(Info.Callback, PressKey.Name)
+        pcall(Info.Callback)
     end
 end)
 end
