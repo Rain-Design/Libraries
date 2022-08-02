@@ -688,7 +688,7 @@ outerSliderUICorner1.Parent = innerSlider
 
 local dragSlider = Instance.new("Frame")
 dragSlider.Name = "DragSlider"
-dragSlider.BackgroundColor3 = Color3.fromRGB(214, 214, 214)
+dragSlider.BackgroundColor3 = Color3.fromRGB(235, 235, 235)
 dragSlider.Position = UDim2.new(DefaultScale, -4, 0, 2)
 dragSlider.Size = UDim2.fromOffset(9, 9)
 dragSlider.ZIndex = 3
