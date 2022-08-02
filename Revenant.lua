@@ -862,24 +862,29 @@ keybindText:GetPropertyChangedSignal("Text"):Connect(function()
 end)
 
 local KeybindConnection
+local Changing = false
+
+keybindButton.MouseButton1Click:Connect(function()
+    if KeybindConnection then KeybindConnection:Disconnect() end
+    Changing = true
+    keybindText.Text = "..."
+    KeybindConnection = UserInputService.InputBegan:Connect(function(Key, gameProcessed)
+        if not table.find(Blacklist, Key.KeyCode) and not gameProcessed then
+            KeybindConnection:Disconnect()
+            keybindText.Text = Key.KeyCode.Name
+            PressKey = Key.KeyCode
+            wait(.1)
+            Changing = false
+        end
+    end)
+end)
 
 UserInputService.InputBegan:Connect(function(Key, gameProcessed)
-    if Key.KeyCode == PressKey and not gameProcessed then
+    if not Changing and Key.KeyCode == PressKey and not gameProcessed then
         pcall(Info.Callback)
     end
 end)
 
-keybindButton.MouseButton1Click:Connect(function()
-    if KeybindConnection then KeybindConnection:Disconnect() end
-    keybindText.Text = "..."
-    KeybindConnection = UserInputService.InputBegan:Connect(function(Key, gameProcessed)
-        if not table.find(Blacklist, Key.KeyCode) and not gameProcessed then
-            keybindText.Text = Key.KeyCode.Name
-            PressKey = Key.KeyCode
-            KeybindConnection:Disconnect()
-        end
-    end)
-end)
 end
 
 function insidewindow:Slider(Info)
