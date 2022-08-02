@@ -1,5 +1,6 @@
 local library = {}
 library.Flags = {}
+library.Color = 
 
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
@@ -556,6 +557,107 @@ toggleTextButton.MouseButton1Click:Connect(function()
 end)
 
 return insidetoggle
+end
+
+function insidewindow:Check(Info)
+Info.Text = Info.Text or "Check"
+Info.Flag = Info.Flag or Info.Text
+Info.Callback = Info.Callback or function() end
+
+library.Flags[Info.Flag] = false
+
+local Toggled = false
+
+local insidecheck = {}
+
+local check = Instance.new("Frame")
+check.Name = "Check"
+check.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+check.Size = UDim2.fromOffset(225, 38)
+check.Parent = itemContainer
+
+local checkUICorner = Instance.new("UICorner")
+checkUICorner.Name = "CheckUICorner"
+checkUICorner.CornerRadius = UDim.new(0, 4)
+checkUICorner.Parent = check
+
+local checkFixLine = Instance.new("Frame")
+checkFixLine.Name = "CheckFixLine"
+checkFixLine.AnchorPoint = Vector2.new(0.5, 1)
+checkFixLine.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+checkFixLine.BorderSizePixel = 0
+checkFixLine.Position = UDim2.fromScale(0.5, 0.0526)
+checkFixLine.Size = UDim2.fromOffset(225, 4)
+checkFixLine.Parent = check
+
+local checkTextButton = Instance.new("TextButton")
+checkTextButton.Name = "CheckTextButton"
+checkTextButton.Font = Enum.Font.GothamBold
+checkTextButton.Text = ""
+checkTextButton.TextColor3 = Color3.fromRGB(214, 214, 214)
+checkTextButton.TextSize = 13
+checkTextButton.AutoButtonColor = false
+checkTextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+checkTextButton.BackgroundTransparency = 1
+checkTextButton.Size = UDim2.fromOffset(225, 38)
+checkTextButton.Parent = check
+
+local toggleTextLabel = Instance.new("TextLabel")
+toggleTextLabel.Name = "ToggleTextLabel"
+toggleTextLabel.Font = Enum.Font.GothamBold
+toggleTextLabel.Text = "Check"
+toggleTextLabel.TextColor3 = Color3.fromRGB(214, 214, 214)
+toggleTextLabel.TextSize = 13
+toggleTextLabel.TextXAlignment = Enum.TextXAlignment.Left
+toggleTextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+toggleTextLabel.BackgroundTransparency = 1
+toggleTextLabel.Position = UDim2.fromScale(0.0489, 0)
+toggleTextLabel.Size = UDim2.fromOffset(214, 38)
+toggleTextLabel.Parent = check
+
+local checkImage = Instance.new("ImageLabel")
+checkImage.Name = "CheckImage"
+checkImage.Image = "rbxassetid://7733919881"
+checkImage.ImageColor3 = Color3.fromRGB(214, 214, 214)
+checkImage.Active = true
+checkImage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+checkImage.BackgroundTransparency = 1
+checkImage.Position = UDim2.fromScale(0.862, 0.263)
+checkImage.Selectable = true
+checkImage.Size = UDim2.fromOffset(17, 17)
+checkImage.Parent = check
+
+check.MouseEnter:Connect(function()
+    checkFixLine.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+    check.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+end)
+
+check.MouseLeave:Connect(function()
+    checkFixLine.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+    check.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+end)
+
+function insidecheck:Set(CheckInfo)
+    CheckInfo.Bool = CheckInfo.Bool or false
+    Toggled = CheckInfo.Bool
+    library.Flags[Info.Flag] = CheckInfo.Bool
+
+    pcall(Info.Callback, CheckInfo.Bool)
+    
+    checkImage.Image = CheckInfo.Bool and "rbxassetid://7733919427" or "rbxassetid://7733919881"
+    TweenService:Create(checkImage, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{ImageColor3 = CheckInfo.Bool and Color3.fromRGB(56, 207, 154) or Color3.fromRGB(214, 214, 214)}):Play()
+end
+
+toggleTextButton.MouseButton1Click:Connect(function()
+    Toggled = not Toggled
+    library.Flags[Info.Flag] = Toggled
+    pcall(Info.Callback, Toggled)
+    
+    checkImage.Image = Toggled and "rbxassetid://7733919427" or "rbxassetid://7733919881"
+    TweenService:Create(checkImage, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{ImageColor3 = Toggled and Color3.fromRGB(56, 207, 154) or Color3.fromRGB(214, 214, 214)}):Play()
+end)
+
+return insidecheck
 end
 
 function insidewindow:Dropdown(Info)
