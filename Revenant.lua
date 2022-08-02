@@ -367,6 +367,8 @@ Info.Text = Info.Text or "Toggle"
 Info.Callback = Info.Callback or function() end
 
 local insidetoggle = {}
+
+local Toggled = false
     
 local toggle = Instance.new("Frame")
 toggle.Name = "Toggle"
@@ -450,13 +452,13 @@ end)
 
 function insidetoggle:Set(ToggleInfo)
 ToggleInfo.Bool = ToggleInfo.Bool or false
+Toggled = ToggleInfo.Bool
 
 pcall(Info.Callback, ToggleInfo.Bool)
     TweenService:Create(innerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{Position = ToggleInfo.Bool and UDim2.new(0, 22,0, 2) or UDim2.new(0, 3,0, 2)}):Play()
     TweenService:Create(outerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{BackgroundColor3 = ToggleInfo.Bool and Color3.fromRGB(56, 207, 154) or Color3.fromRGB(62, 62, 62)}):Play()
 end
 
-local Toggled = false
 toggleTextButton.MouseButton1Click:Connect(function()
     Toggled = not Toggled
     pcall(Info.Callback, Toggled)
