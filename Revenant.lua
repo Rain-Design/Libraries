@@ -314,7 +314,7 @@ local prompt = Instance.new("Frame")
 prompt.Name = "Prompt"
 prompt.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
 prompt.Size = UDim2.fromOffset(225, 38)
-prompt.Parent = game:GetService("CoreGui")
+prompt.Parent = itemContainer
 
 local promptUICorner = Instance.new("UICorner")
 promptUICorner.Name = "PromptUICorner"
