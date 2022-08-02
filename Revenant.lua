@@ -847,6 +847,16 @@ keybindText.BackgroundTransparency = 1
 keybindText.Size = UDim2.fromOffset(38, 17)
 keybindText.Parent = keybindHolder
 
+keybind.MouseEnter:Connect(function()
+    keybindFixLine.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+    keybind.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+end)
+
+keybind.MouseLeave:Connect(function()
+    keybindFixLine.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+    keybind.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+end)
+
 local TextBounds = keybindText.TextBounds
 
 keybindHolder.Size = UDim2.new(0, TextBounds.X + 15, 0, 17)
