@@ -1,4 +1,5 @@
 local library = {}
+library.Flags = {}
 
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
@@ -446,9 +447,12 @@ end
 
 function insidewindow:Toggle(Info)
 Info.Text = Info.Text or "Toggle"
+Info.Flag = Info.Flag or Info.Text
 Info.Callback = Info.Callback or function() end
 
 local insidetoggle = {}
+
+library.Flags[Info.Flag] = false
 
 local Toggled = false
     
@@ -535,6 +539,7 @@ end)
 function insidetoggle:Set(ToggleInfo)
 ToggleInfo.Bool = ToggleInfo.Bool or false
 Toggled = ToggleInfo.Bool
+library.Flags[Info.Flag] = ToggleInfo.Bool
 
 pcall(Info.Callback, ToggleInfo.Bool)
     TweenService:Create(innerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{Position = ToggleInfo.Bool and UDim2.new(0, 22,0, 2) or UDim2.new(0, 3,0, 2)}):Play()
@@ -543,6 +548,7 @@ end
 
 toggleTextButton.MouseButton1Click:Connect(function()
     Toggled = not Toggled
+    library.Flags[Info.Flag] = Toggled
     pcall(Info.Callback, Toggled)
     TweenService:Create(innerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{Position = Toggled and UDim2.new(0, 22,0, 2) or UDim2.new(0, 3,0, 2)}):Play()
     TweenService:Create(outerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{BackgroundColor3 = Toggled and Color3.fromRGB(56, 207, 154) or Color3.fromRGB(62, 62, 62)}):Play()
@@ -758,11 +764,14 @@ end
 
 function insidewindow:Slider(Info)
 Info.Text = Info.Text or "Slider"
+Info.Flag = Info.Flag or Info.Text
 Info.Postfix = Info.Postfix or ""
 Info.Minimum = Info.Minimum or 1
 Info.Default = Info.Default or 5
 Info.Maximum = Info.Maximum or 100
 Info.Callback = Info.Callback or function() end
+
+library.Flags[Info.Flag] = Default
     
 if Info.Minimum > Info.Maximum then
 local ValueBefore = Info.Minimum
@@ -905,6 +914,7 @@ dragSliderButton.MouseButton1Down:Connect(function() -- Skidded from material ui
 		TweenService:Create(innerSlider, TweenInfo.new(0.1), {Size = UDim2.new(Px,0,0,4)}):Play()
 		TweenService:Create(dragSlider, TweenInfo.new(0.1), {Position = UDim2.new(Px,-4,0,2)}):Play()
 		sliderValueText.Text = tostring(Value)..Info.Postfix
+		library.Flags[Info.Flag] = Value
 		pcall(Info.Callback, Value)
 	end)
 	MouseKill = UserInputService.InputEnded:Connect(function(UserInput)
