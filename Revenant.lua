@@ -1,6 +1,6 @@
 local library = {}
 library.Flags = {}
-library.Color = 
+library.Color = Color3.fromRGB(56, 207, 154)
 
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
@@ -68,7 +68,7 @@ local Holder = NotificationLib:FindFirstChild("NotificationHolder")
 function library:Notification(NotificationInfo)
 NotificationInfo.Text = NotificationInfo.Text or "This is a notification."
 NotificationInfo.Duration = NotificationInfo.Duration or 5
-NotificationInfo.Color = NotificationInfo.Color or Color3.fromRGB(56, 207, 154)
+NotificationInfo.Color = NotificationInfo.Color or library.Color
 
 local notificationText = Instance.new("TextLabel")
 notificationText.Name = "NotificationText"
@@ -545,7 +545,7 @@ library.Flags[Info.Flag] = ToggleInfo.Bool
 
 pcall(Info.Callback, ToggleInfo.Bool)
     TweenService:Create(innerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{Position = ToggleInfo.Bool and UDim2.new(0, 22,0, 2) or UDim2.new(0, 3,0, 2)}):Play()
-    TweenService:Create(outerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{BackgroundColor3 = ToggleInfo.Bool and Color3.fromRGB(56, 207, 154) or Color3.fromRGB(62, 62, 62)}):Play()
+    TweenService:Create(outerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{BackgroundColor3 = ToggleInfo.Bool and library.Color or Color3.fromRGB(62, 62, 62)}):Play()
 end
 
 toggleTextButton.MouseButton1Click:Connect(function()
@@ -553,7 +553,7 @@ toggleTextButton.MouseButton1Click:Connect(function()
     library.Flags[Info.Flag] = Toggled
     pcall(Info.Callback, Toggled)
     TweenService:Create(innerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{Position = Toggled and UDim2.new(0, 22,0, 2) or UDim2.new(0, 3,0, 2)}):Play()
-    TweenService:Create(outerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{BackgroundColor3 = Toggled and Color3.fromRGB(56, 207, 154) or Color3.fromRGB(62, 62, 62)}):Play()
+    TweenService:Create(outerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{BackgroundColor3 = Toggled and library.Color or Color3.fromRGB(62, 62, 62)}):Play()
 end)
 
 return insidetoggle
@@ -602,18 +602,18 @@ checkTextButton.BackgroundTransparency = 1
 checkTextButton.Size = UDim2.fromOffset(225, 38)
 checkTextButton.Parent = check
 
-local toggleTextLabel = Instance.new("TextLabel")
-toggleTextLabel.Name = "ToggleTextLabel"
-toggleTextLabel.Font = Enum.Font.GothamBold
-toggleTextLabel.Text = "Check"
-toggleTextLabel.TextColor3 = Color3.fromRGB(214, 214, 214)
-toggleTextLabel.TextSize = 13
-toggleTextLabel.TextXAlignment = Enum.TextXAlignment.Left
-toggleTextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-toggleTextLabel.BackgroundTransparency = 1
-toggleTextLabel.Position = UDim2.fromScale(0.0489, 0)
-toggleTextLabel.Size = UDim2.fromOffset(214, 38)
-toggleTextLabel.Parent = check
+local checkTextLabel = Instance.new("TextLabel")
+checkTextLabel.Name = "ToggleTextLabel"
+checkTextLabel.Font = Enum.Font.GothamBold
+checkTextLabel.Text = Info.Text
+checkTextLabel.TextColor3 = Color3.fromRGB(214, 214, 214)
+checkTextLabel.TextSize = 13
+checkTextLabel.TextXAlignment = Enum.TextXAlignment.Left
+checkTextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+checkTextLabel.BackgroundTransparency = 1
+checkTextLabel.Position = UDim2.fromScale(0.0489, 0)
+checkTextLabel.Size = UDim2.fromOffset(214, 38)
+checkTextLabel.Parent = check
 
 local checkImage = Instance.new("ImageLabel")
 checkImage.Name = "CheckImage"
@@ -645,16 +645,16 @@ function insidecheck:Set(CheckInfo)
     pcall(Info.Callback, CheckInfo.Bool)
     
     checkImage.Image = CheckInfo.Bool and "rbxassetid://7733919427" or "rbxassetid://7733919881"
-    TweenService:Create(checkImage, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{ImageColor3 = CheckInfo.Bool and Color3.fromRGB(56, 207, 154) or Color3.fromRGB(214, 214, 214)}):Play()
+    TweenService:Create(checkImage, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{ImageColor3 = CheckInfo.Bool and library.Color or Color3.fromRGB(214, 214, 214)}):Play()
 end
 
-toggleTextButton.MouseButton1Click:Connect(function()
+checkTextButton.MouseButton1Click:Connect(function()
     Toggled = not Toggled
     library.Flags[Info.Flag] = Toggled
     pcall(Info.Callback, Toggled)
     
     checkImage.Image = Toggled and "rbxassetid://7733919427" or "rbxassetid://7733919881"
-    TweenService:Create(checkImage, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{ImageColor3 = Toggled and Color3.fromRGB(56, 207, 154) or Color3.fromRGB(214, 214, 214)}):Play()
+    TweenService:Create(checkImage, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{ImageColor3 = Toggled and library.Color or Color3.fromRGB(214, 214, 214)}):Play()
 end)
 
 return insidecheck
@@ -1074,7 +1074,7 @@ outerSliderUICorner.Parent = outerSlider
 
 local innerSlider = Instance.new("Frame")
 innerSlider.Name = "InnerSlider"
-innerSlider.BackgroundColor3 = Color3.fromRGB(56, 207, 154)
+innerSlider.BackgroundColor3 = library.Color
 innerSlider.BorderSizePixel = 0
 innerSlider.Position = UDim2.fromScale(-0.001, 0.458)
 innerSlider.Size = UDim2.new(DefaultScale, 0, 0, 4)
