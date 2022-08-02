@@ -366,7 +366,7 @@ uICorner1.Parent = outerFrame
 
 local innerFrame = Instance.new("Frame")
 innerFrame.Name = "InnerFrame"
-innerFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+innerFrame.BackgroundColor3 = Color3.fromRGB(214, 214, 214)
 innerFrame.Position = UDim2.fromOffset(3, 2)
 innerFrame.Size = UDim2.fromOffset(13, 13)
 innerFrame.Parent = outerFrame
@@ -391,7 +391,7 @@ toggleTextButton.MouseButton1Click:Connect(function()
     Toggled = not Toggled
     pcall(Info.Callback, Toggled)
     TweenService:Create(innerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{Position = Toggled and UDim2.new(0, 22,0, 2) or UDim2.new(0, 3,0, 2)}):Play()
-    TweenService:Create(innerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{BackgroundColor3 = Toggled and Color3.fromRGB(56, 207, 154) or Color3.fromRGB(36, 36, 36)}):Play()
+    TweenService:Create(innerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{BackgroundColor3 = Toggled and Color3.fromRGB(56, 207, 154) or Color3.fromRGB(214, 214, 214)}):Play()
 end)
 end
 
@@ -688,7 +688,7 @@ outerSliderUICorner1.Parent = innerSlider
 
 local dragSlider = Instance.new("Frame")
 dragSlider.Name = "DragSlider"
-dragSlider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+dragSlider.BackgroundColor3 = Color3.fromRGB(214, 214, 214)
 dragSlider.Position = UDim2.new(DefaultScale, -4, 0, 2)
 dragSlider.Size = UDim2.fromOffset(9, 9)
 dragSlider.ZIndex = 3
