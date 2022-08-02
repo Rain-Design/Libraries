@@ -136,8 +136,6 @@ end
 
 local insidewindow = {}
 
-local frameSize = 0
-
 local revenant = Instance.new("ScreenGui")
 revenant.Name = "Revenant"
 revenant.Parent = game:GetService("CoreGui")
@@ -228,8 +226,13 @@ itemContainer.ChildAdded:Connect(function(v)
     if v.ClassName ~= "UIListLayout" then
     backgroundFrame.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset + 38)
     itemContainer.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset + 38)
-    
-    frameSize = frameSize + 38
+    end
+end)
+
+itemContainer.ChildRemoved:Connect(function(v)
+    if v.ClassName ~= "UIListLayout" then
+    backgroundFrame.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset - 38)
+    itemContainer.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset - 38)
     end
 end)
 
@@ -299,6 +302,75 @@ end)
 
 buttonTextButton.MouseButton1Click:Connect(function()
     pcall(Info.Callback)
+end)
+end
+
+function insidewindow:Prompt(Info)
+Info.Text = Info.Text or "Prompt"
+Info.OnConfirm = Info.OnConfirm or function() end
+Info.OnCancel = Info.OnCancel or function() end
+    
+local prompt = Instance.new("Frame")
+prompt.Name = "Prompt"
+prompt.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+prompt.Size = UDim2.fromOffset(225, 38)
+prompt.Parent = game:GetService("CoreGui")
+
+local promptUICorner = Instance.new("UICorner")
+promptUICorner.Name = "PromptUICorner"
+promptUICorner.CornerRadius = UDim.new(0, 4)
+promptUICorner.Parent = prompt
+
+local promptFixLine = Instance.new("Frame")
+promptFixLine.Name = "PromptFixLine"
+promptFixLine.AnchorPoint = Vector2.new(0.5, 1)
+promptFixLine.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+promptFixLine.BorderSizePixel = 0
+promptFixLine.Position = UDim2.fromScale(0.5, 0.0526)
+promptFixLine.Size = UDim2.fromOffset(225, 4)
+promptFixLine.Parent = prompt
+
+local promptTextLabel = Instance.new("TextLabel")
+promptTextLabel.Name = "PromptTextLabel"
+promptTextLabel.Font = Enum.Font.GothamBold
+promptTextLabel.Text = "Prompt"
+promptTextLabel.TextColor3 = Color3.fromRGB(214, 214, 214)
+promptTextLabel.TextSize = 13
+promptTextLabel.TextXAlignment = Enum.TextXAlignment.Left
+promptTextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+promptTextLabel.BackgroundTransparency = 1
+promptTextLabel.Position = UDim2.fromScale(0.0489, 0)
+promptTextLabel.Size = UDim2.fromOffset(214, 38)
+promptTextLabel.Parent = prompt
+
+local cancelPromptButton = Instance.new("ImageButton")
+cancelPromptButton.Name = "CancelPromptButton"
+cancelPromptButton.Image = "http://www.roblox.com/asset/?id=6031094678"
+cancelPromptButton.ImageColor3 = Color3.fromRGB(214, 214, 214)
+cancelPromptButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+cancelPromptButton.BackgroundTransparency = 1
+cancelPromptButton.Position = UDim2.fromScale(0.862, 0.263)
+cancelPromptButton.Size = UDim2.fromOffset(17, 17)
+cancelPromptButton.Parent = prompt
+
+local confirmPromptButton = Instance.new("ImageButton")
+confirmPromptButton.Name = "ConfirmPromptButton"
+confirmPromptButton.Image = "rbxassetid://7733715400"
+confirmPromptButton.ImageColor3 = Color3.fromRGB(214, 214, 214)
+confirmPromptButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+confirmPromptButton.BackgroundTransparency = 1
+confirmPromptButton.Position = UDim2.fromScale(0.75, 0.263)
+confirmPromptButton.Size = UDim2.fromOffset(17, 17)
+confirmPromptButton.Parent = prompt
+
+cancelPromptButton.MouseButton1Click:Connect(function()
+    pcall(Info.OnCancel)
+    prompt:Destroy()
+end)
+
+confirmPromptButton.MouseButton1Click:Connect(function()
+    pcall(Info.OnConfirm)
+    prompt:Destroy()
 end)
 end
 
