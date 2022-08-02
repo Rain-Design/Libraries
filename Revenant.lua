@@ -15,6 +15,12 @@ for _,v in pairs(game:GetService("CoreGui"):GetChildren()) do
     end
 end
 
+function library:GetXY(GuiObject)
+	local Max, May = GuiObject.AbsoluteSize.X, GuiObject.AbsoluteSize.Y
+	local Px, Py = math.clamp(Mouse.X - GuiObject.AbsolutePosition.X, 0, Max), math.clamp(Mouse.Y - GuiObject.AbsolutePosition.Y, 0, May)
+	return Px/Max, Py/May
+end
+
 function library:Toggle()
     for _,v in pairs(game:GetService("CoreGui"):GetChildren()) do
         if v.Name == "Revenant" then
@@ -671,7 +677,7 @@ innerSlider.Name = "InnerSlider"
 innerSlider.BackgroundColor3 = Color3.fromRGB(56, 207, 154)
 innerSlider.BorderSizePixel = 0
 innerSlider.Position = UDim2.fromScale(-0.001, 0.458)
-innerSlider.Size = UDim2.fromOffset(Info.Default / Info.Maximum, 4)
+innerSlider.Size = UDim2.new(DefaultScale, 0, 0, 4)
 innerSlider.ZIndex = 2
 innerSlider.Parent = sliderFrames
 
@@ -683,7 +689,7 @@ outerSliderUICorner1.Parent = innerSlider
 local dragSlider = Instance.new("Frame")
 dragSlider.Name = "DragSlider"
 dragSlider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-dragSlider.Position = UDim2.fromScale(0, 0.1)
+dragSlider.Position = UDim2.new(DefaultScale, -4, 0, 2)
 dragSlider.Size = UDim2.fromOffset(9, 9)
 dragSlider.ZIndex = 3
 dragSlider.Parent = sliderFrames
@@ -726,12 +732,13 @@ SizeFromScale = SizeFromScale - (SizeFromScale % 2)
 dragSliderButton.MouseButton1Down:Connect(function() -- Skidded from material ui hehe, sorry
 	local MouseMove, MouseKill
 	MouseMove = Mouse.Move:Connect(function()
-		local Px = GetXY(outerSliderFrame)
+		local Px = library:GetXY(outerSlider)
 		local SizeFromScale = (MinSize +  (MaxSize - MinSize)) * Px
 		local Value = math.floor(Info.Minimum + ((Info.Maximum - Info.Minimum) * Px))
 		SizeFromScale = SizeFromScale - (SizeFromScale % 2)
-		TweenService:Create(innerSlider, TweenInfo.new(0.15), {Size = UDim2.new(Px,0,0,4)}):Play()
-		sliderValueText.Text = tostring(Value)..Info.Prefix
+		TweenService:Create(innerSlider, TweenInfo.new(0.1), {Size = UDim2.new(Px,0,0,4)}):Play()
+		TweenService:Create(dragSlider, TweenInfo.new(0.1), {Position = UDim2.new(Px,-4,0,2)}):Play()
+		sliderValueText.Text = tostring(Value)..Info.Postfix
 		pcall(Info.Callback, Value)
 	end)
 	MouseKill = UserInputService.InputEnded:Connect(function(UserInput)
