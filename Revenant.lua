@@ -863,6 +863,12 @@ end)
 
 local KeybindConnection
 
+UserInputService.InputBegan:Connect(function(Key, gameProcessed)
+    if Key.KeyCode == PressKey and not gameProcessed then
+        pcall(Info.Callback)
+    end
+end)
+
 keybindButton.MouseButton1Click:Connect(function()
     if KeybindConnection then KeybindConnection:Disconnect() end
     keybindText.Text = "..."
@@ -873,12 +879,6 @@ keybindButton.MouseButton1Click:Connect(function()
             KeybindConnection:Disconnect()
         end
     end)
-end)
-    
-UserInputService.InputBegan:Connect(function(Key, gameProcessed)
-    if Key.KeyCode == PressKey and not gameProcessed then
-        pcall(Info.Callback)
-    end
 end)
 end
 
