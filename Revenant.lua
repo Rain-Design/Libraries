@@ -302,9 +302,71 @@ buttonTextButton.MouseButton1Click:Connect(function()
 end)
 end
 
+function insidewindow:Label(Info)
+Info.Text = Info.Text or "Label"
+Info.Color = Info.Color or Color3.fromRGB(214, 214, 214)
+
+local insidelabel = {}
+
+local label = Instance.new("Frame")
+label.Name = "Label"
+label.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+label.Size = UDim2.fromOffset(225, 38)
+label.Parent = itemContainer
+
+local labelUICorner = Instance.new("UICorner")
+labelUICorner.Name = "LabelUICorner"
+labelUICorner.CornerRadius = UDim.new(0, 4)
+labelUICorner.Parent = label
+
+local labelFixLine = Instance.new("Frame")
+labelFixLine.Name = "LabelFixLine"
+labelFixLine.AnchorPoint = Vector2.new(0.5, 1)
+labelFixLine.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+labelFixLine.BorderSizePixel = 0
+labelFixLine.Position = UDim2.fromScale(0.5, 0.0526)
+labelFixLine.Size = UDim2.fromOffset(225, 4)
+labelFixLine.Parent = label
+
+local labelTextLabel = Instance.new("TextLabel")
+labelTextLabel.Name = "LabelTextLabel"
+labelTextLabel.Text = Info.Text
+labelTextLabel.Font = Enum.Font.GothamBold
+labelTextLabel.TextColor3 = Color3.fromRGB(214, 214, 214)
+labelTextLabel.TextSize = 13
+labelTextLabel.TextXAlignment = Enum.TextXAlignment.Left
+labelTextLabel.BackgroundColor3 = Info.Color
+labelTextLabel.BackgroundTransparency = 1
+labelTextLabel.Position = UDim2.fromScale(0.0489, 0)
+labelTextLabel.Size = UDim2.fromOffset(214, 38)
+labelTextLabel.Parent = label
+
+label.MouseEnter:Connect(function()
+    labelFixLine.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+    label.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+end)
+
+label.MouseLeave:Connect(function()
+    labelFixLine.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+    label.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+end)
+
+function insidelabel:Set(InsideInfo)
+    InsideInfo.Text = InsideInfo.Text or labelTextLabel.Text
+    InsideInfo.Color = InsideInfo.Color or labelTextLabel.TextColor3
+    
+    labelTextLabel.Text = InsideInfo.Text
+    labelTextLabel.TextColor3 = InsideInfo.Color
+end
+
+return insidelabel
+end
+
 function insidewindow:Toggle(Info)
 Info.Text = Info.Text or "Toggle"
 Info.Callback = Info.Callback or function() end
+
+local insidetoggle = {}
     
 local toggle = Instance.new("Frame")
 toggle.Name = "Toggle"
@@ -386,6 +448,14 @@ toggle.MouseLeave:Connect(function()
     toggle.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
 end)
 
+function insidetoggle:Set(ToggleInfo)
+ToggleInfo.Bool = ToggleInfo.Bool or false
+
+pcall(Info.Callback, ToggleInfo.Bool)
+    TweenService:Create(innerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{Position = ToggleInfo.Bool and UDim2.new(0, 22,0, 2) or UDim2.new(0, 3,0, 2)}):Play()
+    TweenService:Create(outerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{BackgroundColor3 = ToggleInfo.Bool and Color3.fromRGB(56, 207, 154) or Color3.fromRGB(62, 62, 62)}):Play()
+end
+
 local Toggled = false
 toggleTextButton.MouseButton1Click:Connect(function()
     Toggled = not Toggled
@@ -393,6 +463,8 @@ toggleTextButton.MouseButton1Click:Connect(function()
     TweenService:Create(innerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{Position = Toggled and UDim2.new(0, 22,0, 2) or UDim2.new(0, 3,0, 2)}):Play()
     TweenService:Create(outerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{BackgroundColor3 = Toggled and Color3.fromRGB(56, 207, 154) or Color3.fromRGB(62, 62, 62)}):Play()
 end)
+
+return insidetoggle
 end
 
 function insidewindow:Dropdown(Info)
