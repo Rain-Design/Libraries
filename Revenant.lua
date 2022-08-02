@@ -528,7 +528,7 @@ local buttonDropdown = Instance.new("Frame")
 buttonDropdown.Name = "ButtonDropdown"
 buttonDropdown.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
 buttonDropdown.Size = UDim2.fromOffset(225, 27)
-buttonDropdown.ZIndex = 2
+buttonDropdown.ZIndex = 3
 buttonDropdown.Parent = dropdownContainer
 
 local dropdownButtonTextButton = Instance.new("TextButton")
@@ -691,7 +691,7 @@ dragSlider.Name = "DragSlider"
 dragSlider.BackgroundColor3 = Color3.fromRGB(235, 235, 235)
 dragSlider.Position = UDim2.new(DefaultScale, -4, 0, 2)
 dragSlider.Size = UDim2.fromOffset(9, 9)
-dragSlider.ZIndex = 3
+dragSlider.ZIndex = 2
 dragSlider.Parent = sliderFrames
 
 local dragSliderUICorner = Instance.new("UICorner")
