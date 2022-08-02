@@ -645,7 +645,7 @@ function insidecheck:Set(CheckInfo)
     pcall(Info.Callback, CheckInfo.Bool)
     
     checkImage.Image = CheckInfo.Bool and "rbxassetid://7733919427" or "rbxassetid://7733919881"
-    TweenService:Create(checkImage, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{ImageColor3 = CheckInfo.Bool and library.Color or Color3.fromRGB(214, 214, 214)}):Play()
+    TweenService:Create(checkImage, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{ImageColor3 = CheckInfo.Bool and library.Color or Color3.fromRGB(214, 214, 214)}):Play()
 end
 
 checkTextButton.MouseButton1Click:Connect(function()
@@ -654,7 +654,7 @@ checkTextButton.MouseButton1Click:Connect(function()
     pcall(Info.Callback, Toggled)
     
     checkImage.Image = Toggled and "rbxassetid://7733919427" or "rbxassetid://7733919881"
-    TweenService:Create(checkImage, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{ImageColor3 = Toggled and library.Color or Color3.fromRGB(214, 214, 214)}):Play()
+    TweenService:Create(checkImage, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{ImageColor3 = Toggled and library.Color or Color3.fromRGB(214, 214, 214)}):Play()
 end)
 
 return insidecheck
