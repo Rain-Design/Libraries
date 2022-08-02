@@ -933,11 +933,12 @@ keybindButton.Name = "KeybindButton"
 keybindButton.Font = Enum.Font.GothamBold
 keybindButton.Text = ""
 keybindButton.TextColor3 = Color3.fromRGB(214, 214, 214)
-keybindButton.TextSize = 12
+keybindButton.TextSize = 13
+keybindButton.AutoButtonColor = false
 keybindButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 keybindButton.BackgroundTransparency = 1
-keybindButton.Size = UDim2.fromOffset(38, 17)
-keybindButton.Parent = keybindHolder
+keybindButton.Size = UDim2.fromOffset(225, 38)
+keybindButton.Parent = keybind
 
 local keybindText = Instance.new("TextLabel")
 keybindText.Name = "KeybindText"
