@@ -770,8 +770,6 @@ Info.Minimum = Info.Minimum or 1
 Info.Default = Info.Default or 5
 Info.Maximum = Info.Maximum or 100
 Info.Callback = Info.Callback or function() end
-
-library.Flags[Info.Flag] = Default
     
 if Info.Minimum > Info.Maximum then
 local ValueBefore = Info.Minimum
@@ -914,7 +912,6 @@ dragSliderButton.MouseButton1Down:Connect(function() -- Skidded from material ui
 		TweenService:Create(innerSlider, TweenInfo.new(0.1), {Size = UDim2.new(Px,0,0,4)}):Play()
 		TweenService:Create(dragSlider, TweenInfo.new(0.1), {Position = UDim2.new(Px,-4,0,2)}):Play()
 		sliderValueText.Text = tostring(Value)..Info.Postfix
-		library.Flags[Info.Flag] = Value
 		pcall(Info.Callback, Value)
 	end)
 	MouseKill = UserInputService.InputEnded:Connect(function(UserInput)
