@@ -893,6 +893,18 @@ keybindFixLine.Position = UDim2.fromScale(0.5, 0.0526)
 keybindFixLine.Size = UDim2.fromOffset(225, 4)
 keybindFixLine.Parent = keybind
 
+local keybindButton = Instance.new("TextButton")
+keybindButton.Name = "KeybindButton"
+keybindButton.Font = Enum.Font.GothamBold
+keybindButton.Text = ""
+keybindButton.TextColor3 = Color3.fromRGB(214, 214, 214)
+keybindButton.TextSize = 13
+keybindButton.AutoButtonColor = false
+keybindButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+keybindButton.BackgroundTransparency = 1
+keybindButton.Size = UDim2.fromOffset(225, 38)
+keybindButton.Parent = keybind
+
 local keybindTextLabel = Instance.new("TextLabel")
 keybindTextLabel.Name = "KeybindTextLabel"
 keybindTextLabel.Font = Enum.Font.GothamBold
@@ -928,18 +940,6 @@ keybindHolderUICorner.Name = "KeybindHolderUICorner"
 keybindHolderUICorner.CornerRadius = UDim.new(0, 4)
 keybindHolderUICorner.Parent = keybindHolder
 
-local keybindButton = Instance.new("TextButton")
-keybindButton.Name = "KeybindButton"
-keybindButton.Font = Enum.Font.GothamBold
-keybindButton.Text = ""
-keybindButton.TextColor3 = Color3.fromRGB(214, 214, 214)
-keybindButton.TextSize = 13
-keybindButton.AutoButtonColor = false
-keybindButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-keybindButton.BackgroundTransparency = 1
-keybindButton.Size = UDim2.fromOffset(225, 38)
-keybindButton.Parent = keybind
-
 local keybindText = Instance.new("TextLabel")
 keybindText.Name = "KeybindText"
 keybindText.Font = Enum.Font.GothamBold
@@ -965,14 +965,12 @@ local TextBounds = keybindText.TextBounds
 
 keybindHolder.Size = UDim2.new(0, TextBounds.X + 15, 0, 17)
 keybindText.Size = UDim2.new(0, TextBounds.X + 15, 0, 17)
-keybindButton.Size = UDim2.new(0, TextBounds.X + 15, 0, 17)
 
 keybindText:GetPropertyChangedSignal("Text"):Connect(function()
     TextBounds = keybindText.TextBounds
     
     keybindHolder.Size = UDim2.new(0, TextBounds.X + 15, 0, 17)
     keybindText.Size = UDim2.new(0, TextBounds.X + 15, 0, 17)
-    keybindButton.Size = UDim2.new(0, TextBounds.X + 15, 0, 17)
 end)
 
 local KeybindConnection
