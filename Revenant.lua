@@ -1,6 +1,6 @@
 local library = {}
 library.Flags = {}
-library.Color = Color3.fromRGB(56, 207, 154)
+library.DefaultColor = Color3.fromRGB(56, 207, 154)
 
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
@@ -68,7 +68,7 @@ local Holder = NotificationLib:FindFirstChild("NotificationHolder")
 function library:Notification(NotificationInfo)
 NotificationInfo.Text = NotificationInfo.Text or "This is a notification."
 NotificationInfo.Duration = NotificationInfo.Duration or 5
-NotificationInfo.Color = NotificationInfo.Color or library.Color
+NotificationInfo.Color = NotificationInfo.Color or library.DefaultColor
 
 local notificationText = Instance.new("TextLabel")
 notificationText.Name = "NotificationText"
@@ -122,6 +122,7 @@ LineTween.Completed:Wait()
 local OutTween = TweenService:Create(NotifText, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Size = UDim2.new(0, 0, 0, 38)})
 OutTween:Play()
 OutTween.Completed:Wait()
+Connection:Disconnect()
 notificationText:Destroy()
 end)()
 end
@@ -545,7 +546,7 @@ library.Flags[Info.Flag] = ToggleInfo.Bool
 
 pcall(Info.Callback, ToggleInfo.Bool)
     TweenService:Create(innerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{Position = ToggleInfo.Bool and UDim2.new(0, 22,0, 2) or UDim2.new(0, 3,0, 2)}):Play()
-    TweenService:Create(outerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{BackgroundColor3 = ToggleInfo.Bool and library.Color or Color3.fromRGB(62, 62, 62)}):Play()
+    TweenService:Create(outerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{BackgroundColor3 = ToggleInfo.Bool and library.DefaultColor or Color3.fromRGB(62, 62, 62)}):Play()
 end
 
 toggleTextButton.MouseButton1Click:Connect(function()
@@ -553,7 +554,7 @@ toggleTextButton.MouseButton1Click:Connect(function()
     library.Flags[Info.Flag] = Toggled
     pcall(Info.Callback, Toggled)
     TweenService:Create(innerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{Position = Toggled and UDim2.new(0, 22,0, 2) or UDim2.new(0, 3,0, 2)}):Play()
-    TweenService:Create(outerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{BackgroundColor3 = Toggled and library.Color or Color3.fromRGB(62, 62, 62)}):Play()
+    TweenService:Create(outerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{BackgroundColor3 = Toggled and library.DefaultColor or Color3.fromRGB(62, 62, 62)}):Play()
 end)
 
 return insidetoggle
@@ -645,7 +646,7 @@ function insidecheck:Set(CheckInfo)
     pcall(Info.Callback, CheckInfo.Bool)
     
     checkImage.Image = CheckInfo.Bool and "rbxassetid://7733919427" or "rbxassetid://7733919881"
-    TweenService:Create(checkImage, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{ImageColor3 = CheckInfo.Bool and library.Color or Color3.fromRGB(214, 214, 214)}):Play()
+    TweenService:Create(checkImage, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{ImageColor3 = CheckInfo.Bool and library.DefaultColor or Color3.fromRGB(214, 214, 214)}):Play()
 end
 
 checkTextButton.MouseButton1Click:Connect(function()
@@ -654,7 +655,7 @@ checkTextButton.MouseButton1Click:Connect(function()
     pcall(Info.Callback, Toggled)
     
     checkImage.Image = Toggled and "rbxassetid://7733919427" or "rbxassetid://7733919881"
-    TweenService:Create(checkImage, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{ImageColor3 = Toggled and library.Color or Color3.fromRGB(214, 214, 214)}):Play()
+    TweenService:Create(checkImage, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{ImageColor3 = Toggled and library.DefaultColor or Color3.fromRGB(214, 214, 214)}):Play()
 end)
 
 return insidecheck
@@ -1074,7 +1075,7 @@ outerSliderUICorner.Parent = outerSlider
 
 local innerSlider = Instance.new("Frame")
 innerSlider.Name = "InnerSlider"
-innerSlider.BackgroundColor3 = library.Color
+innerSlider.BackgroundColor3 = library.DefaultColor
 innerSlider.BorderSizePixel = 0
 innerSlider.Position = UDim2.fromScale(-0.001, 0.458)
 innerSlider.Size = UDim2.new(DefaultScale, 0, 0, 4)
