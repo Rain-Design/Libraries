@@ -723,6 +723,16 @@ sliderValueText.Position = UDim2.fromScale(0.0489, 0)
 sliderValueText.Size = UDim2.fromOffset(198, 19)
 sliderValueText.Parent = slider
 
+slider.MouseEnter:Connect(function()
+    sliderFixLine.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+    slider.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+end)
+
+slider.MouseLeave:Connect(function()
+    sliderFixLine.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+    slider.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+end)
+
 local MinSize = 0
 local MaxSize = 1
 
