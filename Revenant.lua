@@ -455,7 +455,7 @@ Info.Callback = Info.Callback or function() end
 
 local insidetoggle = {}
 
-library.Flags[Info.Flag] = false
+library.Flags[Info.Flag] = Info.Default
 
 local Toggled = false
     
@@ -570,7 +570,7 @@ Info.Flag = Info.Flag or Info.Text
 Info.Default = Info.Default or false
 Info.Callback = Info.Callback or function() end
 
-library.Flags[Info.Flag] = false
+library.Flags[Info.Flag] = Info.Default
 
 local Toggled = false
 
