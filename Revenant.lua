@@ -450,6 +450,7 @@ end
 function insidewindow:Toggle(Info)
 Info.Text = Info.Text or "Toggle"
 Info.Flag = Info.Flag or Info.Text
+Info.Default = Info.Default or false
 Info.Callback = Info.Callback or function() end
 
 local insidetoggle = {}
@@ -528,6 +529,8 @@ uICorner2.Name = "UICorner"
 uICorner2.CornerRadius = UDim.new(1, 0)
 uICorner2.Parent = innerFrame
 
+pcall(Info.Callback, Info.Default)
+
 toggle.MouseEnter:Connect(function()
     fixLineToggle.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
     toggle.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
@@ -562,6 +565,7 @@ end
 function insidewindow:Check(Info)
 Info.Text = Info.Text or "Check"
 Info.Flag = Info.Flag or Info.Text
+Info.Default = Info.Default or false
 Info.Callback = Info.Callback or function() end
 
 library.Flags[Info.Flag] = false
@@ -626,6 +630,8 @@ checkImage.Position = UDim2.fromScale(0.862, 0.263)
 checkImage.Selectable = true
 checkImage.Size = UDim2.fromOffset(17, 17)
 checkImage.Parent = check
+
+pcall(Info.Callback, Info.Default)
 
 check.MouseEnter:Connect(function()
     checkFixLine.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
@@ -1121,6 +1127,8 @@ sliderValueText.BackgroundTransparency = 1
 sliderValueText.Position = UDim2.fromScale(0.0489, 0)
 sliderValueText.Size = UDim2.fromOffset(198, 19)
 sliderValueText.Parent = slider
+
+pcall(Info.Callback, Info.Default)
 
 slider.MouseEnter:Connect(function()
     sliderFixLine.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
