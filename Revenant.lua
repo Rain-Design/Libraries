@@ -848,6 +848,7 @@ end)
 
 dropdownButtonTextButton.MouseButton1Click:Connect(function()
     pcall(Info.Callback, Info2.Text)
+    dropdownText.Text = Info2.Text
     
     Opened = false
     
