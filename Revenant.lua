@@ -530,6 +530,8 @@ uICorner2.CornerRadius = UDim.new(1, 0)
 uICorner2.Parent = innerFrame
 
 pcall(Info.Callback, Info.Default)
+innerFrame.Position = Info.Default and UDim2.new(0, 22,0, 2) or UDim2.new(0, 3,0, 2)
+outerFrame.BackgroundColor3 = Info.Default and library.DefaultColor or Color3.fromRGB(62, 62, 62)
 
 toggle.MouseEnter:Connect(function()
     fixLineToggle.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
@@ -632,6 +634,8 @@ checkImage.Size = UDim2.fromOffset(17, 17)
 checkImage.Parent = check
 
 pcall(Info.Callback, Info.Default)
+checkImage.Image = Info.Default and "rbxassetid://7733919427" or "rbxassetid://7733919881"
+checkImage.ImageColor3 = Info.Default and library.DefaultColor or Color3.fromRGB(214, 214, 214)
 
 check.MouseEnter:Connect(function()
     checkFixLine.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
