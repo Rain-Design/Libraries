@@ -54,14 +54,14 @@ Window:Keybind({
 Window:Slider({
     Text = string
     Flag = string
-    Postfix = string (Postfix is what appears after the value of the slider)
+    Postfix = string -- \\ (Postfix is what appears after the value of the slider)
     Default = number
     Minimum = number
     Maximum = number
     Callback = function
 })
 
-Slider doesn't have a Set function yet but i'll make one soon
+-- \\ Slider doesn't have a Set function yet but i'll make one soon
 
 Window:Dropdown({
     Text = string
