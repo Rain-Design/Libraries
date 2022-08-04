@@ -138,13 +138,17 @@ if not isfolder("Revenant") then
 	Method = "GET"
 	})
 	writefile("Revenant/Circle.png", Circle.Body)
+	library:Notification({
+        Text = "Downloaded Toggle Asset.",
+        Duration = 3
+    })
 	local Collapse = request({
 	Url = "https://github.com/Rain-Design/Libraries/blob/main/Icon/CollapseArrow.png?raw=true",
 	Method = "GET"
 	})
 	writefile("Revenant/Collapse.png", Collapse.Body)
 	library:Notification({
-        Text = "Downloaded Toggle Asset.",
+        Text = "Downloaded Collapse Asset.",
         Duration = 3
     })
 end
