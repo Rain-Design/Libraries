@@ -127,16 +127,16 @@ end)()
 end
 
 if not isfolder("Revenant") then
-    library:Notification({
-        Text = "Downloading Assets.",
-        Duration = 5
-    })
     makefolder("Revenant")
-    local ToggleCirc = syn.request({
-	Url = "https://github.com/Rain-Design/Libraries/blob/main/Icon/ToggleCircle.png?raw=true",
+    local Circle = syn.request({
+	Url = "https://github.com/Rain-Design/Libraries/blob/main/Icon/Circle.png?raw=true",
 	Method = "GET"
 	})
-	writefile("Revenant/ToggleCircle.png", ToggleCirc.Body)
+	writefile("Revenant/Circle.png", Circle.Body)
+	library:Notification({
+        Text = "Downloaded Toggle Asset.",
+        Duration = 3
+    })
 end
 
 function library:Window(Info)
@@ -539,7 +539,7 @@ uICorner1.Parent = outerFrame
 
 local innerFrame = Instance.new("ImageLabel")
 innerFrame.Name = "InnerFrame"
-innerFrame.Image = getsynasset("Revenant/ToggleCircle.png")
+innerFrame.Image = getsynasset("Revenant/Circle.png")
 innerFrame.ResampleMode = "Pixelated"
 innerFrame.ImageColor3 = Color3.fromRGB(255, 255, 255)
 innerFrame.BackgroundTransparency = 1
