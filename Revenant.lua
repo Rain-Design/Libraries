@@ -126,9 +126,11 @@ notificationText:Destroy()
 end)()
 end
 
+local Request = http_request or request or httprequest
+
 if not isfolder("Revenant") then
     makefolder("Revenant")
-    local Circle = syn.request({
+    local Circle = Request({
 	Url = "https://github.com/Rain-Design/Libraries/blob/main/Icon/Circle.png?raw=true",
 	Method = "GET"
 	})
@@ -539,7 +541,7 @@ uICorner1.Parent = outerFrame
 
 local innerFrame = Instance.new("ImageLabel")
 innerFrame.Name = "InnerFrame"
-innerFrame.Image = getsynasset("Revenant/Circle.png")
+innerFrame.Image = getcustomasset("Revenant/Circle.png")
 innerFrame.ResampleMode = "Pixelated"
 innerFrame.ImageColor3 = Color3.fromRGB(255, 255, 255)
 innerFrame.BackgroundTransparency = 1
