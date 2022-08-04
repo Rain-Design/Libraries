@@ -1031,6 +1031,11 @@ dragSlider.Size = UDim2.fromOffset(9, 9)
 dragSlider.ZIndex = 2
 dragSlider.Parent = sliderFrames
 
+local dragSliderUICorner = Instance.new("UICorner")
+dragSliderUICorner.Name = "DragSliderUICorner"
+dragSliderUICorner.CornerRadius = UDim.new(0, 100)
+dragSliderUICorner.Parent = dragSlider
+
 local dragSliderButton = Instance.new("TextButton")
 dragSliderButton.Name = "DragSliderButton"
 dragSliderButton.Font = Enum.Font.SourceSans
