@@ -137,15 +137,6 @@ if not isfolder("Revenant") then
         Text = "Downloaded Toggle Asset.",
         Duration = 3
     })
-    local SliderCircle = syn.request({
-	Url = "https://github.com/Rain-Design/Libraries/blob/main/Icon/SliderCircle.png?raw=true",
-	Method = "GET"
-	})
-	writefile("Revenant/SliderCircle.png", SliderCircle.Body)
-	library:Notification({
-        Text = "Downloaded Slider Asset.",
-        Duration = 3
-    })
 end
 
 function library:Window(Info)
@@ -1032,20 +1023,13 @@ outerSliderUICorner1.Name = "OuterSliderUICorner"
 outerSliderUICorner1.CornerRadius = UDim.new(0, 100)
 outerSliderUICorner1.Parent = innerSlider
 
-local dragSlider = Instance.new("ImageLabel")
+local dragSlider = Instance.new("Frame")
 dragSlider.Name = "DragSlider"
-dragSlider.Image = getsynasset("Revenant/SliderCircle.png")
-dragSlider.ImageColor3 = Color3.fromRGB(255, 255, 255)
-dragSlider.BackgroundTransparency = 1
-dragSlider.Position = UDim2.new(DefaultScale, -6, 0, 2)
-dragSlider.Size = UDim2.fromOffset(10, 10)
+dragSlider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+dragSlider.Position = UDim2.new(DefaultScale, -4, 0, 2)
+dragSlider.Size = UDim2.fromOffset(9, 9)
 dragSlider.ZIndex = 2
 dragSlider.Parent = sliderFrames
-
-local dragSliderUICorner = Instance.new("UICorner")
-dragSliderUICorner.Name = "DragSliderUICorner"
-dragSliderUICorner.CornerRadius = UDim.new(0, 100)
-dragSliderUICorner.Parent = dragSlider
 
 local dragSliderButton = Instance.new("TextButton")
 dragSliderButton.Name = "DragSliderButton"
@@ -1055,7 +1039,7 @@ dragSliderButton.TextColor3 = Color3.fromRGB(0, 0, 0)
 dragSliderButton.TextSize = 14
 dragSliderButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 dragSliderButton.BackgroundTransparency = 1
-dragSliderButton.Size = UDim2.fromOffset(10, 10)
+dragSliderButton.Size = UDim2.fromOffset(9, 9)
 dragSliderButton.Parent = dragSlider
 
 local sliderValueText = Instance.new("TextLabel")
