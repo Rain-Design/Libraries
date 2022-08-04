@@ -37,17 +37,6 @@ Toggle:Set({
     Bool = boolean
 })
 
-Window:Check({
-    Text = string
-    Flag = string
-    Default = boolean
-    Callback = function
-})
-
-Check:Set({
-    Bool = boolean
-})
-
 Window:Keybind({
     Text = string
     Default = enum keycode
