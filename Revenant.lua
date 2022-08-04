@@ -205,10 +205,6 @@ backgroundFrame.Position = UDim2.fromScale(0, 1)
 backgroundFrame.Size = UDim2.fromOffset(225, 0)
 backgroundFrame.Parent = topbar
 
-WindowOpened:GetPropertyChangedSignal("Value"):Connect(function()
-    backgroundFrame.ClipsDescendants = WindowOpened.Value and false or true
-end)
-
 local uICorner1 = Instance.new("UICorner")
 uICorner1.Name = "UICorner"
 uICorner1.CornerRadius = UDim.new(0, 4)
@@ -802,6 +798,7 @@ dropdownButton.MouseButton1Click:Connect(function()
     
     dropdownContainerButton.Rotation = Opened and 180 or 0
     
+    backgroundFrame.ClipsDescendants = false
     dropdownContainerBackground.Visible = Opened
     dropdownFixLine1.Visible = Opened
     dropdownContainer.Visible = Opened
@@ -855,6 +852,19 @@ end)
 
 buttonDropdown.MouseLeave:Connect(function()
     buttonDropdown.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
+end)
+
+WindowOpened:GetPropertyChangedSignal("Value"):Connect(function()
+    if not WindowOpened.Value and dropdownContainerBackground.Visible then
+    Opened = false
+    
+    dropdownContainerButton.Rotation = 0
+    
+    backgroundFrame.ClipsDescendants = false
+    dropdownContainerBackground.Visible = false
+    dropdownFixLine1.Visible = false
+    dropdownContainer.Visible = false
+    end
 end)
 
 dropdownButtonTextButton.MouseButton1Click:Connect(function()
@@ -1218,6 +1228,7 @@ close.Parent = topbar
 close.MouseButton1Click:Connect(function()
     WindowOpened.Value = not WindowOpened.Value
     
+    backgroundFrame.ClipsDescendants = WindowOpened.Value and false or true
     TweenService:Create(backgroundFrame, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Size = WindowOpened.Value and UDim2.new(0, 225, 0, BackgroundSize) or UDim2.new(0, 225, 0, 0)}):Play()
     TweenService:Create(close, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Rotation = WindowOpened.Value and 0 or 180}):Play()
 end)
