@@ -126,7 +126,7 @@ notificationText:Destroy()
 end)()
 end
 
-local Request = http_request or request or httprequest
+local Request = syn and syn.request or http and http.request or http_request or request or httprequest
 
 if not isfolder("Revenant") then
     makefolder("Revenant")
