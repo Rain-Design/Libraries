@@ -1,3 +1,6 @@
+Library.Flags -- table with the flags
+Library.DefaultColor -- change that at the beginning of the script if you want to change the color of sliders, toggles etc.. (you can't change it after setting them **yet**)
+
 Library:Window({
     Text = string
 })
