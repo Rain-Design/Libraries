@@ -137,6 +137,15 @@ if not isfolder("Revenant") then
         Text = "Downloaded Toggle Asset.",
         Duration = 3
     })
+    local SliderCircle = syn.request({
+	Url = "https://github.com/Rain-Design/Libraries/blob/main/Icon/SliderCircle.png?raw=true",
+	Method = "GET"
+	})
+	writefile("Revenant/SliderCircle.png", SliderCircle.Body)
+	library:Notification({
+        Text = "Downloaded Slider Asset.",
+        Duration = 3
+    })
 end
 
 function library:Window(Info)
@@ -1025,7 +1034,7 @@ outerSliderUICorner1.Parent = innerSlider
 
 local dragSlider = Instance.new("ImageLabel")
 dragSlider.Name = "DragSlider"
-dragSlider.Image = getsynasset("Revenant/ToggleCircle.png")
+dragSlider.Image = getsynasset("Revenant/SliderCircle.png")
 dragSlider.ImageColor3 = Color3.fromRGB(255, 255, 255)
 dragSlider.BackgroundTransparency = 1
 dragSlider.Position = UDim2.new(DefaultScale, -6, 0, 2)
