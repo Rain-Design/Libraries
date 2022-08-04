@@ -136,6 +136,11 @@ if not isfolder("Revenant") then
 	Method = "GET"
 	})
 	writefile("Revenant/Circle.png", Circle.Body)
+	local Collapse = Request({
+	Url = "https://github.com/Rain-Design/Libraries/blob/main/Icon/CollapseArrow.png?raw=true",
+	Method = "GET"
+	})
+	writefile("Revenant/Collapse.png", Collapse.Body)
 	library:Notification({
         Text = "Downloaded Toggle Asset.",
         Duration = 3
@@ -642,11 +647,12 @@ dropdownText.Parent = dropdown
 
 local dropdownContainerButton = Instance.new("ImageLabel")
 dropdownContainerButton.Name = "DropdownContainerButton"
-dropdownContainerButton.Image = "rbxassetid://7733717447"
+dropdownContainerButton.Image = getcustomasset("Revenant/Collapse.png")
 dropdownContainerButton.ImageColor3 = Color3.fromRGB(129, 129, 129)
 dropdownContainerButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 dropdownContainerButton.BackgroundTransparency = 1
 dropdownContainerButton.Position = UDim2.fromScale(0.867, 0.263)
+dropdownContainerButton.Rotation = 180
 dropdownContainerButton.Size = UDim2.fromOffset(17, 17)
 dropdownContainerButton.Parent = dropdown
 
@@ -707,7 +713,7 @@ local Opened = false
 dropdownButton.MouseButton1Click:Connect(function()
     Opened = not Opened
     
-    TweenService:Create(dropdownContainerButton, TweenInfo.new(.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Rotation = Opened and 180 or 0}):Play()
+    TweenService:Create(dropdownContainerButton, TweenInfo.new(.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Rotation = Opened and 0 or 180}):Play()
     
     backgroundFrame.ClipsDescendants = false
     TweenService:Create(dropdownContainerBackground, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {Size = Opened and UDim2.new(0, 225,0,DropdownSize) or UDim2.new(0, 225, 0, 0)}):Play()
@@ -769,7 +775,7 @@ WindowOpened:GetPropertyChangedSignal("Value"):Connect(function()
     if not WindowOpened.Value and dropdownContainerBackground.Visible then
     Opened = false
     
-    dropdownContainerButton.Rotation = 0
+    dropdownContainerButton.Rotation = 180
     
     dropdownContainerBackground.Size = UDim2.new(0,225,0,0)
     dropdownContainer.Size = UDim2.new(0,225,0,0)
@@ -784,7 +790,7 @@ dropdownButtonTextButton.MouseButton1Click:Connect(function()
     
     Opened = false
     
-    TweenService:Create(dropdownContainerButton, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {Rotation = 0}):Play()
+    TweenService:Create(dropdownContainerButton, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {Rotation = 180}):Play()
     TweenService:Create(dropdownContainerBackground, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {Size = UDim2.new(0, 225, 0, 0)}):Play()
     TweenService:Create(dropdownContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {Size = UDim2.new(0, 225, 0, 0)}):Play()
     dropdownFixLine1.Visible = false
@@ -1125,12 +1131,13 @@ windowText.Parent = topbar
 
 local close = Instance.new("ImageButton")
 close.Name = "Close"
-close.Image = "rbxassetid://7733717447"
+close.Image = getcustomasset("Revenant/Collapse.png")
 close.Active = true
 close.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 close.BackgroundTransparency = 1
 close.Position = UDim2.fromScale(0.876, 0.263)
 close.Selectable = false
+close.Rotation = 180
 close.Size = UDim2.fromOffset(17, 17)
 close.Parent = topbar
 
@@ -1139,7 +1146,7 @@ close.MouseButton1Click:Connect(function()
     
     backgroundFrame.ClipsDescendants = WindowOpened.Value and false or true
     TweenService:Create(backgroundFrame, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Size = WindowOpened.Value and UDim2.new(0, 225, 0, BackgroundSize) or UDim2.new(0, 225, 0, 0)}):Play()
-    TweenService:Create(close, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Rotation = WindowOpened.Value and 0 or 180}):Play()
+    TweenService:Create(close, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Rotation = WindowOpened.Value and 180 or 0}):Play()
 end)
 
 return insidewindow
