@@ -143,6 +143,9 @@ local revenant = Instance.new("ScreenGui")
 revenant.Name = "Revenant"
 revenant.Parent = game:GetService("CoreGui")
 
+local WindowOpened = Instance.new("BoolValue", revenant)
+WindowOpened.Value = true
+
 local topbar = Instance.new("Frame")
 topbar.Name = "Topbar"
 topbar.BackgroundColor3 = Color3.fromRGB(29, 29, 29)
@@ -191,6 +194,8 @@ uICorner.Name = "UICorner"
 uICorner.CornerRadius = UDim.new(0, 4)
 uICorner.Parent = topbar
 
+local BackgroundSize = 0
+
 local backgroundFrame = Instance.new("Frame")
 backgroundFrame.Name = "BackgroundFrame"
 backgroundFrame.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
@@ -199,6 +204,10 @@ backgroundFrame.ClipsDescendants = false
 backgroundFrame.Position = UDim2.fromScale(0, 1)
 backgroundFrame.Size = UDim2.fromOffset(225, 0)
 backgroundFrame.Parent = topbar
+
+WindowOpened:GetPropertyChangedSignal("Value"):Connect(function()
+    backgroundFrame.ClipsDescendants = WindowOpened.Value and false or true
+end)
 
 local uICorner1 = Instance.new("UICorner")
 uICorner1.Name = "UICorner"
@@ -229,6 +238,7 @@ itemContainer.ChildAdded:Connect(function(v)
     if v.ClassName ~= "UIListLayout" then
     backgroundFrame.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset + 38)
     itemContainer.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset + 38)
+    BackgroundSize = BackgroundSize + 38
     end
 end)
 
@@ -236,6 +246,7 @@ itemContainer.ChildRemoved:Connect(function(v)
     if v.ClassName ~= "UIListLayout" then
     backgroundFrame.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset - 38)
     itemContainer.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset - 38)
+    BackgroundSize = BackgroundSize - 38
     end
 end)
 
@@ -1204,12 +1215,11 @@ close.Selectable = false
 close.Size = UDim2.fromOffset(17, 17)
 close.Parent = topbar
 
-local WindowOpened = true
 close.MouseButton1Click:Connect(function()
-    WindowOpened = not WindowOpened
+    WindowOpened.Value = not WindowOpened.Value
     
-    backgroundFrame.Visible = WindowOpened
-    close.Rotation = not WindowOpened and 180 or 0
+    TweenService:Create(backgroundFrame, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Size = WindowOpened.Value and UDim2.new(0, 225, 0, BackgroundSize) or UDim2.new(0, 225, 0, 0)}):Play()
+    TweenService:Create(close, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Rotation = WindowOpened.Value and 0 or 180}):Play()
 end)
 
 return insidewindow
