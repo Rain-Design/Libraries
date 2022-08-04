@@ -1,4 +1,4 @@
---[[
+
 Library:Window({
     Text = string
 })
@@ -75,4 +75,3 @@ Window:Prompt({
     OnConfirm = function
     OnCancel = function
 })
-]]
