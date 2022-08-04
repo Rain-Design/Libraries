@@ -1,4 +1,3 @@
-
 Library:Window({
     Text = string
 })
