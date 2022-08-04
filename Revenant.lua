@@ -127,6 +127,7 @@ end)()
 end
 
 local Request = syn and syn.request or http and http.request or http_request or request or httprequest
+local getcustomasset = getcustomasset or getsynasset
 
 if not isfolder("Revenant") then
     makefolder("Revenant")
