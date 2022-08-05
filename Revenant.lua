@@ -384,21 +384,23 @@ promptTextLabel.Parent = prompt
 local cancelPromptButton = Instance.new("ImageButton")
 cancelPromptButton.Name = "CancelPromptButton"
 cancelPromptButton.Image = "http://www.roblox.com/asset/?id=6031094678"
+cancelPromptButton.AnchorPoint = Vector2.new(1,.5)
 cancelPromptButton.ImageColor3 = Color3.fromRGB(214, 214, 214)
 cancelPromptButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 cancelPromptButton.BackgroundTransparency = 1
-cancelPromptButton.Position = UDim2.fromScale(0.862, 0.263)
+cancelPromptButton.Position = UDim2.new(1, -18,0.5, 0)
 cancelPromptButton.Size = UDim2.fromOffset(17, 17)
 cancelPromptButton.Parent = prompt
 
 local confirmPromptButton = Instance.new("ImageButton")
 confirmPromptButton.Name = "ConfirmPromptButton"
 confirmPromptButton.Image = "rbxassetid://7733715400"
+confirmPromptButton.AnchorPoint = Vector2.new(1,.5)
 confirmPromptButton.ImageColor3 = Color3.fromRGB(214, 214, 214)
 confirmPromptButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 confirmPromptButton.BackgroundTransparency = 1
-confirmPromptButton.Position = UDim2.fromScale(0.75, 0.263)
-confirmPromptButton.Size = UDim2.fromOffset(17, 17)
+confirmPromptButton.Position = UDim2.new(1, -43,0.5, 0)
+confirmPromptButton.Size = UDim2.new(0, 17,0, 17)
 confirmPromptButton.Parent = prompt
 
 prompt.MouseEnter:Connect(function()
@@ -657,10 +659,11 @@ dropdownText.Parent = dropdown
 local dropdownContainerButton = Instance.new("ImageLabel")
 dropdownContainerButton.Name = "DropdownContainerButton"
 dropdownContainerButton.Image = getcustomasset("Revenant/Collapse.png")
+dropdownContainerButton.AnchorPoint = Vector2.new(1, .5)
 dropdownContainerButton.ImageColor3 = Color3.fromRGB(129, 129, 129)
 dropdownContainerButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 dropdownContainerButton.BackgroundTransparency = 1
-dropdownContainerButton.Position = UDim2.fromScale(0.867, 0.263)
+dropdownContainerButton.Position = UDim2.new(1, -15,0.5, 0)
 dropdownContainerButton.Rotation = 180
 dropdownContainerButton.Size = UDim2.fromOffset(17, 17)
 dropdownContainerButton.Parent = dropdown
@@ -875,10 +878,11 @@ keybindTextLabel.Parent = keybind
 
 local keybindFixHolder = Instance.new("Frame")
 keybindFixHolder.Name = "KeybindFixHolder"
+keybindFixHolder.AnchorPoint = Vector2.new(1, .5)
 keybindFixHolder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 keybindFixHolder.BackgroundTransparency = 1
-keybindFixHolder.Position = UDim2.fromScale(0, 0.263)
-keybindFixHolder.Size = UDim2.fromOffset(214, 17)
+keybindFixHolder.Position = UDim2.new(1, -15,0.5, 0)
+keybindFixHolder.Size = UDim2.fromOffset(162, 17)
 keybindFixHolder.Parent = keybind
 
 local keybindHolder = Instance.new("Frame")
