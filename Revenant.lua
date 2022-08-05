@@ -1,6 +1,7 @@
 local library = {}
 library.Flags = {}
 library.DefaultColor = Color3.fromRGB(56, 207, 154)
+library.YSpacing = 38
 
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
@@ -259,17 +260,17 @@ itemContainer.Parent = backgroundFrame
 
 itemContainer.ChildAdded:Connect(function(v)
     if v.ClassName ~= "UIListLayout" then
-    backgroundFrame.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset + 38)
-    itemContainer.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset + 38)
-    BackgroundSize = BackgroundSize + 38
+    backgroundFrame.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset + library.YSpacing)
+    itemContainer.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset + library.YSpacing)
+    BackgroundSize = BackgroundSize + library.YSpacing
     end
 end)
 
 itemContainer.ChildRemoved:Connect(function(v)
     if v.ClassName ~= "UIListLayout" then
-    backgroundFrame.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset - 38)
-    itemContainer.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset - 38)
-    BackgroundSize = BackgroundSize - 38
+    backgroundFrame.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset - library.YSpacing)
+    itemContainer.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset - library.YSpacing)
+    BackgroundSize = BackgroundSize - library.YSpacing
     end
 end)
 
@@ -285,7 +286,7 @@ Info.Callback = Info.Callback or function() end
 local button = Instance.new("Frame")
 button.Name = "Button"
 button.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
-button.Size = UDim2.fromOffset(225, 38)
+button.Size = UDim2.fromOffset(225, library.YSpacing)
 button.Parent = itemContainer
 
 local uICorner2 = Instance.new("UICorner")
@@ -311,7 +312,7 @@ buttonTextButton.TextSize = 13
 buttonTextButton.AutoButtonColor = false
 buttonTextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 buttonTextButton.BackgroundTransparency = 1
-buttonTextButton.Size = UDim2.fromOffset(225, 38)
+buttonTextButton.Size = UDim2.fromOffset(225, library.YSpacing)
 buttonTextButton.Parent = button
 
 local buttonTextLabel = Instance.new("TextLabel")
@@ -324,7 +325,7 @@ buttonTextLabel.TextXAlignment = Enum.TextXAlignment.Left
 buttonTextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 buttonTextLabel.BackgroundTransparency = 1
 buttonTextLabel.Position = UDim2.fromScale(0.0489, 0)
-buttonTextLabel.Size = UDim2.fromOffset(214, 38)
+buttonTextLabel.Size = UDim2.fromOffset(214, library.YSpacing)
 buttonTextLabel.Parent = button
 
 button.MouseEnter:Connect(function()
@@ -350,7 +351,7 @@ Info.OnCancel = Info.OnCancel or function() end
 local prompt = Instance.new("Frame")
 prompt.Name = "Prompt"
 prompt.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
-prompt.Size = UDim2.fromOffset(225, 38)
+prompt.Size = UDim2.fromOffset(225, library.YSpacing)
 prompt.Parent = itemContainer
 
 local promptUICorner = Instance.new("UICorner")
@@ -377,7 +378,7 @@ promptTextLabel.TextXAlignment = Enum.TextXAlignment.Left
 promptTextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 promptTextLabel.BackgroundTransparency = 1
 promptTextLabel.Position = UDim2.fromScale(0.0489, 0)
-promptTextLabel.Size = UDim2.fromOffset(214, 38)
+promptTextLabel.Size = UDim2.fromOffset(214, library.YSpacing)
 promptTextLabel.Parent = prompt
 
 local cancelPromptButton = Instance.new("ImageButton")
@@ -430,7 +431,7 @@ local insidelabel = {}
 local label = Instance.new("Frame")
 label.Name = "Label"
 label.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
-label.Size = UDim2.fromOffset(225, 38)
+label.Size = UDim2.fromOffset(225, library.YSpacing)
 label.Parent = itemContainer
 
 local labelUICorner = Instance.new("UICorner")
@@ -457,7 +458,7 @@ labelTextLabel.TextXAlignment = Enum.TextXAlignment.Left
 labelTextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 labelTextLabel.BackgroundTransparency = 1
 labelTextLabel.Position = UDim2.fromScale(0.0489, 0)
-labelTextLabel.Size = UDim2.fromOffset(214, 38)
+labelTextLabel.Size = UDim2.fromOffset(214, library.YSpacing)
 labelTextLabel.Parent = label
 
 label.MouseEnter:Connect(function()
@@ -496,7 +497,7 @@ local Toggled = false
 local toggle = Instance.new("Frame")
 toggle.Name = "Toggle"
 toggle.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
-toggle.Size = UDim2.fromOffset(225, 38)
+toggle.Size = UDim2.fromOffset(225, library.YSpacing)
 toggle.Parent = itemContainer
 
 local uICorner = Instance.new("UICorner")
@@ -522,7 +523,7 @@ toggleTextButton.TextSize = 13
 toggleTextButton.AutoButtonColor = false
 toggleTextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 toggleTextButton.BackgroundTransparency = 1
-toggleTextButton.Size = UDim2.fromOffset(225, 38)
+toggleTextButton.Size = UDim2.fromOffset(225, library.YSpacing)
 toggleTextButton.Parent = toggle
 
 local toggleTextLabel = Instance.new("TextLabel")
@@ -535,7 +536,7 @@ toggleTextLabel.TextXAlignment = Enum.TextXAlignment.Left
 toggleTextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 toggleTextLabel.BackgroundTransparency = 1
 toggleTextLabel.Position = UDim2.fromScale(0.0489, 0)
-toggleTextLabel.Size = UDim2.fromOffset(214, 38)
+toggleTextLabel.Size = UDim2.fromOffset(214, library.YSpacing)
 toggleTextLabel.Parent = toggle
 
 local outerFrame = Instance.new("Frame")
@@ -609,7 +610,7 @@ local DropdownSize = 0
 local dropdown = Instance.new("Frame")
 dropdown.Name = "Dropdown"
 dropdown.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
-dropdown.Size = UDim2.fromOffset(225, 38)
+dropdown.Size = UDim2.fromOffset(225, library.YSpacing)
 dropdown.Parent = itemContainer
 
 local dropdownUICorner = Instance.new("UICorner")
@@ -636,7 +637,7 @@ dropdownButton.TextSize = 13
 dropdownButton.AutoButtonColor = false
 dropdownButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 dropdownButton.BackgroundTransparency = 1
-dropdownButton.Size = UDim2.fromOffset(225, 38)
+dropdownButton.Size = UDim2.fromOffset(225, library.YSpacing)
 dropdownButton.Parent = dropdown
 
 local dropdownText = Instance.new("TextLabel")
@@ -649,7 +650,7 @@ dropdownText.TextXAlignment = Enum.TextXAlignment.Left
 dropdownText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 dropdownText.BackgroundTransparency = 1
 dropdownText.Position = UDim2.fromScale(0.0489, 0)
-dropdownText.Size = UDim2.fromOffset(214, 38)
+dropdownText.Size = UDim2.fromOffset(214, library.YSpacing)
 dropdownText.Parent = dropdown
 
 local dropdownContainerButton = Instance.new("ImageLabel")
@@ -829,7 +830,7 @@ local PressKey = Info.Default
 local keybind = Instance.new("Frame")
 keybind.Name = "Keybind"
 keybind.BackgroundColor3 = Color3.fromRGB(36, 36, 36)
-keybind.Size = UDim2.fromOffset(225, 38)
+keybind.Size = UDim2.fromOffset(225, library.YSpacing)
 keybind.Parent = itemContainer
 
 local keybindUICorner = Instance.new("UICorner")
@@ -855,7 +856,7 @@ keybindButton.TextSize = 13
 keybindButton.AutoButtonColor = false
 keybindButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 keybindButton.BackgroundTransparency = 1
-keybindButton.Size = UDim2.fromOffset(225, 38)
+keybindButton.Size = UDim2.fromOffset(225, library.YSpacing)
 keybindButton.Parent = keybind
 
 local keybindTextLabel = Instance.new("TextLabel")
@@ -868,7 +869,7 @@ keybindTextLabel.TextXAlignment = Enum.TextXAlignment.Left
 keybindTextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 keybindTextLabel.BackgroundTransparency = 1
 keybindTextLabel.Position = UDim2.fromScale(0.0489, 0)
-keybindTextLabel.Size = UDim2.fromOffset(214, 38)
+keybindTextLabel.Size = UDim2.fromOffset(214, library.YSpacing)
 keybindTextLabel.Parent = keybind
 
 local keybindFixHolder = Instance.new("Frame")
