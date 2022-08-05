@@ -499,12 +499,11 @@ end
 function insidewindow:Toggle(Info)
 Info.Text = Info.Text or "Toggle"
 Info.Flag = Info.Flag or Info.Text
-Info.Default = Info.Default or false
 Info.Callback = Info.Callback or function() end
 
 local insidetoggle = {}
 
-library.Flags[Info.Flag] = Info.Default
+library.Flags[Info.Flag] = false
 
 local Toggled = false
     
@@ -576,10 +575,6 @@ innerFrame.BackgroundTransparency = 1
 innerFrame.Position = UDim2.fromOffset(3, 2)
 innerFrame.Size = UDim2.fromOffset(13, 13)
 innerFrame.Parent = outerFrame
-
-pcall(Info.Callback, Info.Default)
-innerFrame.Position = Info.Default and UDim2.new(0, 22,0, 2) or UDim2.new(0, 3,0, 2)
-outerFrame.BackgroundColor3 = Info.Default and library.DefaultColor or Color3.fromRGB(62, 62, 62)
 
 toggle.MouseEnter:Connect(function()
     fixLineToggle.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
