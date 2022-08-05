@@ -139,7 +139,7 @@ if not isfolder("Revenant") then
 	})
 	writefile("Revenant/Circle.png", Circle.Body)
 	library:Notification({
-        Text = "Downloaded Toggle Asset.",
+        Text = "Downloaded Toggle Circle Asset.",
         Duration = 3
     })
 	local Collapse = request({
