@@ -580,17 +580,18 @@ ToggleInfo.Bool = ToggleInfo.Bool or false
 Toggled = ToggleInfo.Bool
 library.Flags[Info.Flag] = ToggleInfo.Bool
 
-pcall(Info.Callback, ToggleInfo.Bool)
     TweenService:Create(innerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{Position = ToggleInfo.Bool and UDim2.new(0, 22,0, 2) or UDim2.new(0, 3,0, 2)}):Play()
     TweenService:Create(outerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{BackgroundColor3 = ToggleInfo.Bool and library.DefaultColor or Color3.fromRGB(62, 62, 62)}):Play()
+    pcall(Info.Callback, ToggleInfo.Bool)
 end
 
 toggleTextButton.MouseButton1Click:Connect(function()
     Toggled = not Toggled
     library.Flags[Info.Flag] = Toggled
-    pcall(Info.Callback, Toggled)
+    
     TweenService:Create(innerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{Position = Toggled and UDim2.new(0, 22,0, 2) or UDim2.new(0, 3,0, 2)}):Play()
     TweenService:Create(outerFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),{BackgroundColor3 = Toggled and library.DefaultColor or Color3.fromRGB(62, 62, 62)}):Play()
+    pcall(Info.Callback, Toggled)
 end)
 
 return insidetoggle
