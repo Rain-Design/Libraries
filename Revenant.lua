@@ -260,17 +260,29 @@ itemContainer.Parent = backgroundFrame
 
 itemContainer.ChildAdded:Connect(function(v)
     if v.ClassName ~= "UIListLayout" then
-    backgroundFrame.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset + library.YSpacing)
-    itemContainer.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset + library.YSpacing)
-    BackgroundSize = BackgroundSize + library.YSpacing
+        if v.Name ~= "Slider" then
+            backgroundFrame.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset + library.YSpacing)
+            itemContainer.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset + library.YSpacing)
+            BackgroundSize = BackgroundSize + library.YSpacing
+        else
+            backgroundFrame.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset + 38)
+            itemContainer.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset + 38)
+            BackgroundSize = BackgroundSize + 38
+        end
     end
 end)
 
 itemContainer.ChildRemoved:Connect(function(v)
     if v.ClassName ~= "UIListLayout" then
-    backgroundFrame.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset - library.YSpacing)
-    itemContainer.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset - library.YSpacing)
-    BackgroundSize = BackgroundSize - library.YSpacing
+        if v.Name ~= "Slider" then
+            backgroundFrame.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset - library.YSpacing)
+            itemContainer.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset - library.YSpacing)
+            BackgroundSize = BackgroundSize - library.YSpacing
+        else
+            backgroundFrame.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset - 38)
+            itemContainer.Size = UDim2.new(0,225,0,itemContainer.Size.Y.Offset - 38)
+            BackgroundSize = BackgroundSize - 38
+        end
     end
 end)
 
