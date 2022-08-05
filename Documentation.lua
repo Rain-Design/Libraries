@@ -30,7 +30,6 @@ Window:Button({
 Window:Toggle({
     Text = string
     Flag = string
-    Default = boolean
     Callback = function
 })
 
