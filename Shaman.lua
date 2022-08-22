@@ -861,8 +861,9 @@ dropdown.Name = "Dropdown"
 dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 dropdown.BackgroundTransparency = 1
 dropdown.Position = UDim2.new(0, 0, 0.638, 0)
-dropdown.Size = UDim2.new(0, 162, 0, 27) -- +19
+dropdown.Size = UDim2.new(0, 162, 0, 27)
 dropdown.Parent = sectionFrame
+dropdown.ClipsDescendants = true
 
 local dropdownText = Instance.new("TextLabel")
 dropdownText.Name = "DropdownText"
@@ -962,6 +963,7 @@ dropdownContainerTextButton.MouseButton1Click:Connect(function()
     dropdownText.Text = dropdownbuttonText.Text
     
     TweenService:Create(dropdownIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Rotation = DropdownOpened and 180 or 0}):Play()
+    TweenService:Create(dropdown, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, DropdownYSize) or UDim2.new(0, 162, 0, 27)}):Play()
     TweenService:Create(dropdownContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, DropdownYSize) or UDim2.new(0, 162, 0, 27)}):Play()
     TweenService:Create(dropdownContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {BackgroundTransparency = DropdownOpened and .96 or 1}):Play()
     TweenService:Create(sectionFrame, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset + DropdownYSize - 27) or UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset - DropdownYSize + 27)}):Play()
@@ -973,11 +975,12 @@ Closed:GetPropertyChangedSignal("Value"):Connect(function()
     if not Closed.Value then
     DropdownOpened = false
     
-    TweenService:Create(dropdownIcon, TweenInfo.new(.05, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Rotation = DropdownOpened and 180 or 0}):Play()
-    TweenService:Create(dropdownContainer, TweenInfo.new(.05, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, DropdownYSize) or UDim2.new(0, 162, 0, 27)}):Play()
-    TweenService:Create(dropdownContainer, TweenInfo.new(.05, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {BackgroundTransparency = DropdownOpened and .96 or 1}):Play()
-    TweenService:Create(sectionFrame, TweenInfo.new(.05, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset + DropdownYSize - 27) or UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset - DropdownYSize + 27)}):Play()
-    TweenService:Create(section, TweenInfo.new(.05, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset + DropdownYSize - 27 + 4) or UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset - DropdownYSize + 31)}):Play()
+    TweenService:Create(dropdownIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Rotation = DropdownOpened and 180 or 0}):Play()
+    TweenService:Create(dropdown, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, DropdownYSize) or UDim2.new(0, 162, 0, 27)}):Play()
+    TweenService:Create(dropdownContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, DropdownYSize) or UDim2.new(0, 162, 0, 27)}):Play()
+    TweenService:Create(dropdownContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {BackgroundTransparency = DropdownOpened and .96 or 1}):Play()
+    TweenService:Create(sectionFrame, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset + DropdownYSize - 27) or UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset - DropdownYSize + 27)}):Play()
+    TweenService:Create(section, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset + DropdownYSize - 27 + 4) or UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset - DropdownYSize + 31)}):Play()
     end
 end)
 
@@ -985,6 +988,7 @@ dropdownButton.MouseButton1Click:Connect(function()
     DropdownOpened = not DropdownOpened
     
     TweenService:Create(dropdownIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Rotation = DropdownOpened and 180 or 0}):Play()
+    TweenService:Create(dropdown, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, DropdownYSize) or UDim2.new(0, 162, 0, 27)}):Play()
     TweenService:Create(dropdownContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, DropdownYSize) or UDim2.new(0, 162, 0, 27)}):Play()
     TweenService:Create(dropdownContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {BackgroundTransparency = DropdownOpened and .96 or 1}):Play()
     TweenService:Create(sectionFrame, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset + DropdownYSize - 27) or UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset - DropdownYSize + 27)}):Play()
