@@ -259,6 +259,7 @@ closeButton.Parent = topbar
 
 closeButton.MouseButton1Click:Once(function()
     shamanScreenGui:Destroy()
+    tooltipScreenGui:Destroy()
 end)
 
 closeButton.MouseEnter:Connect(function()
