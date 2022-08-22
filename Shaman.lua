@@ -365,6 +365,14 @@ editButton.MouseButton1Click:Connect(function()
     EditOpened = not EditOpened
     
     uiGradient.Enabled = EditOpened and true or false
+    
+    if not EditOpened then
+        for frame, v in pairs(ColorElements) do
+            if v then
+                frame.BackgroundColor3 = Color3.fromRGB(48, 207, 106)
+            end
+        end
+    end
 end)
 
 local tabContainer = Instance.new("Frame")
