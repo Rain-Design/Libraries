@@ -858,6 +858,8 @@ Info.Tooltip = Info.Tooltip or ""
 
 local DropdownYSize = 27
 
+local insidedropdown = {}
+
 local dropdown = Instance.new("Frame")
 dropdown.Name = "Dropdown"
 dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -928,7 +930,7 @@ dropdownuIPadding.Parent = dropdownContainer
 
 local DropdownOpened = false
 
-for _,v in pairs(Info.List) do
+function insidedropdown:Add(text)
 DropdownYSize = DropdownYSize + 19
 
 local dropdownContainerButton = Instance.new("Frame")
@@ -941,7 +943,7 @@ dropdownContainerButton.Parent = dropdownContainer
 local dropdownbuttonText = Instance.new("TextLabel")
 dropdownbuttonText.Name = "ButtonText"
 dropdownbuttonText.Font = Enum.Font.GothamBold
-dropdownbuttonText.Text = v
+dropdownbuttonText.Text = text
 dropdownbuttonText.TextColor3 = Color3.fromRGB(198, 198, 198)
 dropdownbuttonText.TextSize = 11
 dropdownbuttonText.TextXAlignment = Enum.TextXAlignment.Left
@@ -977,6 +979,37 @@ dropdownContainerTextButton.MouseButton1Click:Connect(function()
 end)
 end
 
+function insidedropdown:Refresh(RefreshInfo)
+RefreshInfo.Text = RefreshInfo.Text or dropdownText.Text
+RefreshInfo.List = RefreshInfo.List or Info.List
+
+for _,v in pairs(dropdownContainer:GetChildren()) do
+    if v.ClassName == "Frame" then
+        DropdownYSize = DropdownYSize - 19
+        if DropdownOpened then
+            sectionFrame.Size = UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset - 19)
+            section.Size = UDim2.new(0, 162, 0, section.Size.Y.Offset - 19)
+        end
+        v:Destroy()
+    end
+end
+
+DropdownOpened = false
+
+for _,v in pairs(RefreshInfo.List) do
+    insidedropdown:Add(v)
+end
+
+TweenService:Create(dropdownIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Rotation = DropdownOpened and 180 or 0}):Play()
+TweenService:Create(dropdown, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, DropdownYSize) or UDim2.new(0, 162, 0, 27)}):Play()
+TweenService:Create(dropdownContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, DropdownYSize) or UDim2.new(0, 162, 0, 27)}):Play()
+TweenService:Create(dropdownContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {BackgroundTransparency = DropdownOpened and .96 or 1}):Play()
+end
+
+for _,v in pairs(Info.List) do
+insidedropdown:Add(v)
+end
+
 Closed:GetPropertyChangedSignal("Value"):Connect(function()
     if not Closed.Value then
     DropdownOpened = false
@@ -1001,6 +1034,7 @@ dropdownButton.MouseButton1Click:Connect(function()
     TweenService:Create(section, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset + DropdownYSize - 27 + 4) or UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset - DropdownYSize + 31)}):Play()
 end)
 
+return insidedropdown
 end
 
 return sectiontable
