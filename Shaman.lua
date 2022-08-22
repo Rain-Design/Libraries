@@ -853,6 +853,7 @@ function sectiontable:Dropdown(Info)
 Info.Text = Info.Text or "Dropdown"
 Info.List = Info.List or {}
 Info.Callback = Info.Callback or function() end
+Info.Tooltip = Info.Tooltip or ""
 
 local DropdownYSize = 27
 
@@ -864,6 +865,10 @@ dropdown.Position = UDim2.new(0, 0, 0.638, 0)
 dropdown.Size = UDim2.new(0, 162, 0, 27)
 dropdown.Parent = sectionFrame
 dropdown.ClipsDescendants = true
+
+if Info.Tooltip ~= "" then
+    AddTooltip(dropdown, Info.Tooltip)
+end
 
 local dropdownText = Instance.new("TextLabel")
 dropdownText.Name = "DropdownText"
