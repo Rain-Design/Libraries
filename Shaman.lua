@@ -246,7 +246,7 @@ minimizeButton.ZIndex = 2
 minimizeButton.Parent = topbar
 
 minimizeButton.MouseEnter:Connect(function()
-    TweenService:Create(minimizeButton, TweenInfo.new(.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = Color3.fromRGB(194, 184, 52)}):Play()
+    TweenService:Create(minimizeButton, TweenInfo.new(.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = Color3.fromRGB(194, 162, 76)}):Play()
 end)
 
 minimizeButton.MouseLeave:Connect(function()
