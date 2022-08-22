@@ -52,6 +52,9 @@ if not isfolder("Shaman") then
     
     local ColorDropper = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/ColorDropper.png", Method = "GET"})
     writefile("Shaman/ColorDropper.png", ColorDropper.Body)
+    
+    local Close = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/Close.png", Method = "GET"})
+    writefile("Shaman/Close.png", Close.Body)
 end
 
 function library:Window(Info)
@@ -242,7 +245,7 @@ textLabel.Parent = topbar
 
 local closeButton = Instance.new("ImageButton")
 closeButton.Name = "CloseButton"
-closeButton.Image = "rbxassetid://10664057093"
+closeButton.Image = getcustomasset("Shaman/Close.png")
 closeButton.ImageColor3 = Color3.fromRGB(237, 237, 237)
 closeButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 closeButton.BackgroundTransparency = 1
