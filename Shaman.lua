@@ -767,10 +767,13 @@ end
 function sectiontable:Toggle(Info)
 Info.Text = Info.Text or "Toggle"
 Info.Flag = Info.Flag or Info.Text
+Info.Default = Info.Default or false
 Info.Callback = Info.Callback or function() end
 Info.Tooltip = Info.Tooltip or ""
 
 library.Flags[Info.Flag] = false
+
+local insidetoggle = {}
 
 local Toggled = false
 
@@ -834,8 +837,8 @@ circleIcon.Position = UDim2.new(0, 1, 0.067, 0)
 circleIcon.Size = UDim2.new(0, 13, 0, 13)
 circleIcon.Parent = toggleFrame
 
-toggleButton.MouseButton1Click:Connect(function()
-    Toggled = not Toggled
+function insidetoggle:Set(bool)
+    Toggled = bool
     library.Flags[Info.Flag] = Toggled
     ColorElements[toggleFrame] = Toggled
     
@@ -846,8 +849,20 @@ toggleButton.MouseButton1Click:Connect(function()
         TweenService:Create(toggleFrame, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {BackgroundColor3 = Color3.fromRGB(48, 207, 106)}):Play()
     end
     pcall(Info.Callback, Toggled)
+end
+
+if Info.Default then
+    task.spawn(function()
+        insidetoggle:Set(true)
+    end)
+end
+
+toggleButton.MouseButton1Click:Connect(function()
+    Toggled = not Toggled
+    insidetoggle:Set(Toggled)
 end)
 
+return insidetoggle
 end
 
 function sectiontable:Dropdown(Info)
