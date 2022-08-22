@@ -245,6 +245,14 @@ minimizeButton.Size = UDim2.new(0, 17, 0, 17)
 minimizeButton.ZIndex = 2
 minimizeButton.Parent = topbar
 
+minimizeButton.MouseEnter:Connect(function()
+    TweenService:Create(minimizeButton, TweenInfo.new(.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = Color3.fromRGB(194, 184, 52)}):Play()
+end)
+
+minimizeButton.MouseLeave:Connect(function()
+    TweenService:Create(minimizeButton, TweenInfo.new(.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = Color3.fromRGB(217, 217, 217)}):Play()
+end)
+
 local Opened = true
 
 minimizeButton.MouseButton1Click:Connect(function()
