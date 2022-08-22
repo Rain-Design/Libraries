@@ -369,7 +369,7 @@ editButton.MouseButton1Click:Connect(function()
     if not EditOpened then
         for frame, v in pairs(ColorElements) do
             if v then
-                frame.BackgroundColor3 = Color3.fromRGB(48, 207, 106)
+                TweenService:Create(frame, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {BackgroundColor3 = Color3.fromRGB(48, 207, 106)}):Play()
             end
         end
     end
