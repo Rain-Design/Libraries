@@ -4,10 +4,36 @@ local UserInputService = game:GetService("UserInputService")
 
 if CoreGui:FindFirstChild("Shaman") then
     CoreGui.Shaman:Destroy()
-     CoreGui.Tooltips:Destroy()
+    CoreGui.Tooltips:Destroy()
+end
+
+local function CheckTable(table)
+    local i = 0
+    for _,v in pairs(table) do
+        i = i + 1
+    end
+    return i
 end
 
 local TabSelected = nil
+local EditOpened = false
+local ColorElements = {}
+
+task.spawn(function()
+while true do
+if EditOpened and CheckTable(ColorElements) > 0 then
+local hue = tick() % 7 / 7
+local color = Color3.fromHSV(hue, 1, 1)
+
+for frame, v in pairs(ColorElements) do
+    if v then
+        frame.BackgroundColor3 = color
+    end
+end
+end
+wait()
+end
+end)
 
 local library = {
     Flags = {}
@@ -23,6 +49,9 @@ if not isfolder("Shaman") then
     
     local Circle = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/Circle.png", Method = "GET"})
     writefile("Shaman/Circle.png", Circle.Body)
+    
+    local ColorDropper = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/ColorDropper.png", Method = "GET"})
+    writefile("Shaman/ColorDropper.png", ColorDropper.Body)
 end
 
 function library:Window(Info)
@@ -276,6 +305,66 @@ minimizeButton.MouseButton1Click:Connect(function()
     end)
     
     TweenService:Create(main, TweenInfo.new(.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = Opened and UDim2.new(0, 450,0, 321) or UDim2.new(0, 450,0, 30)}):Play()
+end)
+
+local editButton = Instance.new("ImageButton")
+editButton.Name = "EditButton"
+editButton.Image = getcustomasset("Shaman/ColorDropper.png")
+editButton.ImageColor3 = Color3.fromRGB(237, 237, 237)
+editButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+editButton.BackgroundTransparency = 1
+editButton.Position = UDim2.new(0.841, 0, 0.226, 0)
+editButton.Size = UDim2.new(0, 15, 0, 15)
+editButton.ZIndex = 2
+editButton.Parent = topbar
+
+local uiGradient = Instance.new("UIGradient")
+uiGradient.Name = "UIGradient"
+uiGradient.Enabled = false
+uiGradient.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0,Color3.fromRGB(255,0,0)),
+    ColorSequenceKeypoint.new(0.2,Color3.fromRGB(255,255,0)),
+    ColorSequenceKeypoint.new(0.4,Color3.fromRGB(0,255,0)),
+    ColorSequenceKeypoint.new(0.6,Color3.fromRGB(0,255,255)),
+    ColorSequenceKeypoint.new(0.8,Color3.fromRGB(0,0,255)),
+    ColorSequenceKeypoint.new(1,Color3.fromRGB(255,0,255)),
+}
+uiGradient.Parent = editButton
+
+task.spawn(function()
+    while wait() do -- skidded from devforum
+    if uiGradient.Enabled then
+	local loop = tick() % 2 / 2
+	colors = {}
+	for i = 1, 7 + 1, 1 do
+		z = Color3.fromHSV(loop - ((i - 1)/7), 1, 1)
+		if loop - ((i - 1) / 7) < 0 then
+			z = Color3.fromHSV((loop - ((i - 1) / 7)) + 1, 1, 1)
+		end
+		local d = ColorSequenceKeypoint.new((i - 1) / 7, z)
+		table.insert(colors, #colors + 1, d)
+	end
+	uiGradient.Color = ColorSequence.new(colors)
+end
+end
+end)
+
+editButton.MouseEnter:Connect(function()
+    if not EditOpened then
+        uiGradient.Enabled = true
+    end
+end)
+
+editButton.MouseLeave:Connect(function()
+    if not EditOpened then
+        uiGradient.Enabled = false
+    end
+end)
+
+editButton.MouseButton1Click:Connect(function()
+    EditOpened = not EditOpened
+    
+    uiGradient.Enabled = EditOpened and true or false
 end)
 
 local tabContainer = Instance.new("Frame")
@@ -711,6 +800,8 @@ toggleFrame.Position = UDim2.new(0.783, 0, 0.222, 0)
 toggleFrame.Size = UDim2.new(0, 30, 0, 15)
 toggleFrame.Parent = toggle
 
+ColorElements[toggleFrame] = false
+
 local toggleUICorner = Instance.new("UICorner")
 toggleUICorner.Name = "ToggleUICorner"
 toggleUICorner.CornerRadius = UDim.new(0, 100)
@@ -729,9 +820,14 @@ circleIcon.Parent = toggleFrame
 toggleButton.MouseButton1Click:Connect(function()
     Toggled = not Toggled
     library.Flags[Info.Flag] = Toggled
-
+    ColorElements[toggleFrame] = Toggled
+    
     TweenService:Create(circleIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Position = Toggled and UDim2.new(0, 16,0.067, 0) or UDim2.new(0, 1,0.067, 0)}):Play()
-    TweenService:Create(toggleFrame, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {BackgroundColor3 = Toggled and Color3.fromRGB(48, 207, 106) or Color3.fromRGB(68, 68, 68)}):Play()
+    if not Toggled then
+        TweenService:Create(toggleFrame, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {BackgroundColor3 = Color3.fromRGB(68, 68, 68)}):Play()
+    elseif Toggled and not EditOpened then
+        TweenService:Create(toggleFrame, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {BackgroundColor3 = Color3.fromRGB(48, 207, 106)}):Play()
+    end
     pcall(Info.Callback, Toggled)
 end)
 
