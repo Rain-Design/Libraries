@@ -261,7 +261,7 @@ minimizeButton.MouseButton1Click:Connect(function()
     topbar.Frame.Visible = Opened
     task.spawn(function()
     if Opened then
-        wait(.1)
+        wait(.15)
     end
     for _,v in pairs(main:GetChildren()) do
         if v.Name == "TabContainer" then
