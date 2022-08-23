@@ -29,7 +29,11 @@ local color = Color3.fromHSV(hue, 1, 1)
 
 for frame, v in pairs(ColorElements) do
     if v.Enabled then
+        if frame.ClassName == "Frame" then
         frame.BackgroundColor3 = color
+        else
+        frame.ImageColor3 = color
+        end
     end
 end
 end
@@ -60,6 +64,15 @@ if not isfolder("Shaman") then
     
     local CollapseArrow = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/CollapseArrow.png", Method = "GET"})
     writefile("Shaman/CollapseArrow.png", CollapseArrow.Body)
+    
+    local RadioButton = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/RadioButton.png", Method = "GET"})
+    writefile("Shaman/RadioButton.png", RadioButton.Body)
+    
+    local RadioOuter = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/RadioOuter.png", Method = "GET"})
+    writefile("Shaman/RadioOuter.png", RadioOuter.Body)
+    
+    local RadioInner = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/RadioInner.png", Method = "GET"})
+    writefile("Shaman/RadioInner.png", RadioInner.Body)
 end
 
 function library:GetXY(GuiObject)
@@ -384,7 +397,11 @@ editButton.MouseButton1Click:Connect(function()
     if not EditOpened then
         for frame, v in pairs(ColorElements) do
             if v.Enabled then
+                if frame.ClassName == "Frame" then
                 TweenService:Create(frame, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {BackgroundColor3 = Color3.fromRGB(48, 207, 106)}):Play()
+                else
+                TweenService:Create(frame, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = Color3.fromRGB(48, 207, 106)}):Play()
+                end
             end
         end
     else
@@ -1013,8 +1030,13 @@ Info.Text = Info.Text or "Dropdown"
 Info.List = Info.List or {}
 Info.Callback = Info.Callback or function() end
 Info.Tooltip = Info.Tooltip or ""
+Info.Default = Info.Default or nil
 
 local DropdownYSize = 27
+
+if Info.Default ~= nil then
+    pcall(Info.Callback, Info.Default)
+end
 
 local insidedropdown = {}
 
@@ -1047,7 +1069,7 @@ dropdownText.Parent = dropdown
 local dropdownIcon = Instance.new("ImageLabel")
 dropdownIcon.Name = "DropdownIcon"
 dropdownIcon.Image = getcustomasset("Shaman/CollapseArrow.png")
-dropdownIcon.ImageColor3 = Color3.fromRGB(217, 217, 217)
+dropdownIcon.ImageColor3 = Color3.fromRGB(191, 191, 191)
 dropdownIcon.AnchorPoint = Vector2.new(1, 0)
 dropdownIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 dropdownIcon.BackgroundTransparency = 1
@@ -1103,7 +1125,7 @@ local dropdownbuttonText = Instance.new("TextLabel")
 dropdownbuttonText.Name = "ButtonText"
 dropdownbuttonText.Font = Enum.Font.GothamBold
 dropdownbuttonText.Text = text
-dropdownbuttonText.TextColor3 = Color3.fromRGB(198, 198, 198)
+dropdownbuttonText.TextColor3 = Color3.fromRGB(191, 191, 191)
 dropdownbuttonText.TextSize = 11
 dropdownbuttonText.TextXAlignment = Enum.TextXAlignment.Left
 dropdownbuttonText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -1124,11 +1146,11 @@ dropdownContainerTextButton.Size = UDim2.new(0, 162, 0, 27)
 dropdownContainerTextButton.Parent = dropdownContainerButton
 
 dropdownContainerTextButton.MouseEnter:Connect(function()
-    TweenService:Create(dropdownbuttonText, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {TextColor3 = Color3.fromRGB(217, 217, 217)}):Play()
+    TweenService:Create(dropdownbuttonText, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {TextColor3 = Color3.fromRGB(255, 255, 255)}):Play()
 end)
 
 dropdownContainerTextButton.MouseLeave:Connect(function()
-    TweenService:Create(dropdownbuttonText, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {TextColor3 = Color3.fromRGB(198, 198, 198)}):Play()
+    TweenService:Create(dropdownbuttonText, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {TextColor3 = Color3.fromRGB(191, 191, 191)}):Play()
 end)
 
 dropdownContainerTextButton.MouseButton1Click:Connect(function()
@@ -1138,6 +1160,7 @@ dropdownContainerTextButton.MouseButton1Click:Connect(function()
     dropdownText.Text = dropdownbuttonText.Text
     
     TweenService:Create(dropdownIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Rotation = DropdownOpened and -180 or -90}):Play()
+    TweenService:Create(dropdownIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = DropdownOpened and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(191, 191, 191)}):Play()
     TweenService:Create(dropdown, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, DropdownYSize) or UDim2.new(0, 162, 0, 27)}):Play()
     TweenService:Create(dropdownContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, DropdownYSize) or UDim2.new(0, 162, 0, 27)}):Play()
     TweenService:Create(dropdownContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {BackgroundTransparency = DropdownOpened and .96 or 1}):Play()
@@ -1168,6 +1191,7 @@ for _,v in pairs(RefreshInfo.List) do
 end
 
 TweenService:Create(dropdownIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Rotation = DropdownOpened and -180 or -90}):Play()
+TweenService:Create(dropdownIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = DropdownOpened and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(191, 191, 191)}):Play()
 TweenService:Create(dropdown, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, DropdownYSize) or UDim2.new(0, 162, 0, 27)}):Play()
 TweenService:Create(dropdownContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, DropdownYSize) or UDim2.new(0, 162, 0, 27)}):Play()
 TweenService:Create(dropdownContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {BackgroundTransparency = DropdownOpened and .96 or 1}):Play()
@@ -1182,6 +1206,7 @@ Closed:GetPropertyChangedSignal("Value"):Connect(function()
     DropdownOpened = false
     
     TweenService:Create(dropdownIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Rotation = DropdownOpened and -180 or -90}):Play()
+    TweenService:Create(dropdownIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = DropdownOpened and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(191, 191, 191)}):Play()
     TweenService:Create(dropdown, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, DropdownYSize) or UDim2.new(0, 162, 0, 27)}):Play()
     TweenService:Create(dropdownContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, DropdownYSize) or UDim2.new(0, 162, 0, 27)}):Play()
     TweenService:Create(dropdownContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {BackgroundTransparency = DropdownOpened and .96 or 1}):Play()
@@ -1194,6 +1219,7 @@ dropdownButton.MouseButton1Click:Connect(function()
     DropdownOpened = not DropdownOpened
     
     TweenService:Create(dropdownIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Rotation = DropdownOpened and -180 or -90}):Play()
+    TweenService:Create(dropdownIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = DropdownOpened and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(191, 191, 191)}):Play()
     TweenService:Create(dropdown, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, DropdownYSize) or UDim2.new(0, 162, 0, 27)}):Play()
     TweenService:Create(dropdownContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = DropdownOpened and UDim2.new(0, 162, 0, DropdownYSize) or UDim2.new(0, 162, 0, 27)}):Play()
     TweenService:Create(dropdownContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {BackgroundTransparency = DropdownOpened and .96 or 1}):Play()
@@ -1202,6 +1228,248 @@ dropdownButton.MouseButton1Click:Connect(function()
 end)
 
 return insidedropdown
+end
+
+function sectiontable:RadioButton(Info)
+Info.Text = Info.Text or "Radio Button"
+Info.Options = Info.Options or {}
+Info.Callback = Info.Callback or function() end
+Info.Tooltip = Info.Tooltip or ""
+Info.Default = Info.Default or nil
+
+local RadioOpened = false
+
+RadioYSize = 27
+
+if Info.Default ~= nil then
+    pcall(Info.Callback, Info.Default)
+end
+
+local insideradio = {}
+
+local radioButton = Instance.new("Frame")
+radioButton.Name = "RadioButton"
+radioButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+radioButton.BackgroundTransparency = 1
+radioButton.Size = UDim2.new(0, 162, 0, 27)
+radioButton.Parent = sectionFrame
+
+if Info.Tooltip ~= "" then
+    AddTooltip(radioButton, Info.Tooltip)
+end
+
+local button = Instance.new("Frame")
+button.Name = "Button"
+button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+button.BackgroundTransparency = 1
+button.Size = UDim2.new(0, 162, 0, 27)
+button.Parent = radioButton
+
+local radioButtonTextButton = Instance.new("TextButton")
+radioButtonTextButton.Name = "RadioButtonTextButton"
+radioButtonTextButton.Font = Enum.Font.SourceSans
+radioButtonTextButton.Text = ""
+radioButtonTextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+radioButtonTextButton.TextSize = 14
+radioButtonTextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+radioButtonTextButton.BackgroundTransparency = 1
+radioButtonTextButton.Size = UDim2.new(0, 162, 0, 27)
+radioButtonTextButton.Parent = button
+
+local radioButtonText = Instance.new("TextLabel")
+radioButtonText.Name = "RadioButtonText"
+radioButtonText.Font = Enum.Font.GothamBold
+radioButtonText.Text = Info.Text
+radioButtonText.TextColor3 = Color3.fromRGB(217, 217, 217)
+radioButtonText.TextSize = 11
+radioButtonText.TextXAlignment = Enum.TextXAlignment.Left
+radioButtonText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+radioButtonText.BackgroundTransparency = 1
+radioButtonText.Position = UDim2.new(0.0488, 0, 0, 0)
+radioButtonText.Size = UDim2.new(0, 156, 0, 27)
+radioButtonText.Parent = button
+
+local radioButtonIcon = Instance.new("ImageLabel")
+radioButtonIcon.Name = "RadioButtonIcon"
+radioButtonIcon.Image = getcustomasset("Shaman/CollapseArrow.png")
+radioButtonIcon.AnchorPoint = Vector2.new(1, 0)
+radioButtonIcon.ImageColor3 = Color3.fromRGB(191, 191, 191)
+radioButtonIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+radioButtonIcon.BackgroundTransparency = 1
+radioButtonIcon.Rotation = -90
+radioButtonIcon.BorderSizePixel = 0
+radioButtonIcon.Position = UDim2.new(0, 155, 0, 7)
+radioButtonIcon.Size = UDim2.new(0, 13, 0, 13)
+radioButtonIcon.Parent = button
+
+local radioButtonIcon2 = Instance.new("ImageLabel")
+radioButtonIcon2.Name = "RadioButtonIcon2"
+radioButtonIcon2.Image = getcustomasset("Shaman/RadioButton.png")
+radioButtonIcon2.AnchorPoint = Vector2.new(1, 0)
+radioButtonIcon2.ImageColor3 = Color3.fromRGB(191, 191, 191)
+radioButtonIcon2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+radioButtonIcon2.BackgroundTransparency = 1
+radioButtonIcon2.BorderSizePixel = 0
+radioButtonIcon2.Position = UDim2.new(0, 138, 0, 7)
+radioButtonIcon2.Size = UDim2.new(0, 13, 0, 13)
+radioButtonIcon2.Parent = button
+
+local radioContainer = Instance.new("Frame")
+radioContainer.Name = "RadioContainer"
+radioContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+radioContainer.BackgroundTransparency = 1
+radioContainer.Size = UDim2.new(0, 162, 0, 27)
+radioContainer.Parent = radioButton
+radioContainer.ClipsDescendants = true
+
+local radioUILayout = Instance.new("UIListLayout")
+radioUILayout.Name = "RadioUILayout"
+radioUILayout.SortOrder = Enum.SortOrder.LayoutOrder
+radioUILayout.Parent = radioContainer
+
+local radiouIPadding = Instance.new("UIPadding")
+radiouIPadding.Name = "UIPadding"
+radiouIPadding.PaddingTop = UDim.new(0, 27)
+radiouIPadding.Parent = radioContainer
+
+local RadioSelected = nil
+
+function insideradio:Button(text)
+RadioYSize = RadioYSize + 27
+
+local radio = Instance.new("Frame")
+radio.Name = "Radio"
+radio.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+radio.BackgroundTransparency = 1
+radio.Size = UDim2.new(0, 162, 0, 27)
+radio.Parent = radioContainer
+
+local radioTextButton = Instance.new("TextButton")
+radioTextButton.Name = "RadioTextButton"
+radioTextButton.Font = Enum.Font.SourceSans
+radioTextButton.Text = ""
+radioTextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+radioTextButton.TextSize = 14
+radioTextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+radioTextButton.BackgroundTransparency = 1
+radioTextButton.Size = UDim2.new(0, 162, 0, 27)
+radioTextButton.Parent = radio
+
+local radioOuter = Instance.new("ImageLabel")
+radioOuter.Name = "RadioOuter"
+radioOuter.Image = getcustomasset("Shaman/RadioOuter.png")
+radioOuter.ImageColor3 = Color3.fromRGB(191, 191, 191)
+radioOuter.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+radioOuter.BackgroundTransparency = 1
+radioOuter.BorderSizePixel = 0
+radioOuter.Position = UDim2.new(0.865, 0, 0.185, 0)
+radioOuter.Size = UDim2.new(0, 17, 0, 17)
+radioOuter.Parent = radio
+
+local radioInner = Instance.new("ImageLabel")
+radioInner.Name = "RadioInner"
+radioInner.Image = getcustomasset("Shaman/RadioInner.png")
+radioInner.AnchorPoint = Vector2.new(0.5, 0.5)
+radioInner.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+radioInner.BackgroundTransparency = 1
+radioInner.BorderSizePixel = 0
+radioInner.Position = UDim2.new(0.5, 0, 0.5, 0)
+radioInner.Size = UDim2.new(0, 7, 0, 7)
+radioInner.Parent = radioOuter
+
+ColorElements[radioInner] = {Type = "Toggle", Enabled = false}
+ColorElements[radioOuter] = {Type = "Toggle", Enabled = false}
+
+local radioText = Instance.new("TextLabel")
+radioText.Name = "RadioText"
+radioText.Font = Enum.Font.GothamBold
+radioText.Text = text
+radioText.TextColor3 = Color3.fromRGB(191, 191, 191)
+radioText.TextSize = 11
+radioText.TextXAlignment = Enum.TextXAlignment.Left
+radioText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+radioText.BackgroundTransparency = 1
+radioText.Position = UDim2.new(0.0488, 0, 0, 0)
+radioText.Size = UDim2.new(0, 156, 0, 27)
+radioText.Parent = radio
+
+radio.MouseEnter:Connect(function()
+    if RadioOpened and RadioSelected ~= radio or RadioSelected == nil then
+    TweenService:Create(radioText, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {TextColor3 = Color3.fromRGB(255, 255, 255)}):Play()
+    TweenService:Create(radioInner, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = Color3.fromRGB(255, 255, 255)}):Play()
+    TweenService:Create(radioOuter, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = Color3.fromRGB(255, 255, 255)}):Play()
+    end
+end)
+
+radio.MouseLeave:Connect(function()
+    if RadioOpened and RadioSelected ~= radio or RadioSelected == nil then
+    TweenService:Create(radioText, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {TextColor3 = Color3.fromRGB(191, 191, 191)}):Play()
+    TweenService:Create(radioInner, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = Color3.fromRGB(191, 191, 191)}):Play()
+    TweenService:Create(radioOuter, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = Color3.fromRGB(191, 191, 191)}):Play()
+    end
+end)
+
+radioTextButton.MouseButton1Click:Connect(function()
+    pcall(Info.Callback, radioText.Text)
+    
+    ColorElements[radioInner].Enabled = true
+    ColorElements[radioOuter].Enabled = true
+    
+    RadioSelected = radio
+    
+    for _,v in pairs(radioContainer:GetChildren()) do
+        if v.ClassName == "Frame" and v ~= radio then
+            ColorElements[v.RadioOuter].Enabled = false
+            ColorElements[v.RadioOuter.RadioInner].Enabled = false
+            TweenService:Create(v.RadioOuter, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = Color3.fromRGB(191, 191, 191)}):Play()
+            TweenService:Create(v.RadioOuter.RadioInner, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = Color3.fromRGB(191, 191, 191)}):Play()
+            TweenService:Create(v.RadioText, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {TextColor3 = Color3.fromRGB(191, 191, 191)}):Play()
+        end
+    end
+    
+    TweenService:Create(radioText, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {TextColor3 = Color3.fromRGB(255, 255, 255)}):Play()
+    
+    if not EditOpened then
+        TweenService:Create(radioInner, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = RadioOpened and Color3.fromRGB(48, 207, 106) or Color3.fromRGB(191, 191, 191)}):Play()
+        TweenService:Create(radioOuter, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = RadioOpened and Color3.fromRGB(48, 207, 106) or Color3.fromRGB(191, 191, 191)}):Play()
+    end
+end)
+
+end
+
+radioButtonTextButton.MouseButton1Click:Connect(function()
+    RadioOpened = not RadioOpened
+    
+    TweenService:Create(radioButtonIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = RadioOpened and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(191, 191, 191)}):Play()
+    TweenService:Create(radioButtonIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Rotation = RadioOpened and -180 or -90}):Play()
+    TweenService:Create(radioButtonIcon2, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = RadioOpened and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(191, 191, 191)}):Play()
+    TweenService:Create(radioButton, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = RadioOpened and UDim2.new(0, 162, 0, RadioYSize) or UDim2.new(0, 162, 0, 27)}):Play()
+    TweenService:Create(radioContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = RadioOpened and UDim2.new(0, 162, 0, RadioYSize) or UDim2.new(0, 162, 0, 27)}):Play()
+    TweenService:Create(radioContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {BackgroundTransparency = RadioOpened and .96 or 1}):Play()
+    TweenService:Create(sectionFrame, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = RadioOpened and UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset + RadioYSize - 27) or UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset - RadioYSize + 27)}):Play()
+    TweenService:Create(section, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = RadioOpened and UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset + RadioYSize - 27 + 4) or UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset - RadioYSize + 31)}):Play()
+end)
+
+for _,v in pairs(Info.Options) do
+    insideradio:Button(v)
+end
+
+Closed:GetPropertyChangedSignal("Value"):Connect(function()
+    if not Closed.Value then
+    RadioOpened = false
+    
+    TweenService:Create(radioButtonIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = RadioOpened and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(191, 191, 191)}):Play()
+    TweenService:Create(radioButtonIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Rotation = RadioOpened and -180 or -90}):Play()
+    TweenService:Create(radioButtonIcon2, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {ImageColor3 = RadioOpened and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(191, 191, 191)}):Play()
+    TweenService:Create(radioButton, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = RadioOpened and UDim2.new(0, 162, 0, RadioYSize) or UDim2.new(0, 162, 0, 27)}):Play()
+    TweenService:Create(radioContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = RadioOpened and UDim2.new(0, 162, 0, RadioYSize) or UDim2.new(0, 162, 0, 27)}):Play()
+    TweenService:Create(radioContainer, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {BackgroundTransparency = RadioOpened and .96 or 1}):Play()
+    TweenService:Create(sectionFrame, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = RadioOpened and UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset + RadioYSize - 27) or UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset - RadioYSize + 27)}):Play()
+    TweenService:Create(section, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Size = RadioOpened and UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset + RadioYSize - 27 + 4) or UDim2.new(0, 162, 0, sectionFrame.Size.Y.Offset - RadioYSize + 31)}):Play()
+    end
+end)
+
+return insideradio
 end
 
 return sectiontable
