@@ -718,6 +718,7 @@ end)
 function sectiontable:Label(Info)
 Info.Text = Info.Text or "Label"
 Info.Color = Info.Color or Color3.fromRGB(217, 217, 217)
+Info.Tooltip = Info.Tooltip or ""
 
 local insidelabel = {}
 
@@ -727,6 +728,10 @@ label.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 label.BackgroundTransparency = 1
 label.Size = UDim2.new(0, 162, 0, 27)
 label.Parent = sectionFrame
+
+if Info.Tooltip ~= "" then
+    AddTooltip(label, Info.Tooltip)
+end
 
 local labelText = Instance.new("TextLabel")
 labelText.Name = "LabelText"
