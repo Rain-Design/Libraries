@@ -110,6 +110,14 @@ local dropdown = Section:Dropdown({
     end
 })
 
+Section:RadioButton({
+    Text = "Mode",
+    Options = {"Legit","Blatant"},
+    Callback = function(v)
+        warn(v)
+    end
+})
+
 Section:Toggle({
     Text = "Silent Aimbot"
 })
