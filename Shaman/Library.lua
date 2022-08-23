@@ -886,8 +886,8 @@ end
 function sectiontable:Slider(Info)
 Info.Text = Info.Text or "Slider"
 Info.Default = Info.Default or 50
-Info.Minimum = Info.Min or 1
-Info.Maximum = Info.Max or 100
+Info.Minimum = Info.Minimum or 1
+Info.Maximum = Info.Maximum or 100
 Info.Postfix = Info.Postfix or ""
 Info.Callback = Info.Callback or function() end
 Info.Tooltip = Info.Tooltip or ""
