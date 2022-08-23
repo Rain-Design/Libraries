@@ -51,28 +51,107 @@ local isfolder = isfolder or syn_isfolder or is_folder
 local makefolder = makefolder or make_folder or createfolder or create_folder
 
 if not isfolder("Shaman") then
-    makefolder("Shaman")
+local download = Instance.new("ScreenGui")
+download.Name = "Download"
+download.Enabled = true
+download.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+download.Parent = CoreGui
+
+local dMain = Instance.new("Frame")
+dMain.Name = "DMain"
+dMain.AnchorPoint = Vector2.new(0.5, 0.5)
+dMain.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+dMain.Position = UDim2.new(0.5, 0, 0.486, 0)
+dMain.Size = UDim2.new(0, 285, 0, 77)
+dMain.Parent = download
+
+local dUICorner = Instance.new("UICorner")
+dUICorner.Name = "DUICorner"
+dUICorner.CornerRadius = UDim.new(0, 5)
+dUICorner.Parent = dMain
+
+local dUIStroke = Instance.new("UIStroke")
+dUIStroke.Name = "DUIStroke"
+dUIStroke.Color = Color3.fromRGB(45, 45, 45)
+dUIStroke.Parent = dMain
+
+local dTopbar = Instance.new("Frame")
+dTopbar.Name = "DTopbar"
+dTopbar.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+dTopbar.Size = UDim2.new(0, 285, 0, 31)
+dTopbar.Parent = dMain
+
+local dUICorner1 = Instance.new("UICorner")
+dUICorner1.Name = "DUICorner"
+dUICorner1.CornerRadius = UDim.new(0, 5)
+dUICorner1.Parent = dTopbar
+
+local dFix = Instance.new("Frame")
+dFix.Name = "DFix"
+dFix.AnchorPoint = Vector2.new(0.5, 1)
+dFix.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+dFix.BorderSizePixel = 0
+dFix.Position = UDim2.new(0.5, 0, 1.02, 0)
+dFix.Size = UDim2.new(0, 284, 0, 1)
+dFix.ZIndex = 2
+dFix.Parent = dTopbar
+
+local dTitleText = Instance.new("TextLabel")
+dTitleText.Name = "DTitleText"
+dTitleText.Font = Enum.Font.GothamBold
+dTitleText.Text = "Downloading Assets"
+dTitleText.TextColor3 = Color3.fromRGB(255, 255, 255)
+dTitleText.TextSize = 12
+dTitleText.BackgroundColor3 = Color3.fromRGB(237, 237, 237)
+dTitleText.BackgroundTransparency = 1
+dTitleText.Position = UDim2.new(0.00132, 0, 0, 0)
+dTitleText.Size = UDim2.new(0, 284, 0, 30)
+dTitleText.ZIndex = 2
+dTitleText.Parent = dTopbar
+
+local dText = Instance.new("TextLabel")
+dText.Name = "DText"
+dText.Font = Enum.Font.GothamBold
+dText.Text = "Loading..."
+dText.TextColor3 = Color3.fromRGB(237, 237, 237)
+dText.TextSize = 11
+dText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+dText.BackgroundTransparency = 1
+dText.Position = UDim2.new(0.00132, 0, 0.39, 0)
+dText.Size = UDim2.new(0, 284, 0, 46)
+dText.Parent = dMain
     
-    local Circle = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/Circle.png", Method = "GET"})
-    writefile("Shaman/Circle.png", Circle.Body)
+makefolder("Shaman")
     
-    local ColorDropper = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/ColorDropper.png", Method = "GET"})
-    writefile("Shaman/ColorDropper.png", ColorDropper.Body)
+local Circle = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/Circle.png", Method = "GET"})
+writefile("Shaman/Circle.png", Circle.Body)
+dText.Text = "Downloaded: Circle.png"
     
-    local Close = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/Close.png", Method = "GET"})
-    writefile("Shaman/Close.png", Close.Body)
+local ColorDropper = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/ColorDropper.png", Method = "GET"})
+writefile("Shaman/ColorDropper.png", ColorDropper.Body)
+dText.Text = "Downloaded: ColorDropper.png"
     
-    local CollapseArrow = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/CollapseArrow.png", Method = "GET"})
-    writefile("Shaman/CollapseArrow.png", CollapseArrow.Body)
+local Close = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/Close.png", Method = "GET"})
+writefile("Shaman/Close.png", Close.Body)
+dText.Text = "Downloaded: Close.png"
+
+local CollapseArrow = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/CollapseArrow.png", Method = "GET"})
+writefile("Shaman/CollapseArrow.png", CollapseArrow.Body)
+dText.Text = "Downloaded: CollapseArrow.png"
     
-    local RadioButton = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/RadioButton.png", Method = "GET"})
-    writefile("Shaman/RadioButton.png", RadioButton.Body)
+local RadioButton = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/RadioButton.png", Method = "GET"})
+writefile("Shaman/RadioButton.png", RadioButton.Body)
+dText.Text = "Downloaded: RadioButton.png"
     
-    local RadioOuter = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/RadioOuter.png", Method = "GET"})
-    writefile("Shaman/RadioOuter.png", RadioOuter.Body)
+local RadioOuter = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/RadioOuter.png", Method = "GET"})
+writefile("Shaman/RadioOuter.png", RadioOuter.Body)
+dText.Text = "Downloaded: RadioOuter.png"
     
-    local RadioInner = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/RadioInner.png", Method = "GET"})
-    writefile("Shaman/RadioInner.png", RadioInner.Body)
+local RadioInner = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/RadioInner.png", Method = "GET"})
+writefile("Shaman/RadioInner.png", RadioInner.Body)
+dText.Text = "Downloaded: RadioInner.png"
+
+download:Destroy()
 end
 
 function library:GetXY(GuiObject)
