@@ -4,6 +4,8 @@ local UserInputService = game:GetService("UserInputService")
 
 local Mouse = game.Players.LocalPlayer:GetMouse()
 
+local Blacklist = {Enum.KeyCode.Unknown, Enum.KeyCode.CapsLock, Enum.KeyCode.Escape, Enum.KeyCode.Tab, Enum.KeyCode.Return, Enum.KeyCode.Backspace, Enum.KeyCode.Space, Enum.KeyCode.W, Enum.KeyCode.A, Enum.KeyCode.S, Enum.KeyCode.D}
+
 if CoreGui:FindFirstChild("Shaman") then
     CoreGui.Shaman:Destroy()
     CoreGui.Tooltips:Destroy()
@@ -130,7 +132,7 @@ dText.Text = "Downloaded: Circle.png"
 local ColorDropper = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/ColorDropper.png", Method = "GET"})
 writefile("Shaman/ColorDropper.png", ColorDropper.Body)
 dText.Text = "Downloaded: ColorDropper.png"
-    
+
 local Close = request({Url = "https://raw.githubusercontent.com/Rain-Design/Icons/main/Close.png", Method = "GET"})
 writefile("Shaman/Close.png", Close.Body)
 dText.Text = "Downloaded: Close.png"
@@ -836,6 +838,117 @@ end
 return insidelabel
 end
 
+function sectiontable:Keybind(Info)
+Info.Text = Info.Text or "Keybind"
+Info.Default = Info.Default or Enum.KeyCode.F4
+Info.Callback = Info.Callback or function() end
+Info.Tooltip = Info.Tooltip or ""
+
+local PressKey = Info.Default
+
+local keybind = Instance.new("Frame")
+keybind.Name = "Keybind"
+keybind.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+keybind.BackgroundTransparency = 1
+keybind.Size = UDim2.new(0, 162, 0, 27)
+keybind.Parent = sectionFrame
+
+if Info.Tooltip ~= "" then
+    AddTooltip(keybind, Info.Tooltip)
+end
+
+local keybindText = Instance.new("TextLabel")
+keybindText.Name = "KeybindText"
+keybindText.Font = Enum.Font.GothamBold
+keybindText.Text = Info.Text
+keybindText.TextColor3 = Color3.fromRGB(217, 217, 217)
+keybindText.TextSize = 11
+keybindText.TextXAlignment = Enum.TextXAlignment.Left
+keybindText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+keybindText.BackgroundTransparency = 1
+keybindText.Position = UDim2.new(0.0488, 0, 0, 0)
+keybindText.Size = UDim2.new(0, 156, 0, 27)
+keybindText.Parent = keybind
+
+local keybindFrame = Instance.new("Frame")
+keybindFrame.Name = "KeybindFrame"
+keybindFrame.BackgroundColor3 = Color3.fromRGB(68, 68, 68)
+keybindFrame.AnchorPoint = Vector2.new(1, 0)
+keybindFrame.BorderSizePixel = 0
+keybindFrame.Position = UDim2.new(0, 158, 0.222, 0)
+keybindFrame.Size = UDim2.new(0, 30, 0, 15)
+keybindFrame.Parent = keybind
+
+local keybindUICorner = Instance.new("UICorner")
+keybindUICorner.Name = "KeybindUICorner"
+keybindUICorner.CornerRadius = UDim.new(0, 3)
+keybindUICorner.Parent = keybindFrame
+
+local keybindFrameText = Instance.new("TextLabel")
+keybindFrameText.Name = "KeybindFrameText"
+keybindFrameText.Font = Enum.Font.GothamBold
+keybindFrameText.Text = PressKey.Name
+keybindFrameText.TextColor3 = Color3.fromRGB(217, 217, 217)
+keybindFrameText.TextSize = 11
+keybindFrameText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+keybindFrameText.BackgroundTransparency = 1
+keybindFrameText.Size = UDim2.new(1, 0, 0, 15)
+keybindFrameText.Parent = keybindFrame
+
+local keybindButton = Instance.new("TextButton")
+keybindButton.Name = "KeybindButton"
+keybindButton.Font = Enum.Font.SourceSans
+keybindButton.Text = ""
+keybindButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+keybindButton.TextSize = 14
+keybindButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+keybindButton.BackgroundTransparency = 1
+keybindButton.Size = UDim2.new(1, 0, 0, 15)
+keybindButton.Parent = keybindFrame
+
+local keybindUIStroke = Instance.new("UIStroke")
+keybindUIStroke.Name = "KeybindUIStroke"
+keybindUIStroke.Color = Color3.fromRGB(84, 84, 84)
+keybindUIStroke.Parent = keybindFrame
+
+local TextBounds = keybindFrameText.TextBounds
+
+keybindFrame.Size = UDim2.new(0, TextBounds.X + 10, 0, 15)
+
+keybindFrameText:GetPropertyChangedSignal("Text"):Connect(function()
+    TextBounds = keybindFrameText.TextBounds
+    
+    keybindFrame.Size = UDim2.new(0, TextBounds.X + 10, 0, 15)
+end)
+
+local KeybindConnection
+local Changing = false
+
+keybindButton.MouseButton1Click:Connect(function()
+    if KeybindConnection then KeybindConnection:Disconnect() end
+    Changing = true
+    keybindFrameText.Text = "..."
+    KeybindConnection = UserInputService.InputBegan:Connect(function(Key, gameProcessed)
+        if not table.find(Blacklist, Key.KeyCode) and not gameProcessed then
+            KeybindConnection:Disconnect()
+            keybindFrameText.Text = Key.KeyCode.Name
+            PressKey = Key.KeyCode
+            wait(.1)
+            Changing = false
+        end
+    end)
+end)
+
+UserInputService.InputBegan:Connect(function(Key, gameProcessed)
+    if not Changing and Key.KeyCode == PressKey and not gameProcessed then
+        task.spawn(function()
+            pcall(Info.Callback)
+        end)
+    end
+end)
+
+end
+
 function sectiontable:Button(Info)
 Info.Text = Info.Text or "Button"
 Info.Callback = Info.Callback or function() end
@@ -879,7 +992,9 @@ textButton.Size = UDim2.new(0, 162, 0, 27)
 textButton.Parent = button
 
 textButton.MouseButton1Click:Connect(function()
-    pcall(Info.Callback)
+    task.spawn(function()
+        pcall(Info.Callback)
+    end)
 end)
 end
 
@@ -887,6 +1002,7 @@ function sectiontable:Input(Info)
 Info.Placeholder = Info.Placeholder or "Input"
 Info.Flag = Info.Flag or nil
 Info.Callback = Info.Callback or function() end
+Info.Tooltip = Info.Tooltip or ""
 
 local input = Instance.new("Frame")
 input.Name = "Input"
@@ -894,6 +1010,10 @@ input.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 input.BackgroundTransparency = 1
 input.Size = UDim2.new(0, 162, 0, 27)
 input.Parent = sectionFrame
+
+if Info.Tooltip ~= "" then
+    AddTooltip(input, Info.Tooltip)
+end
 
 local inputFrame = Instance.new("Frame")
 inputFrame.Name = "InputFrame"
@@ -1174,7 +1294,9 @@ sliderButton.MouseButton1Down:Connect(function() -- Skidded from material ui heh
 		    library.Flags[Info.Flag] = Value
 		end
 		sliderValueText.Text = tostring(Value)..Info.Postfix
-		pcall(Info.Callback, Value)
+		task.spawn(function()
+		    pcall(Info.Callback, Value)
+		end)
 	end)
 	MouseKill = UserInputService.InputEnded:Connect(function(UserInput)
 		if UserInput.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -1196,7 +1318,9 @@ Info.Default = Info.Default or nil
 local DropdownYSize = 27
 
 if Info.Default ~= nil then
-    pcall(Info.Callback, Info.Default)
+    task.spawn(function()
+        pcall(Info.Callback, Info.Default)
+    end)
     if Info.Flag ~= nil then
         library.Flags[Info.Flag] = Info.Default
 	end
@@ -1320,7 +1444,9 @@ end)
 dropdownContainerTextButton.MouseButton1Click:Connect(function()
     DropdownOpened = false
     
-    pcall(Info.Callback, dropdownbuttonText.Text)
+    task.spawn(function()
+        pcall(Info.Callback, dropdownbuttonText.Text)
+    end)
     if Info.Flag ~= nil then
         library.Flags[Info.Flag] = dropdownbuttonText.Text
 	end
@@ -1410,7 +1536,9 @@ local RadioOpened = false
 RadioYSize = 27
 
 if Info.Default ~= nil then
-    pcall(Info.Callback, Info.Default)
+    task.spawn(function()
+        pcall(Info.Callback, Info.Default)
+    end)
     if Info.Flag ~= nil then
         library.Flags[Info.Flag] = Info.Default
 	end
@@ -1581,7 +1709,9 @@ radio.MouseLeave:Connect(function()
 end)
 
 radioTextButton.MouseButton1Click:Connect(function()
-    pcall(Info.Callback, radioText.Text)
+    task.spawn(function()
+        pcall(Info.Callback, radioText.Text)
+    end)
     if Info.Flag ~= nil then
         library.Flags[Info.Flag] = radioText.Text
 	end
