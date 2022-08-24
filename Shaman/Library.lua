@@ -883,14 +883,81 @@ textButton.MouseButton1Click:Connect(function()
 end)
 end
 
+function sectiontable:Input(Info)
+Info.Placeholder = Info.Placeholder or "Input"
+Info.Flag = Info.Flag or nil
+Info.Callback = Info.Callback or function() end
+
+local input = Instance.new("Frame")
+input.Name = "Input"
+input.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+input.BackgroundTransparency = 1
+input.Size = UDim2.new(0, 162, 0, 27)
+input.Parent = sectionFrame
+
+local inputFrame = Instance.new("Frame")
+inputFrame.Name = "InputFrame"
+inputFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+inputFrame.BackgroundTransparency = 1
+inputFrame.Size = UDim2.new(0, 162, 0, 27)
+inputFrame.Parent = input
+
+local inputOuter = Instance.new("Frame")
+inputOuter.Name = "InputOuter"
+inputOuter.AnchorPoint = Vector2.new(0.5, 0.5)
+inputOuter.BackgroundColor3 = Color3.fromRGB(68, 68, 68)
+inputOuter.BorderSizePixel = 0
+inputOuter.ClipsDescendants = true
+inputOuter.Position = UDim2.new(0.5, 0, 0.5, 0)
+inputOuter.Size = UDim2.new(0, 154, 0, 21)
+inputOuter.Parent = inputFrame
+
+local inputUICorner = Instance.new("UICorner")
+inputUICorner.Name = "InputUICorner"
+inputUICorner.CornerRadius = UDim.new(0, 3)
+inputUICorner.Parent = inputOuter
+
+local inputUIStroke = Instance.new("UIStroke")
+inputUIStroke.Name = "InputUIStroke"
+inputUIStroke.Color = Color3.fromRGB(84, 84, 84)
+inputUIStroke.Parent = inputOuter
+
+local inputTextBox = Instance.new("TextBox")
+inputTextBox.Name = "InputTextBox"
+inputTextBox.CursorPosition = -1
+inputTextBox.Font = Enum.Font.GothamBold
+inputTextBox.PlaceholderColor3 = Color3.fromRGB(217, 217, 217)
+inputTextBox.PlaceholderText = Info.Placeholder
+inputTextBox.Text = ""
+inputTextBox.TextColor3 = Color3.fromRGB(237, 237, 237)
+inputTextBox.TextSize = 11
+inputTextBox.TextXAlignment = Enum.TextXAlignment.Left
+inputTextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+inputTextBox.BackgroundTransparency = 1
+inputTextBox.Position = UDim2.new(0.0253, 0, 0, 0)
+inputTextBox.Size = UDim2.new(0, 150, 0, 21)
+inputTextBox.Parent = inputOuter
+
+inputTextBox.FocusLost:Connect(function()
+    task.spawn(function()
+        pcall(Info.Callback, inputTextBox.Text)
+        if Info.Flag ~= nil then
+		    library.Flags[Info.Flag] = inputTextBox.Text
+		end
+    end)
+end)
+end
+
 function sectiontable:Toggle(Info)
 Info.Text = Info.Text or "Toggle"
-Info.Flag = Info.Flag or Info.Text
+Info.Flag = Info.Flag or nil
 Info.Default = Info.Default or false
 Info.Callback = Info.Callback or function() end
 Info.Tooltip = Info.Tooltip or ""
 
-library.Flags[Info.Flag] = false
+if Info.Flag ~= nil then
+    library.Flags[Info.Flag] = false
+end
 
 local insidetoggle = {}
 
@@ -958,7 +1025,9 @@ circleIcon.Parent = toggleFrame
 
 function insidetoggle:Set(bool)
     Toggled = bool
-    library.Flags[Info.Flag] = Toggled
+    if Info.Flag ~= nil then
+        library.Flags[Info.Flag] = Toggled
+    end
     ColorElements[toggleFrame].Enabled = Toggled
     
     TweenService:Create(circleIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Position = Toggled and UDim2.new(0, 16,0.067, 0) or UDim2.new(0, 1,0.067, 0)}):Play()
@@ -988,6 +1057,7 @@ function sectiontable:Slider(Info)
 Info.Text = Info.Text or "Slider"
 Info.Default = Info.Default or 50
 Info.Minimum = Info.Minimum or 1
+Info.Flag = Info.Flag or nil
 Info.Maximum = Info.Maximum or 100
 Info.Postfix = Info.Postfix or ""
 Info.Callback = Info.Callback or function() end
@@ -1081,6 +1151,9 @@ sliderButton.Parent = slider
 
 task.spawn(function()
     pcall(Info.Callback, Info.Default)
+    if Info.Flag ~= nil then
+        library.Flags[Info.Flag] = Info.Default
+    end
 end)
 
 local MinSize = 0
@@ -1097,6 +1170,9 @@ sliderButton.MouseButton1Down:Connect(function() -- Skidded from material ui heh
 		local Value = math.floor(Info.Minimum + ((Info.Maximum - Info.Minimum) * Px))
 		SizeFromScale = SizeFromScale - (SizeFromScale % 2)
 		TweenService:Create(innerSlider, TweenInfo.new(0.1), {Size = UDim2.new(Px,0,0,4)}):Play()
+		if Info.Flag ~= nil then
+		    library.Flags[Info.Flag] = Value
+		end
 		sliderValueText.Text = tostring(Value)..Info.Postfix
 		pcall(Info.Callback, Value)
 	end)
@@ -1112,6 +1188,7 @@ end
 function sectiontable:Dropdown(Info)
 Info.Text = Info.Text or "Dropdown"
 Info.List = Info.List or {}
+Info.Flag = Info.Flag or nil
 Info.Callback = Info.Callback or function() end
 Info.Tooltip = Info.Tooltip or ""
 Info.Default = Info.Default or nil
@@ -1120,6 +1197,9 @@ local DropdownYSize = 27
 
 if Info.Default ~= nil then
     pcall(Info.Callback, Info.Default)
+    if Info.Flag ~= nil then
+        library.Flags[Info.Flag] = Info.Default
+	end
 end
 
 local insidedropdown = {}
@@ -1241,6 +1321,9 @@ dropdownContainerTextButton.MouseButton1Click:Connect(function()
     DropdownOpened = false
     
     pcall(Info.Callback, dropdownbuttonText.Text)
+    if Info.Flag ~= nil then
+        library.Flags[Info.Flag] = dropdownbuttonText.Text
+	end
     dropdownText.Text = dropdownbuttonText.Text
     
     TweenService:Create(dropdownIcon, TweenInfo.new(.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {Rotation = DropdownOpened and -180 or -90}):Play()
@@ -1317,6 +1400,7 @@ end
 function sectiontable:RadioButton(Info)
 Info.Text = Info.Text or "Radio Button"
 Info.Options = Info.Options or {}
+Info.Flag = Info.Flag or nil
 Info.Callback = Info.Callback or function() end
 Info.Tooltip = Info.Tooltip or ""
 Info.Default = Info.Default or nil
@@ -1327,6 +1411,9 @@ RadioYSize = 27
 
 if Info.Default ~= nil then
     pcall(Info.Callback, Info.Default)
+    if Info.Flag ~= nil then
+        library.Flags[Info.Flag] = Info.Default
+	end
 end
 
 local insideradio = {}
@@ -1495,6 +1582,9 @@ end)
 
 radioTextButton.MouseButton1Click:Connect(function()
     pcall(Info.Callback, radioText.Text)
+    if Info.Flag ~= nil then
+        library.Flags[Info.Flag] = radioText.Text
+	end
     
     ColorElements[radioInner].Enabled = true
     ColorElements[radioOuter].Enabled = true
