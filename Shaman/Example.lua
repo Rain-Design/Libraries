@@ -2,7 +2,7 @@ local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Rain-
 local Flags = Library.Flags
 
 local Window = Library:Window({
-    Text = "Whatever you want?"
+    Text = "Baseplate"
 })
 
 local Tab = Window:Tab({
@@ -31,11 +31,7 @@ local Section3 = Tab:Section({
 })
 
 ChamsSection:Toggle({
-    Text = "Enabled",
-    Flag = "Enabled",
-    Callback = function(bool)
-        warn(bool)
-    end
+    Text = "Enabled"
 })
 
 ChamsSection:Toggle({
@@ -85,41 +81,39 @@ Section3:Toggle({
 })
 
 Section3:Toggle({
-    Text = "No Spread",
-    Flag = "NoSpread"
+    Text = "No Spread"
 })
 
 Section3:Toggle({
     Text = "No Bullet Drop",
-    Default = true,
-    Flag = "BulletDrop"
+    Default = true
 })
 
 Section3:Toggle({
-    Text = "Full Auto",
-    Flag = "FullAuto"
+    Text = "Full Auto"
 })
 
 local a = Section3:Toggle({
-    Text = "No Recoil",
-    Flag = "NoRecoil"
+    Text = "No Recoil"
 })
 
 local label = Section3:Label({
     Text = "This is a label.",
-    Color = Color3.fromRGB(217, 97, 99)
+    Color = Color3.fromRGB(217, 97, 99),
+    Tooltip = "This is a label."
 })
 
 local dropdown = Section:Dropdown({
-    Text = "Body Part",
+    Text = "Dropdown",
     List = {"Head","Torso","Random"},
+    Flag = "Choosen",
     Callback = function(v)
         warn(v)
     end
 })
 
 Section:RadioButton({
-    Text = "Radio",
+    Text = "RadioButton",
     Options = {"Legit","Blatant"},
     Callback = function(v)
         warn(v)
@@ -130,11 +124,25 @@ Section:Toggle({
     Text = "Silent Aimbot"
 })
 
+Section:Input({
+    Placeholder = "Webhook URL",
+    Flag = "URL"
+})
+
+Section:Keybind({
+    Default = Enum.KeyCode.E,
+    Text = "Aimbot Key",
+    Callback = function()
+        warn("Pressed")
+    end
+})
+
 Section:Slider({
     Text = "Slider Test",
     Default = 5,
     Minimum = 0,
     Maximum = 50,
+    Flag = "SliderFlag",
     Callback = function(v)
         warn(v)
     end
