@@ -2,7 +2,7 @@ local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Rain-
 local Flags = Library.Flags
 
 local Window = Library:Window({
-    Text = "Baseplate"
+    Text = "Whatever you want?"
 })
 
 local Tab = Window:Tab({
@@ -31,7 +31,11 @@ local Section3 = Tab:Section({
 })
 
 ChamsSection:Toggle({
-    Text = "Enabled"
+    Text = "Enabled",
+    Flag = "Enabled",
+    Callback = function(bool)
+        warn(bool)
+    end
 })
 
 ChamsSection:Toggle({
@@ -81,20 +85,24 @@ Section3:Toggle({
 })
 
 Section3:Toggle({
-    Text = "No Spread"
+    Text = "No Spread",
+    Flag = "NoSpread"
 })
 
 Section3:Toggle({
     Text = "No Bullet Drop",
-    Default = true
+    Default = true,
+    Flag = "BulletDrop"
 })
 
 Section3:Toggle({
-    Text = "Full Auto"
+    Text = "Full Auto",
+    Flag = "FullAuto"
 })
 
 local a = Section3:Toggle({
-    Text = "No Recoil"
+    Text = "No Recoil",
+    Flag = "NoRecoil"
 })
 
 local label = Section3:Label({
@@ -111,7 +119,7 @@ local dropdown = Section:Dropdown({
 })
 
 Section:RadioButton({
-    Text = "Mode",
+    Text = "Radio",
     Options = {"Legit","Blatant"},
     Callback = function(v)
         warn(v)
