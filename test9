@@ -1,0 +1,348 @@
+local library = {
+    Flags = {},
+    Signals = {},
+    SelectedTab = nil,
+    Tabs = {}
+}
+library.flags = library.Flags
+library.signals = library.Signals
+
+if getgenv().YouGui then
+    error("YouGui has already been executed.")
+end
+
+getgenv().YouGui = true
+
+local SignalLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Rain-Design/Libraries/main/Signal%20Library", true))()
+
+local HttpService = game:GetService("HttpService")
+local CoreGui = game:GetService("CoreGui")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+
+local function DestroySignals()
+    for _,v in next, library.Signals do
+        v:Destroy()
+    end
+end
+
+function library:Window(Info)
+Info.Text = Info.Text or "YouGui"
+
+local window = {}
+
+local youGui = Instance.new("ScreenGui")
+youGui.Name = "YouGui"
+youGui.Parent = CoreGui
+
+local main = Instance.new("Frame")
+main.Name = "Main"
+main.BackgroundColor3 = Color3.fromRGB(30, 33, 40)
+main.BorderColor3 = Color3.fromRGB(27, 42, 53)
+main.ClipsDescendants = true
+main.Position = UDim2.new(0.361, 0, 0.291, 0)
+main.Size = UDim2.new(0, 377, 0, 350)
+main.Parent = youGui
+
+local topbar = Instance.new("Frame")
+topbar.Name = "Topbar"
+topbar.BackgroundColor3 = Color3.fromRGB(39, 43, 53)
+topbar.BorderSizePixel = 0
+topbar.Size = UDim2.new(0, 377, 0, 30)
+topbar.ZIndex = 2
+topbar.Parent = main
+
+local dragging
+local dragInput
+local dragStart
+local startPos
+
+local function update(input)
+    local delta = input.Position - dragStart
+    main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+topbar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = main.Position
+        		
+        input.Changed:Connect(function()
+        	if input.UserInputState == Enum.UserInputState.End then
+        		dragging = false
+        	end
+        end)
+    end
+end)
+
+topbar.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        update(input)
+    end
+end)
+
+local topbarFix = Instance.new("Frame")
+topbarFix.Name = "TopbarFix"
+topbarFix.BackgroundColor3 = Color3.fromRGB(39, 43, 53)
+topbarFix.BorderSizePixel = 0
+topbarFix.Position = UDim2.new(0, 0, 0.8, 0)
+topbarFix.Size = UDim2.new(0, 376, 0, 6)
+topbarFix.ZIndex = 2
+topbarFix.Parent = topbar
+
+local libraryName = Instance.new("TextLabel")
+libraryName.Name = "LibraryName"
+libraryName.Font = Enum.Font.GothamBold
+libraryName.Text = "Baseplate"
+libraryName.TextColor3 = Color3.fromRGB(255, 255, 255)
+libraryName.TextSize = 12
+libraryName.TextTransparency = 0.1
+libraryName.TextXAlignment = Enum.TextXAlignment.Left
+libraryName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+libraryName.BackgroundTransparency = 1
+libraryName.Position = UDim2.new(0.0204, 0, 0, 0)
+libraryName.Size = UDim2.new(0, 319, 0, 32)
+libraryName.ZIndex = 2
+libraryName.Parent = topbar
+
+local uICorner = Instance.new("UICorner")
+uICorner.Name = "UICorner"
+uICorner.CornerRadius = UDim.new(0, 4)
+uICorner.Parent = topbar
+
+local closeButton = Instance.new("ImageLabel")
+closeButton.Name = "CloseButton"
+closeButton.Image = "rbxassetid://10738425363"
+closeButton.ImageTransparency = 0.1
+closeButton.AnchorPoint = Vector2.new(1, 0)
+closeButton.Active = true
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.BackgroundTransparency = 1
+closeButton.Position = UDim2.new(0.989, 0, 0.2, 0)
+closeButton.Size = UDim2.new(0, 17, 0, 17)
+closeButton.ZIndex = 2
+closeButton.Parent = topbar
+
+closeButton.MouseEnter:Connect(function()
+    TweenService:Create(closeButton, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(255, 96, 99)}):Play()
+end)
+
+closeButton.MouseLeave:Connect(function()
+    TweenService:Create(closeButton, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageColor3 = Color3.fromRGB(255, 255, 255)}):Play()
+end)
+
+closeButton.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        youGui:Destroy()
+        getgenv().YouGui = false
+        DestroySignals()
+    end
+end)
+
+local tabHolder = Instance.new("Frame")
+tabHolder.Name = "TabHolder"
+tabHolder.BackgroundColor3 = Color3.fromRGB(42, 45, 57)
+tabHolder.BorderSizePixel = 0
+tabHolder.Position = UDim2.new(0.015, 0, 0.086, 0)
+tabHolder.Size = UDim2.new(0, 365, 0, 23)
+tabHolder.Parent = main
+
+local tabHolderContainer = Instance.new("ScrollingFrame")
+tabHolderContainer.Name = "TabHolderContainer"
+tabHolderContainer.AutomaticCanvasSize = Enum.AutomaticSize.X
+tabHolderContainer.CanvasSize = UDim2.new()
+tabHolderContainer.ScrollBarImageTransparency = 1
+tabHolderContainer.ScrollBarThickness = 0
+tabHolderContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+tabHolderContainer.BackgroundTransparency = 1
+tabHolderContainer.Selectable = false
+tabHolderContainer.Size = UDim2.new(0, 365, 0, 23)
+tabHolderContainer.Parent = tabHolder
+
+local uIListLayout = Instance.new("UIListLayout")
+uIListLayout.Name = "UIListLayout"
+uIListLayout.FillDirection = Enum.FillDirection.Horizontal
+uIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+uIListLayout.Parent = tabHolderContainer
+
+local containerOuter = Instance.new("Frame")
+containerOuter.Name = "ContainerOuter"
+containerOuter.BackgroundColor3 = Color3.fromRGB(32, 35, 43)
+containerOuter.BorderSizePixel = 0
+containerOuter.ClipsDescendants = true
+containerOuter.Position = UDim2.new(0.015, -1, 0.169, 0)
+containerOuter.Size = UDim2.new(0, 367, 0, 286)
+containerOuter.Parent = main
+
+local uICorner3 = Instance.new("UICorner")
+uICorner3.Name = "UICorner"
+uICorner3.CornerRadius = UDim.new(0, 2)
+uICorner3.Parent = containerOuter
+
+local uIStroke3 = Instance.new("UIStroke")
+uIStroke3.Name = "UIStroke"
+uIStroke3.Color = Color3.fromRGB(40, 44, 54)
+uIStroke3.Parent = containerOuter
+
+function window:Tab(Info)
+Info.Text = Info.Text or "Tab"
+
+local tabtable = {}
+
+local tab = Instance.new("Frame")
+tab.Name = "Tab"
+tab.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+tab.BackgroundTransparency = 1
+tab.BorderSizePixel = 0
+tab.Size = UDim2.new(0, 73, 0, 19)
+tab.Parent = tabHolderContainer
+
+local TabIndex =  #library.Tabs + 1
+
+library.Tabs[TabIndex] = TabIndex
+
+local tabFrame = Instance.new("Frame")
+tabFrame.Name = "TabFrame"
+tabFrame.BackgroundColor3 = Color3.fromRGB(55, 61, 76)
+tabFrame.Position = UDim2.new(0, 2, 0, 0)
+tabFrame.Size = UDim2.new(0, 69, 0, 19)
+tabFrame.Active = true
+tabFrame.ZIndex = 2
+tabFrame.Parent = tab
+
+tabFrame.MouseEnter:Connect(function()
+    TweenService:Create(tabFrame, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(66, 73, 91)}):Play()
+end)
+
+tabFrame.MouseLeave:Connect(function()
+    TweenService:Create(tabFrame, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(55, 61, 76)}):Play()
+end)
+
+local uICorner1 = Instance.new("UICorner")
+uICorner1.Name = "UICorner"
+uICorner1.CornerRadius = UDim.new(0, 2)
+uICorner1.Parent = tabFrame
+
+local tabText = Instance.new("TextLabel")
+tabText.Name = "TabText"
+tabText.Font = Enum.Font.GothamBold
+tabText.Text = Info.Text
+tabText.TextColor3 = Color3.fromRGB(255, 255, 255)
+tabText.TextSize = 11
+tabText.TextStrokeColor3 = Color3.fromRGB(93, 103, 125)
+tabText.TextTransparency = 0.17
+tabText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+tabText.BackgroundTransparency = 1
+tabText.Size = UDim2.new(0, 69, 0, 19)
+tabText.ZIndex = 2
+tabText.Parent = tabFrame
+
+local uIStroke = Instance.new("UIStroke")
+uIStroke.Name = "UIStroke"
+uIStroke.Color = Color3.fromRGB(255, 255, 255)
+uIStroke.Transparency = 0.15
+uIStroke.Parent = tabFrame
+
+local uIGradient = Instance.new("UIGradient")
+uIGradient.Name = "UIGradient"
+uIGradient.Color = ColorSequence.new({
+  ColorSequenceKeypoint.new(0, Color3.fromRGB(108, 118, 147)),
+  ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 96, 99)),
+})
+uIGradient.Rotation = 45
+uIGradient.Parent = uIStroke
+
+local leftContainer = Instance.new("ScrollingFrame")
+leftContainer.Name = "LeftContainer"
+leftContainer.ScrollBarThickness = 0
+leftContainer.BackgroundColor3 = Color3.fromRGB(35, 39, 48)
+leftContainer.BorderSizePixel = 0
+leftContainer.Selectable = false
+leftContainer.Size = UDim2.new(0, 184, 0, 286)
+leftContainer.Parent = containerOuter
+
+local uIListLayout1 = Instance.new("UIListLayout")
+uIListLayout1.Name = "UIListLayout"
+uIListLayout1.SortOrder = Enum.SortOrder.LayoutOrder
+uIListLayout1.Parent = leftContainer
+
+local rightContainer = Instance.new("ScrollingFrame")
+rightContainer.Name = "RightContainer"
+rightContainer.ScrollBarThickness = 0
+rightContainer.AnchorPoint = Vector2.new(1, 0)
+rightContainer.BackgroundColor3 = Color3.fromRGB(35, 39, 48)
+rightContainer.BorderSizePixel = 0
+rightContainer.Position = UDim2.new(1, 0, 0, 0)
+rightContainer.Selectable = false
+rightContainer.Size = UDim2.new(0, 183, 0, 286)
+rightContainer.Parent = containerOuter
+
+local uIListLayout2 = Instance.new("UIListLayout")
+uIListLayout2.Name = "UIListLayout"
+uIListLayout2.SortOrder = Enum.SortOrder.LayoutOrder
+uIListLayout2.Parent = rightContainer
+
+function tabtable:Select()
+    task.spawn(function()
+    for _,v in next, containerOuter:GetChildren() do
+        if v.ClassName == "ScrollingFrameFrame" then
+            v.Visible = false
+        end
+    end
+    end)
+    task.spawn(function()
+        for _,v in next, tabHolderContainer:GetChildren() do
+            if v.ClassName == "Frame" then
+                v.TabFrame.BackgroundColor3 = Color3.fromRGB(55, 61, 76)
+            end
+        end
+    end)
+    TweenService:Create(tabFrame, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(75, 84, 104)}):Play()
+    leftContainer.Visible = true
+    rightContainer.Visible = true
+end
+
+tabFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        tabtable:Select()
+    end
+end)
+
+return tabtable
+end
+
+local uIPadding = Instance.new("UIPadding")
+uIPadding.Name = "UIPadding"
+uIPadding.PaddingTop = UDim.new(0, 2)
+uIPadding.Parent = tabHolderContainer
+
+local uIStroke1 = Instance.new("UIStroke")
+uIStroke1.Name = "UIStroke"
+uIStroke1.Color = Color3.fromRGB(39, 44, 56)
+uIStroke1.Parent = tabHolder
+
+local tabuICorner = Instance.new("UICorner")
+tabuICorner.Name = "UICorner"
+tabuICorner.CornerRadius = UDim.new(0, 2)
+
+local uICorner2 = Instance.new("UICorner")
+uICorner2.Name = "UICorner"
+uICorner2.CornerRadius = UDim.new(0, 3)
+uICorner2.Parent = main
+
+local uIStroke2 = Instance.new("UIStroke")
+uIStroke2.Name = "UIStroke"
+uIStroke2.Color = Color3.fromRGB(55, 60, 76)
+uIStroke2.Parent = main
+
+return window
+end
+
+return library
