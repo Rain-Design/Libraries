@@ -81,7 +81,8 @@ local HttpService = game:GetService("HttpService")
 local CoreGui = game:GetService("CoreGui")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
-local TestService = game:GetService("TestService")
+
+local Blacklist = {Enum.KeyCode.Unknown, Enum.KeyCode.CapsLock, Enum.KeyCode.Escape, Enum.KeyCode.Tab, Enum.KeyCode.Return, Enum.KeyCode.Backspace, Enum.KeyCode.Space, Enum.KeyCode.W, Enum.KeyCode.A, Enum.KeyCode.S, Enum.KeyCode.D}
 
 local function Disconnect()
     for _,v in next, library.Signals do
@@ -95,20 +96,14 @@ local isfolder = isfolder or syn_isfolder or is_folder
 local makefolder = makefolder or make_folder or createfolder or create_folder
 
 if not isfolder("Unnamed") then
-    makefolder("Unnamed")
-end
-
-if isfile("Unnamed/Shadow.png") then
+makefolder("Unnamed")
+    
 local Shadow = request({Url = "https://raw.githubusercontent.com/Rain-Design/Unnamed/main/Icons/UnnamedShadow.png", Method = "GET"})
 writefile("Unnamed/Shadow.png", Shadow.Body)
-end
 
-if isfile("Unnamed/Chevron.png") then
 local Chevron = request({Url = "https://raw.githubusercontent.com/Rain-Design/Unnamed/main/Icons/Chevron.png", Method = "GET"})
 writefile("Unnamed/Chevron.png", Chevron.Body)
-end
 
-if isfile("Unnamed/Circle.png") then
 local Circle = request({Url = "https://raw.githubusercontent.com/Rain-Design/Unnamed/main/Icons/Circle.png", Method = "GET"})
 writefile("Unnamed/Circle.png", Circle.Body)
 end
@@ -612,6 +607,125 @@ local sectionUIStroke = Instance.new("UIStroke")
 sectionUIStroke.Name = "SectionUIStroke"
 sectionUIStroke.Color = Theme.SectionUIStroke
 sectionUIStroke.Parent = sectionFrame
+
+function sectiontable:Keybind(Info)
+Info.Text = Info.Text or "Keybind"
+Info.Default = Info.Default or Enum.KeyCode.Alt
+Info.Callback = Info.Callback or function() end
+
+local PressKey = Info.Default
+
+local keybind = Instance.new("Frame")
+keybind.Name = "Keybind"
+keybind.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+keybind.BackgroundTransparency = 1
+keybind.Size = UDim2.new(0, 175, 0, 28)
+
+local keybindFrame = Instance.new("Frame")
+keybindFrame.Name = "KeybindFrame"
+keybindFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+keybindFrame.BackgroundColor3 = Theme.ItemFrame
+keybindFrame.BorderSizePixel = 0
+keybindFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+keybindFrame.Size = UDim2.new(0, 171, 0, 24)
+keybindFrame.Parent = keybind
+
+local keybindText = Instance.new("TextLabel")
+keybindText.Name = "KeybindText"
+keybindText.Font = Enum.Font.GothamBold
+keybindText.Text = Info.Text
+keybindText.TextColor3 = Theme.ItemText
+keybindText.TextSize = 12
+keybindText.TextXAlignment = Enum.TextXAlignment.Left
+keybindText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+keybindText.BackgroundTransparency = 1
+keybindText.Position = UDim2.new(0.0234, 0, 0, 0)
+keybindText.Size = UDim2.new(0, 167, 0, 24)
+keybindText.Parent = keybindFrame
+
+local keybindTextButton = Instance.new("TextButton")
+keybindTextButton.Name = "keybindTextButton"
+keybindTextButton.Font = Enum.Font.SourceSans
+keybindTextButton.Text = ""
+keybindTextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+keybindTextButton.TextSize = 14
+keybindTextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+keybindTextButton.BackgroundTransparency = 1
+keybindTextButton.Size = UDim2.new(0, 171, 0, 24)
+keybindTextButton.Parent = keybindFrame
+
+local keybindUIStroke = Instance.new("UIStroke")
+keybindUIStroke.Name = "keybindUIStroke"
+keybindUIStroke.Color = Theme.ItemUIStroke
+keybindUIStroke.Parent = keybindFrame
+
+local keybindOuter = Instance.new("Frame")
+keybindOuter.Name = "KeybindOuter"
+keybindOuter.AnchorPoint = Vector2.new(1, 0)
+keybindOuter.BackgroundColor3 = Theme.ToggleOuter
+keybindOuter.Position = UDim2.new(0.152, 139, 0.125, 2)
+keybindOuter.Size = UDim2.new(0, 30, 0, 14)
+keybindOuter.Parent = keybindFrame
+
+local keybindOuterUIStroke = Instance.new("UIStroke")
+keybindOuterUIStroke.Name = "keybindOuterUIStroke"
+keybindOuterUIStroke.Color = Theme.ToggleOuterUIStroke
+keybindOuterUIStroke.Parent = keybindOuter
+
+local keybindUICorner = Instance.new("UICorner")
+keybindUICorner.Name = "keybindUICorner"
+keybindUICorner.CornerRadius = UDim.new(0, 1)
+keybindUICorner.Parent = keybindOuter
+
+local keybindOuterText = Instance.new("TextLabel")
+keybindOuterText.Name = "KeybindOuterText"
+keybindOuterText.Font = Enum.Font.GothamBold
+keybindOuterText.Text = PressKey.Name
+keybindOuterText.TextColor3 = Color3.fromRGB(232, 232, 232)
+keybindOuterText.TextSize = 12
+keybindOuterText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+keybindOuterText.BackgroundTransparency = 1
+keybindOuterText.Size = UDim2.new(1, 0, 0, 14)
+keybindOuterText.Parent = keybindOuter
+
+local TextBounds = keybindOuterText.TextBounds
+
+keybindOuter.Size = UDim2.new(0, TextBounds.X + 10, 0, 14)
+
+keybindOuterText:GetPropertyChangedSignal("Text"):Connect(function()
+    TextBounds = keybindOuterText.TextBounds
+    
+    keybindOuter.Size = UDim2.new(0, TextBounds.X + 10, 0, 14)
+end)
+
+local KeybindConnection
+local Changing = false
+
+keybindTextButton.MouseButton1Click:Connect(function()
+    if KeybindConnection then KeybindConnection:Disconnect() end
+    Changing = true
+    keybindOuterText.Text = "..."
+    keybindOuterUIStroke.Color = Theme.ToggleOuterUIStrokeEnabled
+    KeybindConnection = UserInputService.InputBegan:Connect(function(Key, gameProcessed)
+        if not table.find(Blacklist, Key.KeyCode) and not gameProcessed then
+            KeybindConnection:Disconnect()
+            keybindOuterText.Text = Key.KeyCode.Name
+            keybindOuterUIStroke.Color = Theme.ToggleOuterUIStroke
+            PressKey = Key.KeyCode
+            wait(.1)
+            Changing = false
+        end
+    end)
+end)
+
+UserInputService.InputBegan:Connect(function(Key, gameProcessed)
+    if not Changing and Key.KeyCode == PressKey and not gameProcessed then
+        task.spawn(function()
+            pcall(Info.Callback)
+        end)
+    end
+end)
+end
 
 function sectiontable:Toggle(Info)
 Info.Text = Info.Text or "Toggle"
