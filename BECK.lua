@@ -203,6 +203,12 @@ local Window = Utilities:Create("Frame", {
     })
 })
 
+UserInputService.InputBegan:Connect(function(Input, GameProcessed)
+    if Input.KeyCode == Info.Keybind and not GameProcessed then
+        Window.Enabled = not Window.Enabled
+    end
+end)
+
 local dragging = false
   local dragInput, mousePos, framePos
 
