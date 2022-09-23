@@ -81,6 +81,12 @@ function Utilities:GetMouseLocation()
 return UserInputService:GetMouseLocation()
 end
 
+function Utilities:GetXY(GuiObject)
+	local Max, May = GuiObject.AbsoluteSize.X, GuiObject.AbsoluteSize.Y
+	local Px, Py = math.clamp(Mouse.X - GuiObject.AbsolutePosition.X, 0, Max), math.clamp(Mouse.Y - GuiObject.AbsolutePosition.Y, 0, May)
+	return Px/Max, Py/May
+end
+
 local ScreenGui = Utilities:Create("ScreenGui", {
     Name = "BECK",
     ZIndexBehavior = Enum.ZIndexBehavior.Global,
@@ -145,7 +151,7 @@ end
 
 --// Window //--
 function Library:Window(Info)
-Info.Keybind = Info.Keybind or Enum.KeyCode.RightAlt
+Info.Keybind = Info.Keybind or Enum.KeyCode.LeftAlt
 
 local Windows = {}
 Windows.Selected = nil
@@ -205,7 +211,7 @@ local Window = Utilities:Create("Frame", {
 
 UserInputService.InputBegan:Connect(function(Input, GameProcessed)
     if Input.KeyCode == Info.Keybind and not GameProcessed then
-        Window.Enabled = not Window.Enabled
+        ScreenGui.Enabled = not ScreenGui.Enabled
     end
 end)
 
@@ -654,10 +660,15 @@ Info.Flag = Info.Flag or nil
 Info.Default = Info.Default or nil
 Info.List = Info.List or {}
 Info.ChangeText = Info.ChangeText or true
+Info.MultiSelect = Info.MultiSelect or false
 Info.Callback = Info.Callback or function() end
 
 local Dropdowns = {}
 Dropdowns.Selected = nil
+
+if Info.MultiSelect then
+    Dropdowns.Selected = {}
+end
 
 local State = false
 local DropdownY = 0
@@ -667,7 +678,7 @@ local Dropdown = Utilities:Create("Frame", {
     Size = UDim2.new(0, 205, 0, 27),
     Parent = SectionContainer,
     BackgroundTransparency = 1,
-    ZIndex = 2
+    ZIndex = 3
 }, {
     Utilities:Create("Frame", {
         Name = "DropdownFrame",
@@ -675,7 +686,7 @@ local Dropdown = Utilities:Create("Frame", {
         Position = UDim2.fromOffset(3, 2),
         ClipsDescendants = true,
         Size = UDim2.fromOffset(199, 23),
-        ZIndex = 2
+        ZIndex = 3
     }, {
         Utilities:Create("UICorner", {
             CornerRadius = UDim.new(0, 2)
@@ -689,7 +700,7 @@ local Dropdown = Utilities:Create("Frame", {
             BottomImage = "",
             TopImage = "",
             Position = UDim2.fromOffset(0, 23),
-            ZIndex = 2
+            ZIndex = 3
         }, {
             Utilities:Create("UIListLayout")
         }),
@@ -700,16 +711,17 @@ local Dropdown = Utilities:Create("Frame", {
             Name = "DropdownText",
             BackgroundTransparency = 1,
             Text = Info.Text,
-            Size = UDim2.fromOffset(199, 23),
+            Size = UDim2.fromOffset(167, 23),
+            ClipsDescendants = true,
             Position = UDim2.fromOffset(6, 0),
             TextColor3 = Color3.fromRGB(195, 195, 195),
-            ZIndex = 2
+            ZIndex = 3
         }),
         Utilities:Create("TextButton", {
             Name = "DropdownButton",
             Size = UDim2.fromOffset(199, 23),
             BackgroundTransparency = 1,
-            ZIndex = 2
+            ZIndex = 3
         }),
         Utilities:Create("ImageLabel", {
             Name = "DropdownIcon",
@@ -718,7 +730,7 @@ local Dropdown = Utilities:Create("Frame", {
             ImageColor3 = Color3.fromRGB(195, 195, 195),
             Position = UDim2.fromOffset(181, 5),
             Image = "rbxassetid://7733717447",
-            ZIndex = 2
+            ZIndex = 3
         })
     })
 })
@@ -769,28 +781,58 @@ end
 end
 
 local function OnPick(element, string)
-    task.spawn(Info.Callback, string)
-    Dropdowns.Selected = element
-    if Info.Flag then
-        Library.Flags[Info.Flag] = string
-    end
-    if Info.ChangeText then
-        Dropdown.DropdownFrame.DropdownText.Text = string
-    end
-    
-    if State then
-        Dropdowns:Toggle(false)
-    end
+    if Info.MultiSelect then
+        if not table.find(Dropdowns.Selected, string) then
+            table.insert(Dropdowns.Selected, string)
+            Utilities:Tween(element.DropdownElementText, {TextColor3 = Color3.fromRGB(26, 194, 118)})
+            task.spawn(Info.Callback, Dropdowns.Selected)
+            if Info.Flag then
+                Library.Flags[Info.Flag] = Dropdowns.Selected
+            end
+        else
+            for i, v in pairs(Dropdowns.Selected) do
+                if v == string then
+                    table.remove(Dropdowns.Selected, i)
+                end
+            end
+            task.spawn(Info.Callback, Dropdowns.Selected)
+            Utilities:Tween(element.DropdownElementText, {TextColor3 = Color3.fromRGB(209, 209, 209)})
+            if Info.Flag then
+                Library.Flags[Info.Flag] = Dropdowns.Selected
+            end
+        end
+    else
+        Dropdowns.Selected = string
+        task.spawn(Info.Callback, string)
+        if Info.Flag then
+            Library.Flags[Info.Flag] = string
+        end
 
-    task.spawn(function()
         for _, v in pairs(DropdownContainer:GetChildren()) do
             if v.ClassName == "Frame" and v ~= element then
                 Utilities:Tween(v.DropdownElementText, {TextColor3 = Color3.fromRGB(209, 209, 209)})
             end
         end
-    end)
 
-    Utilities:Tween(element.DropdownElementText, {TextColor3 = Color3.fromRGB(26, 194, 118)})
+    end
+
+    if Info.ChangeText then
+        if Info.MultiSelect then
+            Dropdown.DropdownFrame.DropdownText.Text = ""
+            for i, v in pairs(Dropdowns.Selected) do
+                Dropdown.DropdownFrame.DropdownText.Text ..= i ~= #Dropdowns.Selected and v..", " or v
+            end
+            if string.len(Dropdown.DropdownFrame.DropdownText.Text) == 0 then
+                Dropdown.DropdownFrame.DropdownText.Text = Info.Text
+            end
+        else
+        Dropdown.DropdownFrame.DropdownText.Text = string
+        end
+    end
+    
+    if State and not Info.MultiSelect then
+        Dropdowns:Toggle(false)
+    end
 end
 
 function Dropdowns:Add(string)
@@ -799,7 +841,7 @@ local DropdownElement = Utilities:Create("Frame", {
     Size = UDim2.fromOffset(199, 27),
     Parent = DropdownContainer,
     BackgroundTransparency = 1,
-    ZIndex = 2
+    ZIndex = 3
 }, {
     Utilities:Create("TextLabel", {
         Name = "DropdownElementText",
@@ -808,27 +850,15 @@ local DropdownElement = Utilities:Create("Frame", {
         BackgroundTransparency = 1,
         Position = UDim2.fromOffset(6, 0),
         TextColor3 = Color3.fromRGB(209, 209, 209),
-        ZIndex = 2
+        ZIndex = 3
     }),
     Utilities:Create("TextButton", {
         Name = "DropdownElementButton",
         Size = UDim2.fromScale(1, 1),
         BackgroundTransparency = 1,
-        ZIndex = 2
+        ZIndex = 3
     })
 })
-
-DropdownElement.MouseEnter:Connect(function()
-    if Dropdowns.Selected == nil or Dropdowns.Selected ~= DropdownElement then
-        Utilities:Tween(DropdownElement.DropdownElementText, {TextColor3 = Color3.fromRGB(255, 255, 255)})
-    end
-end)
-
-DropdownElement.MouseLeave:Connect(function()
-    if Dropdowns.Selected == nil or Dropdowns.Selected ~= DropdownElement then
-        Utilities:Tween(DropdownElement.DropdownElementText, {TextColor3 = Color3.fromRGB(209, 209, 209)})
-    end
-end)
 
 DropdownElement.DropdownElementButton.MouseButton1Click:Connect(function()
     OnPick(DropdownElement, DropdownElement.DropdownElementText.Text)
@@ -859,6 +889,162 @@ DropdownButton.MouseButton1Click:Connect(function()
 end)
 
 return Dropdowns
+end
+
+function Sections:Slider(Info)
+Info.Text = Info.Text or "Slider"
+Info.Flag = Info.Flag or nil
+Info.Default = Info.Default or 5
+Info.Minimum = Info.Minimum or 0
+Info.Maximum = Info.Maximum or 10
+Info.Incrementation = Info.Incrementation or 1
+Info.Postfix = Info.Postfix or ""
+Info.Callback = Info.Callback or function() end
+
+local Sliders = {}
+
+if Info.Minimum > Info.Maximum then
+    local ValueBefore = Info.Minimum
+    Info.Minimum, Info.Maximum = Info.Maximum, ValueBefore
+end
+
+local DefaultValue = math.clamp(Info.Default, Info.Minimum, Info.Maximum)
+local Rounded = math.floor((DefaultValue + Info.Incrementation / 2) / Info.Incrementation) * Info.Incrementation
+
+local DefaultScale = (Rounded - Info.Minimum) / (Info.Maximum - Info.Minimum)
+
+local StepFormat
+local Step = Info.Incrementation
+
+if (Step >= 1) then -- Skidded from dollaware :troll:
+    StepFormat = '%d'
+elseif (Step >= 0.1) then
+    StepFormat = '%.1f'
+elseif (Step >= 0.01) then
+    StepFormat = '%.2f'
+elseif (Step >= 0.001) then
+    StepFormat = '%.3f'
+else
+    StepFormat = '%.4f'
+end
+
+local Slider = Utilities:Create("Frame", {
+    Name = "Slider",
+    Size = UDim2.new(0, 205, 0, 27),
+    Parent = SectionContainer,
+    BackgroundTransparency = 1
+}, {
+    Utilities:Create("Frame", {
+        Name = "SliderFrame",
+        BackgroundColor3 = Color3.fromRGB(21, 21, 21),
+        Position = UDim2.fromOffset(3, 2),
+        Size = UDim2.fromOffset(199, 23)
+    }, {
+        Utilities:Create("UIStroke", {
+            Color = Color3.fromRGB(25, 25, 25)
+        }),
+        Utilities:Create("UICorner", {
+            CornerRadius = UDim.new(0, 2)
+        }),
+        Utilities:Create("TextButton", {
+            Name = "SliderButton",
+            Size = UDim2.fromScale(1, 1),
+            BackgroundTransparency = 1
+        }),
+        Utilities:Create("TextLabel", {
+            Name = "SliderText",
+            Position = UDim2.fromOffset(6, 0),
+            Size = UDim2.fromScale(1, 1),
+            Text = Info.Text,
+            TextColor3 = Color3.fromRGB(195, 195, 195),
+            BackgroundTransparency = 1,
+            ZIndex = 2
+        }),
+        Utilities:Create("TextLabel", {
+            Name = "SliderValueText",
+            Position = UDim2.fromOffset(-6, 0),
+            Size = UDim2.fromScale(1, 1),
+            Text = StepFormat:format(Rounded)..Info.Postfix,
+            TextXAlignment = Enum.TextXAlignment.Right,
+            TextColor3 = Color3.fromRGB(195, 195, 195),
+            BackgroundTransparency = 1,
+            ZIndex = 2
+        }),
+        Utilities:Create("Frame", {
+            Name = "SliderInner",
+            Size = UDim2.fromScale(DefaultScale, 1),
+            BackgroundColor3 = Color3.fromRGB(31, 31, 31),
+        }, {
+            Utilities:Create("UICorner", {
+                CornerRadius = UDim.new(0, 2)
+            }),
+        })
+    })
+})
+
+local SliderOuter = Slider.SliderFrame
+local SliderInner = SliderOuter.SliderInner
+local SliderButton = SliderOuter.SliderButton
+
+SliderOuter.MouseEnter:Connect(function()
+    Utilities:Tween(SliderOuter.SliderText, {TextColor3 = Color3.fromRGB(215, 215, 215)})
+    Utilities:Tween(SliderOuter, {BackgroundColor3 = Color3.fromRGB(23, 23, 23)})
+    Utilities:Tween(SliderOuter.UIStroke, {Color = Color3.fromRGB(29, 29, 29)})
+end)
+
+SliderOuter.MouseLeave:Connect(function()
+    Utilities:Tween(SliderOuter.SliderText, {TextColor3 = Color3.fromRGB(195, 195, 195)})
+    Utilities:Tween(SliderOuter.UIStroke, {Color = Color3.fromRGB(25, 25, 25)})
+    Utilities:Tween(SliderOuter, {BackgroundColor3 = Color3.fromRGB(21, 21, 21)})
+end)
+
+SliderButton.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        Utilities:Tween(SliderInner, {BackgroundColor3 = Color3.fromRGB(35, 35, 35)})
+            
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                Utilities:Tween(SliderInner, {BackgroundColor3 = Color3.fromRGB(31, 31, 31)})
+            end
+        end)
+    end
+end)
+
+task.spawn(Info.Callback, Info.Default)
+if Info.Flag then
+    Library.Flags[Info.Flag] = Info.Default
+end
+
+local MinSize = 0
+local MaxSize = 1
+
+local SizeFromScale = (MinSize +  (MaxSize - MinSize)) * DefaultScale
+SizeFromScale = SizeFromScale - (SizeFromScale % 2)
+
+SliderButton.MouseButton1Down:Connect(function()
+    local MouseMove, MouseKill
+    MouseMove = Mouse.Move:Connect(function()
+        local Px = Utilities:GetXY(SliderOuter)
+        local ScaledValue = Px * (Info.Maximum - Info.Minimum) + Info.Minimum
+        local RoundedValue = math.floor((ScaledValue + Info.Incrementation / 2) / Info.Incrementation) * Info.Incrementation
+        local FinalValue = math.clamp(RoundedValue, Info.Minimum, Info.Maximum)
+        local SizeX = (FinalValue - Info.Minimum) / (Info.Maximum - Info.Minimum)
+        Utilities:Tween(SliderInner, {Size = UDim2.new(SizeX,0,1,0)}, 0.09)
+        if Info.Flag then
+            Library.Flags[Info.Flag] = FinalValue
+        end
+        SliderOuter.SliderValueText.Text = StepFormat:format(FinalValue)..Info.Postfix
+        task.spawn(Info.Callback, FinalValue)
+    end)
+    MouseKill = UserInputService.InputEnded:Connect(function(UserInput)
+        if UserInput.UserInputType == Enum.UserInputType.MouseButton1 then
+            MouseMove:Disconnect()
+            MouseKill:Disconnect()
+        end
+    end)
+end)
+
+return Sliders
 end
 
 return Sections
