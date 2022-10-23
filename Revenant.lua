@@ -983,6 +983,8 @@ Info.Default = math.clamp(Info.Default, Info.Minimum, Info.Maximum)
 local DefaultScale = (Info.Default - Info.Minimum) / (Info.Maximum - Info.Minimum)
 
 local insideslider = {}
+		
+library.Flags[Info.Flag] = false
     
 local slider = Instance.new("Frame")
 slider.Name = "Slider"
