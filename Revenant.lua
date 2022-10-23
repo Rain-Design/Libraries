@@ -984,7 +984,7 @@ local DefaultScale = (Info.Default - Info.Minimum) / (Info.Maximum - Info.Minimu
 
 local insideslider = {}
 		
-library.Flags[Info.Flag] = false
+library.Flags[Info.Flag] = Info.Default --: Set the flag to the default value
     
 local slider = Instance.new("Frame")
 slider.Name = "Slider"
@@ -1120,6 +1120,7 @@ dragSliderButton.MouseButton1Down:Connect(function() -- Skidded from material ui
 		TweenService:Create(dragSlider, TweenInfo.new(0.1), {Position = UDim2.new(Px,-4,0,2)}):Play()
 		sliderValueText.Text = tostring(Value)..Info.Postfix
 		pcall(Info.Callback, Value)
+        library.Flags[Info.Flag] = Value --: Update flag
 	end)
 	MouseKill = UserInputService.InputEnded:Connect(function(UserInput)
 		if UserInput.UserInputType == Enum.UserInputType.MouseButton1 then
