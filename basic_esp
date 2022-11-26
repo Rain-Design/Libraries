@@ -690,3 +690,5 @@ do -- Connections
         framework.window_focused = false
     end)
 end
+
+return framework
