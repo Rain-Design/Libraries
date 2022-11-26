@@ -660,17 +660,6 @@ end
 
 do -- Connections
 
-    -- Add Player Register
-    framework:create_connection(Players.PlayerAdded, function(player)
-        framework:register_player(player)
-    end)
-
-    -- Add Humanoid Register
-
-
-    -- Add Object Register
-
-
     -- Framework Connections
     framework:create_connection(UserInputService.InputBegan, function(input, processed)
         if not processed then
