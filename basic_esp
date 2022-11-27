@@ -529,7 +529,7 @@ do -- Registers
         local registry = {
             name = object.name or object.model.name,
             model = object.model,
-            color = framework.config.object.color,
+            color = object.color,
             drawings = {},
         }
 
