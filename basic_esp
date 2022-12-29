@@ -41,7 +41,7 @@ local framework = {
 
             color = Color3.fromRGB(255, 0, 0),
 
-            distance_limit = 1500, -- It will skip calculation if the object is over this limit
+            distance_limit = math.huge, -- It will skip calculation if the object is over this limit
             fade = false -- Makes it fade the farther away you are away from it
         },
 
