@@ -1,4 +1,4 @@
--- 10:39
+-- 10:58
 
 local library = {}
 library.logs = {}
@@ -145,6 +145,7 @@ function library:Category(category_args)
 
     function category:Log(item_args)
         item_args.Text = item_args.Text or 'Description'
+        item_args.Color = item_args.Color or category_args.Color
 
         local Item = Instance.new('Frame')
         local UIListLayout = Instance.new("UIListLayout")
@@ -196,7 +197,7 @@ function library:Category(category_args)
         Category.Font = Enum.Font.SourceSansBold
         Category.Text = '['..category_args.Title:upper()..']'
         Category.AutomaticSize = Enum.AutomaticSize.X
-        Category.TextColor3 = Color3.fromRGB(223, 210, 156)
+        Category.TextColor3 = item_args.Color
         Category.TextSize = 13.000
         Category.TextXAlignment = Enum.TextXAlignment.Left
 
