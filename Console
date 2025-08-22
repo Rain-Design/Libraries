@@ -1,6 +1,8 @@
 local library = {}
 library.logs = {}
 
+local user_input_service = game:GetService('UserInputService')
+
 local Console = Instance.new('ScreenGui')
 local Background = Instance.new('Frame')
 local Container = Instance.new('ScrollingFrame')
@@ -14,6 +16,12 @@ local item_id = 0
 Console.Name = 'Console'
 Console.Parent = game.CoreGui
 Console.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+UserInputService.InputBegan:Connect(function(Input, GameProcessed)
+    if Input.KeyCode == Enum.KeyCode.LeftAlt and not GameProcessed then
+        Console.Enabled = not Console.Enabled
+    end
+end)
 
 Background.Name = 'Background'
 Background.Parent = Console
@@ -94,8 +102,8 @@ function library:Category(category_args)
                 end
             end
         else
-            CategoryButton.BackgroundColor3 = Color3.fromRGB(38, 51, 43)
-            CategoryButton.BorderColor3 = Color3.fromRGB(45, 61, 51)
+            CategoryButton.BackgroundColor3 = Color3.fromRGB(40, 44, 51)
+            CategoryButton.BorderColor3 = Color3.fromRGB(40, 44, 51)
             TextButton.TextColor3 = Color3.fromRGB(209, 209, 209)
 
             for _, v in pairs(Container:GetChildren()) do
@@ -164,7 +172,7 @@ function library:Category(category_args)
         Description.Size = UDim2.new(0, 430, 0, 35)
         Description.Font = Enum.Font.SourceSansSemibold
         Description.Text = item_args.Text
-        Description.TextColor3 = category_args.Color
+        Description.TextColor3 = Color3.fromRGB(209, 209, 209)
         Description.TextSize = 13.000
         Description.TextXAlignment = Enum.TextXAlignment.Left
     end
