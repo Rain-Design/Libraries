@@ -89,7 +89,7 @@ function library:Category(category_args)
             TextButton.TextColor3 = Color3.fromRGB(222, 222, 222)
 
             for _, v in pairs(Container:GetChildren()) do
-                if v.Category.Text:upper() == '['..category_args.Title:upper()..']' then
+                if v.ClassName == 'Frame' and v.Category.Text:upper() == '['..category_args.Title:upper()..']' then
                     v.Visible = true
                 end
             end
@@ -99,7 +99,7 @@ function library:Category(category_args)
             TextButton.TextColor3 = Color3.fromRGB(209, 209, 209)
 
             for _, v in pairs(Container:GetChildren()) do
-                if v.Category.Text:upper() == '['..category_args.Title:upper()..']' then
+                if v.ClassName == 'Frame' and v.Category.Text:upper() == '['..category_args.Title:upper()..']' then
                     v.Visible = false
                 end
             end
