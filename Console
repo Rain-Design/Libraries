@@ -1,4 +1,4 @@
--- 00:23
+-- 00:26
 
 local library = {}
 library.logs = {}
@@ -146,10 +146,10 @@ function library:Category(category_args)
         UIListLayout.Parent = Item
         UIListLayout.FillDirection = Enum.FillDirection.Horizontal
         UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-        UIListLayout.Padding = UDim.new(0, 0)
+        UIListLayout.Padding = UDim.new(0, 4)
 
         UIPadding.Parent = Item
-        UIPadding.PaddingLeft = UDim.new(0, -4)
+        UIPadding.PaddingLeft = UDim.new(0, 6)
 
         table.insert(library.logs, Item)
 
