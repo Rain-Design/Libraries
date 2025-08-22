@@ -75,8 +75,8 @@ function library:Category(category_args)
 
     CategoryButton.Name = 'CategoryButton'
     CategoryButton.Parent = Categories
-    CategoryButton.BackgroundColor3 = activated and Color3.fromRGB(38, 51, 43) or Color3.fromRGB(40, 44, 51)
-    CategoryButton.BorderColor3 = activated and Color3.fromRGB(45, 61, 51) or Color3.fromRGB(40, 44, 51)
+    CategoryButton.BackgroundColor3 = activated and Color3.fromRGB(48, 53, 61) or Color3.fromRGB(40, 44, 51)
+    CategoryButton.BorderColor3 = activated and Color3.fromRGB(58, 65, 74) or Color3.fromRGB(40, 44, 51)
     CategoryButton.Size = UDim2.new(0, 100, 0, 31)
 
     TextButton.Parent = CategoryButton
@@ -92,8 +92,8 @@ function library:Category(category_args)
     
     function handle_activate(state)
         if state then
-            CategoryButton.BackgroundColor3 = Color3.fromRGB(38, 51, 43)
-            CategoryButton.BorderColor3 = Color3.fromRGB(45, 61, 51)
+            CategoryButton.BackgroundColor3 = Color3.fromRGB(48, 53, 61)
+            CategoryButton.BorderColor3 = Color3.fromRGB(58, 65, 74)
             TextButton.TextColor3 = Color3.fromRGB(222, 222, 222)
 
             for _, v in pairs(Container:GetChildren()) do
