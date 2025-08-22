@@ -1,4 +1,4 @@
--- 10:58
+-- 11:01
 
 local library = {}
 library.logs = {}
@@ -193,7 +193,7 @@ function library:Category(category_args)
         Category.BorderColor3 = Color3.fromRGB(0, 0, 0)
         Category.BorderSizePixel = 0
         Category.Position = UDim2.new(0.0163265299, 0, 0, 0)
-        Category.Size = UDim2.new(0, 52, 0, 26)
+        Category.Size = UDim2.new(0, 0, 0, 26)
         Category.Font = Enum.Font.SourceSansBold
         Category.Text = '['..category_args.Title:upper()..']'
         Category.AutomaticSize = Enum.AutomaticSize.X
