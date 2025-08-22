@@ -1,0 +1,175 @@
+local library = {}
+library.logs = {}
+
+local Console = Instance.new('ScreenGui')
+local Background = Instance.new('Frame')
+local Container = Instance.new('ScrollingFrame')
+local UIListLayout = Instance.new('UIListLayout')
+local Categories = Instance.new('Frame')
+local UIGridLayout = Instance.new('UIGridLayout')
+
+local item_background = true
+local item_id = 0
+
+Console.Name = 'Console'
+Console.Parent = game.CoreGui
+Console.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Background.Name = 'Background'
+Background.Parent = Console
+Background.AnchorPoint = Vector2.new(0.5, 0.5)
+Background.BackgroundColor3 = Color3.fromRGB(26, 29, 34)
+Background.BorderColor3 = Color3.fromRGB(47, 53, 62)
+Background.Position = UDim2.new(0.5, 0, 0.5, 0)
+Background.Size = UDim2.new(0, 500, 0, 400)
+
+Container.Name = 'Container'
+Container.Parent = Background
+Container.Active = true
+Container.BackgroundColor3 = Color3.fromRGB(34, 38, 45)
+Container.BorderColor3 = Color3.fromRGB(45, 50, 59)
+Container.Position = UDim2.new(0.00999999978, 0, 0.0775000006, 0)
+Container.Size = UDim2.new(0, 490, 0, 364)
+Container.BottomImage = ''
+Container.CanvasSize = UDim2.new(0, 0, 0, 0)
+Container.MidImage = ''
+Container.ScrollBarThickness = 0
+Container.TopImage = ''
+
+UIListLayout.Parent = Container
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+Categories.Name = 'Categories'
+Categories.Parent = Background
+Categories.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Categories.BackgroundTransparency = 1.000
+Categories.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Categories.BorderSizePixel = 0
+Categories.Position = UDim2.new(0, 6, 0, 3)
+Categories.Size = UDim2.new(0, 490, 0, 22)
+
+UIGridLayout.Parent = Categories
+UIGridLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIGridLayout.CellPadding = UDim2.new(0, 4, 0, 5)
+UIGridLayout.CellSize = UDim2.new(0, 78, 0, 22)
+
+function library:Category(category_args)
+    category_args.Title = category_args.Title or 'CATEGORY'
+    category_args.Color = category_args.Color or Color3.fromRGB(223, 210, 156)
+    category_args.Activated = category_args.Activated or false
+
+    category = {}
+
+    activated = category_args.Activated
+
+    local CategoryButton = Instance.new('Frame')
+    local TextButton = Instance.new('TextButton')
+
+    CategoryButton.Name = 'CategoryButton'
+    CategoryButton.Parent = Categories
+    CategoryButton.BackgroundColor3 = activated and Color3.fromRGB(38, 51, 43) or Color3.fromRGB(40, 44, 51)
+    CategoryButton.BorderColor3 = activated and Color3.fromRGB(45, 61, 51) or Color3.fromRGB(40, 44, 51)
+    CategoryButton.Size = UDim2.new(0, 100, 0, 31)
+
+    TextButton.Parent = CategoryButton
+    TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    TextButton.BackgroundTransparency = 1.000
+    TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    TextButton.BorderSizePixel = 0
+    TextButton.Size = UDim2.new(1, 0, 1, 0)
+    TextButton.Font = Enum.Font.SourceSansBold
+    TextButton.Text = category_args.Title:upper()
+    TextButton.TextColor3 = activated and Color3.fromRGB(222, 222, 222) or Color3.fromRGB(209, 209, 209)
+    TextButton.TextSize = 13.000
+    
+    function handle_activate(state)
+        if state then
+            CategoryButton.BackgroundColor3 = Color3.fromRGB(38, 51, 43)
+            CategoryButton.BorderColor3 = Color3.fromRGB(45, 61, 51)
+            TextButton.TextColor3 = Color3.fromRGB(222, 222, 222)
+
+            for _, v in pairs(Container:GetChildren()) do
+                if v.Category.Text:upper() == '['..category_args.Title:upper()..']' then
+                    v.Visible = true
+                end
+            end
+        else
+            CategoryButton.BackgroundColor3 = Color3.fromRGB(38, 51, 43)
+            CategoryButton.BorderColor3 = Color3.fromRGB(45, 61, 51)
+            TextButton.TextColor3 = Color3.fromRGB(209, 209, 209)
+
+            for _, v in pairs(Container:GetChildren()) do
+                if v.Category.Text:upper() == '['..category_args.Title:upper()..']' then
+                    v.Visible = false
+                end
+            end
+        end
+    end
+
+    handle_activate(activated)
+
+    TextButton.MouseButton1Click:Connect(function()
+        activated = not activated
+
+        handle_activate(activated)
+    end)
+
+    function category:Log(item_args)
+        item_args.Text = item_args.Text or 'Description'
+
+        local Item = Instance.new('Frame')
+        local Category = Instance.new('TextLabel')
+        local Description = Instance.new('TextLabel')
+
+        Item.Name = 'Item'
+        Item.Parent = Container
+        Item.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Item.BackgroundTransparency = item_background and 0.970 or 1
+        Item.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Item.BorderSizePixel = 0
+        Item.Size = UDim2.new(0, 490, 0, 35)
+        Item.ZIndex = 2
+
+        table.insert(library.logs, Item)
+
+        if #library.logs >= 25 then
+            item_id += 1
+
+            library.logs[item_id]:Destroy()
+        end
+
+        item_background = not item_background
+
+        Category.Name = 'Category'
+        Category.Parent = Item
+        Category.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Category.BackgroundTransparency = 1.000
+        Category.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Category.BorderSizePixel = 0
+        Category.Position = UDim2.new(0.0163265299, 0, 0, 0)
+        Category.Size = UDim2.new(0, 52, 0, 35)
+        Category.Font = Enum.Font.SourceSansBold
+        Category.Text = '['..category_args.Title:upper()..']'
+        Category.TextColor3 = Color3.fromRGB(223, 210, 156)
+        Category.TextSize = 13.000
+        Category.TextXAlignment = Enum.TextXAlignment.Left
+
+        Description.Name = 'Description'
+        Description.Parent = Item
+        Description.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Description.BackgroundTransparency = 1.000
+        Description.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Description.BorderSizePixel = 0
+        Description.Position = UDim2.new(0.109999999, 2, 0, 0)
+        Description.Size = UDim2.new(0, 430, 0, 35)
+        Description.Font = Enum.Font.SourceSansSemibold
+        Description.Text = item_args.Text
+        Description.TextColor3 = category_args.Color
+        Description.TextSize = 13.000
+        Description.TextXAlignment = Enum.TextXAlignment.Left
+    end
+
+    return category
+end
+
+return library
