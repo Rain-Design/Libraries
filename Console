@@ -30,7 +30,7 @@ Background.BackgroundColor3 = Color3.fromRGB(26, 29, 34)
 Background.BorderColor3 = Color3.fromRGB(47, 53, 62)
 Background.Position = UDim2.new(0.5, 0, 0.5, 0)
 Background.Size = UDim2.new(0, 500, 0, 400)
-
+--automatic
 Container.Name = 'Container'
 Container.Parent = Background
 Container.Active = true
