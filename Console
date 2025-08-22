@@ -144,7 +144,7 @@ function library:Category(category_args)
         UIListLayout.Parent = Item
         UIListLayout.FillDirection = Enum.FillDirection.Horizontal
         UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-        UIListLayout.Padding = UDim.new(0, 2)
+        UIListLayout.Padding = UDim.new(0, 0)
 
         UIPadding.Parent = Item
         UIPadding.PaddingLeft = UDim.new(0, 6)
@@ -158,8 +158,8 @@ function library:Category(category_args)
             
         end
 
-        if #library.logs > 14 and Container.CanvasPosition == Vector2(0, #library.logs * 26) then
-            Container.CanvasPosition = Vector2(0, (#library.logs - 14) * 26)
+        if #library.logs > 14 and Container.CanvasPosition == Vector2.new(0, #library.logs * 26) then
+            Container.CanvasPosition = Vector2.new(0, (#library.logs - 14) * 26)
         end
 
         item_background = not item_background
