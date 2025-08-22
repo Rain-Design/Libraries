@@ -1,4 +1,4 @@
---00:00
+-- 00:06
 
 local library = {}
 library.logs = {}
@@ -160,7 +160,7 @@ function library:Category(category_args)
             
         end
 
-        if #library.logs > 14 and Container.CanvasPosition == Vector2.new(0, #library.logs * 26) then
+        if #library.logs > 14 and Container.CanvasPosition == Vector2.new(0, (#library.logs - 14) * 26) then
             Container.CanvasPosition = Vector2.new(0, (#library.logs - 14) * 26)
         end
 
@@ -185,9 +185,9 @@ function library:Category(category_args)
         Description.Parent = Item
         Description.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         Description.BackgroundTransparency = 1.000
-        Description.BorderColor3 = Color3.fromRGB(0, 0, -2)
+        Description.BorderColor3 = Color3.fromRGB(0, 0, 0)
         Description.BorderSizePixel = 0
-        Description.Position = UDim2.new(0.109999999, 2, 0, 0)
+        Description.Position = UDim2.new(0.109999999, 2, 0, -2)
         Description.Size = UDim2.new(0, 430, 0, 35)
         Description.Font = Enum.Font.SourceSansSemibold
         Description.Text = item_args.Text
