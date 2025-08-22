@@ -30,7 +30,7 @@ Background.BackgroundColor3 = Color3.fromRGB(26, 29, 34)
 Background.BorderColor3 = Color3.fromRGB(47, 53, 62)
 Background.Position = UDim2.new(0.5, 0, 0.5, 0)
 Background.Size = UDim2.new(0, 500, 0, 400)
---automatic
+
 Container.Name = 'Container'
 Container.Parent = Background
 Container.Active = true
@@ -138,23 +138,28 @@ function library:Category(category_args)
         Item.BackgroundTransparency = item_background and 0.970 or 1
         Item.BorderColor3 = Color3.fromRGB(0, 0, 0)
         Item.BorderSizePixel = 0
-        Item.Size = UDim2.new(0, 490, 0, 35)
+        Item.Size = UDim2.new(0, 490, 0, 26)
         Item.ZIndex = 2
 
         UIListLayout.Parent = Item
         UIListLayout.FillDirection = Enum.FillDirection.Horizontal
         UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-        UIListLayout.Padding = UDim.new(0, 4)
+        UIListLayout.Padding = UDim.new(0, 2)
 
         UIPadding.Parent = Item
         UIPadding.PaddingLeft = UDim.new(0, 6)
 
         table.insert(library.logs, Item)
 
-        if #library.logs >= 25 then
+        if #library.logs >= 200 then
             item_id += 1
 
             library.logs[item_id]:Destroy()
+            
+        end
+
+        if #library.logs > 14 and Container.CanvasPosition == Vector2(0, #library.logs * 26) then
+            Container.CanvasPosition = Vector2(0, (#library.logs - 14) * 26)
         end
 
         item_background = not item_background
@@ -165,8 +170,8 @@ function library:Category(category_args)
         Category.BackgroundTransparency = 1.000
         Category.BorderColor3 = Color3.fromRGB(0, 0, 0)
         Category.BorderSizePixel = 0
-        Category.Position = UDim2.new(0.0163265299, 0, 0, 0)
-        Category.Size = UDim2.new(0, 52, 0, 35)
+        Category.Position = UDim2.new(0.0163265299, 0, 0, -2)
+        Category.Size = UDim2.new(0, 52, 0, 26)
         Category.Font = Enum.Font.SourceSansBold
         Category.Text = '['..category_args.Title:upper()..']'
         Category.AutomaticSize = Enum.AutomaticSize.X
@@ -178,7 +183,7 @@ function library:Category(category_args)
         Description.Parent = Item
         Description.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         Description.BackgroundTransparency = 1.000
-        Description.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Description.BorderColor3 = Color3.fromRGB(0, 0, -2)
         Description.BorderSizePixel = 0
         Description.Position = UDim2.new(0.109999999, 2, 0, 0)
         Description.Size = UDim2.new(0, 430, 0, 35)
