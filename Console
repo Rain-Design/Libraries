@@ -126,6 +126,8 @@ function library:Category(category_args)
         item_args.Text = item_args.Text or 'Description'
 
         local Item = Instance.new('Frame')
+        local UIListLayout = Instance.new("UIListLayout")
+        local UIPadding = Instance.new("UIPadding")
         local Category = Instance.new('TextLabel')
         local Description = Instance.new('TextLabel')
 
@@ -137,6 +139,14 @@ function library:Category(category_args)
         Item.BorderSizePixel = 0
         Item.Size = UDim2.new(0, 490, 0, 35)
         Item.ZIndex = 2
+
+        UIListLayout.Parent = Item
+        UIListLayout.FillDirection = Enum.FillDirection.Horizontal
+        UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+        UIListLayout.Padding = UDim.new(0, 4)
+
+        UIPadding.Parent = Item
+        UIPadding.PaddingLeft = UDim.new(0, 6)
 
         table.insert(library.logs, Item)
 
@@ -158,6 +168,7 @@ function library:Category(category_args)
         Category.Size = UDim2.new(0, 52, 0, 35)
         Category.Font = Enum.Font.SourceSansBold
         Category.Text = '['..category_args.Title:upper()..']'
+        Category.AutomaticSize = Enum.AutomaticSize.X
         Category.TextColor3 = Color3.fromRGB(223, 210, 156)
         Category.TextSize = 13.000
         Category.TextXAlignment = Enum.TextXAlignment.Left
