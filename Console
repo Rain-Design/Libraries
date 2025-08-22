@@ -17,8 +17,8 @@ Console.Name = 'Console'
 Console.Parent = game.CoreGui
 Console.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-UserInputService.InputBegan:Connect(function(Input, GameProcessed)
-    if Input.KeyCode == Enum.KeyCode.LeftAlt and not GameProcessed then
+user_input_service.InputBegan:Connect(function(input, game_processed)
+    if input.KeyCode == Enum.KeyCode.LeftAlt and not game_processed then
         Console.Enabled = not Console.Enabled
     end
 end)
