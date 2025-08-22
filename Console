@@ -1,4 +1,4 @@
--- 00:06
+-- 00:23
 
 local library = {}
 library.logs = {}
@@ -149,7 +149,7 @@ function library:Category(category_args)
         UIListLayout.Padding = UDim.new(0, 0)
 
         UIPadding.Parent = Item
-        UIPadding.PaddingLeft = UDim.new(0, 6)
+        UIPadding.PaddingLeft = UDim.new(0, -4)
 
         table.insert(library.logs, Item)
 
@@ -160,7 +160,7 @@ function library:Category(category_args)
             
         end
 
-        if #library.logs > 14 and Container.CanvasPosition == Vector2.new(0, (#library.logs - 14) * 26) then
+        if Container.CanvasPosition == Vector2.new(0, (#library.logs - 14) * 26) or Container.CanvasPosition == Vector2.new(0, (#library.logs - 14) * 26 - 26) then
             Container.CanvasPosition = Vector2.new(0, (#library.logs - 14) * 26)
         end
 
@@ -172,7 +172,7 @@ function library:Category(category_args)
         Category.BackgroundTransparency = 1.000
         Category.BorderColor3 = Color3.fromRGB(0, 0, 0)
         Category.BorderSizePixel = 0
-        Category.Position = UDim2.new(0.0163265299, 0, 0, -2)
+        Category.Position = UDim2.new(0.0163265299, 0, 0, 0)
         Category.Size = UDim2.new(0, 52, 0, 26)
         Category.Font = Enum.Font.SourceSansBold
         Category.Text = '['..category_args.Title:upper()..']'
@@ -187,8 +187,8 @@ function library:Category(category_args)
         Description.BackgroundTransparency = 1.000
         Description.BorderColor3 = Color3.fromRGB(0, 0, 0)
         Description.BorderSizePixel = 0
-        Description.Position = UDim2.new(0.109999999, 2, 0, -2)
-        Description.Size = UDim2.new(0, 430, 0, 35)
+        Description.Position = UDim2.new(0.109999999, 2, 0, 0)
+        Description.Size = UDim2.new(0, 430, 0, 26)
         Description.Font = Enum.Font.SourceSansSemibold
         Description.Text = item_args.Text
         Description.TextColor3 = Color3.fromRGB(209, 209, 209)
